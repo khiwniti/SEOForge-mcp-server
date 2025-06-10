@@ -20,6 +20,10 @@
   ],
   "routes": [
     {
+      "src": "/mcp-server",
+      "dest": "backend/api/mcp-server.py"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "backend/main.py"
     },
@@ -46,8 +50,11 @@
   },
   "functions": {
     "backend/main.py": {
-      "maxDuration": 30
+      "maxDuration": 800
     }
+  },
+  "buildEnvironment": {
+    "REDIS_URL": "@redis_url"
   },
   "regions": ["iad1"],
   "framework": null
