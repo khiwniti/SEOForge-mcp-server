@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { backend } from "app";
-
-// API configuration for different environments
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? (process.env.REACT_APP_API_URL || '/api')
-  : 'http://localhost:8000/api';
+import { mcpService, MCPServerStatus, MCPToolResponse } from "../services/mcpService";
+import { apiLogger } from "../config/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,14 +22,7 @@ import {
   Network
 } from "lucide-react";
 
-interface MCPServerStatus {
-  status: string;
-  version: string;
-  available_tools: string[];
-  supported_industries: string[];
-  active_connections: number;
-  uptime: string;
-}
+// MCPServerStatus is now imported from mcpService
 
 interface DashboardStats {
   totalRequests: number;
@@ -43,6 +32,7 @@ interface DashboardStats {
   industryUsage: Array<{ industry: string; count: number }>;
 }
 
+// ToolExecution interface
 interface ToolExecution {
   tool_name: string;
   success: boolean;
@@ -67,12 +57,12 @@ export default function MCPDashboard() {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      
+      apiLogger.log('Loading dashboard data...');
+
       // Load MCP server status
-      const statusResponse = await backend.mcpServer.mcpServerStatusGet();
-      if (statusResponse.data) {
-        setMcpStatus(statusResponse.data);
-      }
+      const status = await mcpService.getServerStatus();
+      setMcpStatus(status);
+      apiLogger.log('MCP server status loaded:', status);
 
       // Simulate dashboard stats
       setStats({
@@ -120,6 +110,7 @@ export default function MCPDashboard() {
       ]);
 
     } catch (error) {
+      apiLogger.error("Failed to load dashboard data:", error);
       console.error("Failed to load dashboard data:", error);
     } finally {
       setLoading(false);
@@ -128,25 +119,58 @@ export default function MCPDashboard() {
 
   const executeQuickTool = async (toolName: string, parameters: any = {}) => {
     try {
-      const response = await backend.mcpServer.mcpServerExecuteToolPost({
-        tool_name: toolName,
-        parameters,
-        context: { industry: selectedIndustry },
-        industry: selectedIndustry
-      });
+      apiLogger.log(`Executing tool: ${toolName}`, parameters);
 
-      if (response.data) {
-        // Add to recent executions
-        const newExecution: ToolExecution = {
-          tool_name: toolName,
-          success: response.data.success,
-          execution_time: response.data.execution_time,
-          timestamp: response.data.timestamp,
-          result: response.data.result
-        };
-        setRecentExecutions(prev => [newExecution, ...prev.slice(0, 9)]);
+      let response: MCPToolResponse;
+
+      // Use specific service methods for better type safety
+      switch (toolName) {
+        case 'content_generation':
+          response = await mcpService.generateContent({
+            topic: parameters.topic || 'Sample topic',
+            content_type: parameters.content_type || 'blog_post',
+            industry: selectedIndustry
+          });
+          break;
+        case 'seo_analysis':
+          response = await mcpService.analyzeSEO({
+            url: parameters.url || 'https://example.com',
+            industry: selectedIndustry
+          });
+          break;
+        case 'keyword_research':
+          response = await mcpService.researchKeywords({
+            seed_keyword: parameters.seed_keyword || 'artificial intelligence',
+            industry: selectedIndustry
+          });
+          break;
+        case 'industry_analysis':
+          response = await mcpService.analyzeIndustry({
+            industry: selectedIndustry
+          });
+          break;
+        default:
+          response = await mcpService.executeTool({
+            tool_name: toolName,
+            parameters,
+            context: { industry: selectedIndustry },
+            industry: selectedIndustry
+          });
       }
+
+      // Add to recent executions
+      const newExecution: ToolExecution = {
+        tool_name: toolName,
+        success: response.success,
+        execution_time: response.execution_time,
+        timestamp: response.timestamp,
+        result: response.result
+      };
+      setRecentExecutions(prev => [newExecution, ...prev.slice(0, 9)]);
+
+      apiLogger.log(`Tool execution completed:`, response);
     } catch (error) {
+      apiLogger.error("Failed to execute tool:", error);
       console.error("Failed to execute tool:", error);
     }
   };
