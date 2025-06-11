@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from .wordpress import verify_wordpress_request
 from pydantic import BaseModel
 from typing import Dict, Any, Optional, List
 import json
@@ -20,6 +22,16 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Will be replaced with specific WordPress domains in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"]
+)
 
 # Initialize Redis connection
 redis_client = redis.Redis(
@@ -146,7 +158,10 @@ def get_localized_description(description_dict: dict, language: str = None) -> s
     return description_dict.get(language, description_dict[DEFAULT_LANGUAGE])
 
 @app.post("/mcp-server")
-async def handle_mcp_request(request: Request) -> JSONResponse:
+async def handle_mcp_request(
+    request: Request,
+    wp_auth: dict = Depends(verify_wordpress_request)
+) -> JSONResponse:
     """Handle MCP requests with language support."""
     try:
         data = await request.json()
@@ -233,7 +248,7 @@ async def handle_mcp_request(request: Request) -> JSONResponse:
         return JSONResponse(create_error_response(-32603, "Internal error").dict())
 
 @app.get("/mcp-server/health")
-async def health_check():
+async def health_check(wp_auth: dict = Depends(verify_wordpress_request)):
     try:
         # Check Redis connection
         redis_client.ping()

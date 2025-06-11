@@ -24,6 +24,14 @@
       "dest": "backend/api/mcp-server.py"
     },
     {
+      "src": "/wordpress/plugin",
+      "dest": "backend/api/wordpress_plugin.py"
+    },
+    {
+      "src": "/wordpress/plugin/health",
+      "dest": "backend/api/wordpress_plugin.py"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "backend/main.py"
     },
@@ -54,7 +62,9 @@
     }
   },
   "buildEnvironment": {
-    "REDIS_URL": "@redis_url"
+    "REDIS_URL": "@redis_url",
+    "WORDPRESS_SECRET_KEY": "@wordpress_secret_key",
+    "ALLOWED_WORDPRESS_DOMAINS": "@allowed_wordpress_domains"
   },
   "regions": ["iad1"],
   "framework": null
