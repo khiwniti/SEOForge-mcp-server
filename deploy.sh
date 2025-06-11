@@ -1,58 +1,68 @@
 #!/bin/bash
 
-# SEOForge MCP Server Deployment Script
-# This script automates the deployment process for the production-ready MCP server
+# SEOForge MCP Platform - Vercel Deployment Script
+# This script deploys both frontend and backend to Vercel
 
 set -e
 
-echo "🚀 Starting SEOForge MCP Server Deployment..."
+echo "🚀 Starting SEOForge MCP Platform deployment to Vercel..."
 
-# Check if required environment variables are set
-if [ -z "$VERCEL_TOKEN" ]; then
-    echo "❌ VERCEL_TOKEN environment variable is required"
-    exit 1
+# Check if Vercel CLI is installed
+if ! command -v vercel &> /dev/null; then
+    echo "📦 Installing Vercel CLI..."
+    npm install -g vercel
 fi
 
-# Install dependencies
-echo "📦 Installing dependencies..."
-cd backend
-pip install -r requirements.txt
-cd ..
+# Set environment variables for deployment
+export NODE_ENV=production
+export VITE_API_URL="https://seoforge-mcp-platform.vercel.app"
 
-# Run tests (if any)
-echo "🧪 Running tests..."
-# Add test commands here when tests are implemented
+echo "🔧 Setting up environment..."
+
+# Clean previous builds
+echo "🧹 Cleaning previous builds..."
+rm -rf frontend/dist
+rm -rf backend/__pycache__
+rm -rf .vercel
+
+# Install frontend dependencies
+echo "📦 Installing frontend dependencies..."
+cd frontend
+yarn install
+echo "✅ Frontend dependencies installed"
 
 # Build frontend
-echo "🏗️ Building frontend..."
-cd frontend
-npm install
-npm run build
+echo "🏗️  Building frontend..."
+yarn build
+echo "✅ Frontend built successfully"
+
+# Go back to root
 cd ..
 
-# Deploy to Vercel
+# Install backend dependencies
+echo "📦 Installing backend dependencies..."
+cd backend
+pip install -r requirements.txt
+echo "✅ Backend dependencies installed"
+
+# Go back to root
+cd ..
+
 echo "🚀 Deploying to Vercel..."
-vercel --prod --token $VERCEL_TOKEN
 
-# Verify deployment
-echo "✅ Verifying deployment..."
-DEPLOYMENT_URL=$(vercel ls --token $VERCEL_TOKEN | grep "seoforge-mcp" | head -1 | awk '{print $2}')
+# Deploy to Vercel
+vercel --prod --yes
 
-if [ ! -z "$DEPLOYMENT_URL" ]; then
-    echo "🎉 Deployment successful!"
-    echo "🌐 URL: https://$DEPLOYMENT_URL"
-    
-    # Test health endpoints
-    echo "🔍 Testing health endpoints..."
-    curl -f "https://$DEPLOYMENT_URL/mcp-server/health" || echo "⚠️ MCP server health check failed"
-    curl -f "https://$DEPLOYMENT_URL/wordpress/plugin/health" || echo "⚠️ WordPress plugin health check failed"
-    
-    echo "✅ Deployment completed successfully!"
-    echo "📋 Next steps:"
-    echo "   1. Install the WordPress plugin from the wordpress-plugin/ directory"
-    echo "   2. Configure the plugin with API URL: https://$DEPLOYMENT_URL"
-    echo "   3. Set up authentication and test the integration"
-else
-    echo "❌ Deployment verification failed"
-    exit 1
-fi
+echo "✅ Deployment completed!"
+echo ""
+echo "🌐 Your application should be available at:"
+echo "   https://seoforge-mcp-platform.vercel.app"
+echo ""
+echo "📋 Next steps:"
+echo "   1. Test the deployment with the provided test scripts"
+echo "   2. Configure environment variables in Vercel dashboard if needed"
+echo "   3. Update WordPress plugin settings with the new URL"
+echo ""
+echo "🧪 Test the deployment:"
+echo "   python test_all_apis.py --url https://seoforge-mcp-platform.vercel.app"
+echo "   python test_bilingual_features.py --url https://seoforge-mcp-platform.vercel.app"

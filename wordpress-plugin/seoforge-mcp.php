@@ -26,7 +26,7 @@ class SEOForgeMCP {
     private $api_key;
     
     public function __construct() {
-        $this->api_url = get_option('seoforge_mcp_api_url', 'https://your-domain.vercel.app');
+        $this->api_url = get_option('seoforge_mcp_api_url', 'https://seoforge-mcp-platform.vercel.app');
         $this->api_key = get_option('seoforge_mcp_api_key', '');
         
         add_action('init', array($this, 'init'));

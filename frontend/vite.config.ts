@@ -47,10 +47,12 @@ const buildVariables = () => {
 	const defines: Record<string, string> = {
 		__APP_ID__: JSON.stringify(appId),
 		__API_PATH__: JSON.stringify(""),
-		__API_URL__: JSON.stringify("http://localhost:8000"),
+		__API_URL__: JSON.stringify(process.env.NODE_ENV === 'production' ? 
+			process.env.VITE_API_URL || "https://seoforge-mcp-platform.vercel.app" : 
+			"http://localhost:8000"),
 		__WS_API_URL__: JSON.stringify("ws://localhost:8000"),
 		__APP_BASE_PATH__: JSON.stringify("/"),
-		__APP_TITLE__: JSON.stringify("Databutton"),
+		__APP_TITLE__: JSON.stringify("SEOForge MCP Platform"),
 		__APP_FAVICON_LIGHT__: JSON.stringify("/favicon-light.svg"),
 		__APP_FAVICON_DARK__: JSON.stringify("/favicon-dark.svg"),
 		__APP_DEPLOY_USERNAME__: JSON.stringify(""),
@@ -69,6 +71,9 @@ export default defineConfig({
 	define: buildVariables(),
 	plugins: [react(), splitVendorChunkPlugin(), tsConfigPaths(), injectHTML()],
 	server: {
+		host: '0.0.0.0',
+		port: 3000,
+		allowedHosts: true,
 		proxy: {
 			"/routes": {
 				target: "http://127.0.0.1:8000",
