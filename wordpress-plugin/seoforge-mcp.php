@@ -35,6 +35,8 @@ class SEOForgeMCP {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         add_action('wp_ajax_seoforge_mcp_request', array($this, 'handle_ajax_request'));
         add_action('wp_ajax_nopriv_seoforge_mcp_request', array($this, 'handle_ajax_request'));
+        add_action('wp_ajax_seoforge_mcp_test_connection', array($this, 'test_connection'));
+        add_action('wp_ajax_nopriv_seoforge_mcp_test_connection', array($this, 'test_connection'));
         
         // Add meta boxes for post editing
         add_action('add_meta_boxes', array($this, 'add_meta_boxes'));
@@ -292,10 +294,53 @@ class SEOForgeMCP {
         return $data;
     }
     
+    public function test_connection() {
+        check_ajax_referer('seoforge_mcp_nonce', 'nonce');
+        
+        $url = $this->api_url . '/health';
+        
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'X-WordPress-Key' => $this->api_key,
+            'X-WordPress-Site' => get_site_url(),
+            'X-WordPress-Nonce' => $this->generate_nonce(),
+            'X-WordPress-Timestamp' => time()
+        );
+        
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+            'timeout' => 15
+        ));
+        
+        if (is_wp_error($response)) {
+            wp_send_json_error(array(
+                'message' => 'Connection failed: ' . $response->get_error_message(),
+                'details' => 'Could not connect to the MCP server'
+            ));
+        }
+        
+        $status_code = wp_remote_retrieve_response_code($response);
+        $body = wp_remote_retrieve_body($response);
+        
+        if ($status_code === 200) {
+            $data = json_decode($body, true);
+            wp_send_json_success(array(
+                'message' => 'Connection successful!',
+                'server_info' => $data
+            ));
+        } else {
+            wp_send_json_error(array(
+                'message' => 'Connection failed with status: ' . $status_code,
+                'details' => $body
+            ));
+        }
+    }
+    
     private function generate_nonce() {
         $site_url = get_site_url();
         $timestamp = time();
-        return hash('sha256', $site_url . ':' . $timestamp);
+        $secret_key = get_option('seoforge_mcp_secret_key', 'default-secret-key');
+        return hash('sha256', $site_url . ':' . $timestamp . ':' . $secret_key);
     }
     
     public function admin_page() {
@@ -335,6 +380,7 @@ class SEOForgeMCP {
         if (isset($_POST['submit'])) {
             update_option('seoforge_mcp_api_url', sanitize_url($_POST['api_url']));
             update_option('seoforge_mcp_api_key', sanitize_text_field($_POST['api_key']));
+            update_option('seoforge_mcp_secret_key', sanitize_text_field($_POST['secret_key']));
             update_option('seoforge_mcp_default_language', sanitize_text_field($_POST['default_language']));
             update_option('seoforge_mcp_auto_generate', isset($_POST['auto_generate']));
             
@@ -343,6 +389,7 @@ class SEOForgeMCP {
         
         $api_url = get_option('seoforge_mcp_api_url', 'https://your-domain.vercel.app');
         $api_key = get_option('seoforge_mcp_api_key', '');
+        $secret_key = get_option('seoforge_mcp_secret_key', 'default-secret-key');
         $default_language = get_option('seoforge_mcp_default_language', 'en');
         $auto_generate = get_option('seoforge_mcp_auto_generate', false);
         ?>
@@ -365,6 +412,13 @@ class SEOForgeMCP {
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row"><?php _e('Secret Key', 'seoforge-mcp'); ?></th>
+                        <td>
+                            <input type="password" name="secret_key" value="<?php echo esc_attr($secret_key); ?>" class="regular-text" />
+                            <p class="description"><?php _e('Secret key for nonce generation (must match server configuration).', 'seoforge-mcp'); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><?php _e('Default Language', 'seoforge-mcp'); ?></th>
                         <td>
                             <select name="default_language">
@@ -384,6 +438,47 @@ class SEOForgeMCP {
                     </tr>
                 </table>
                 <?php submit_button(); ?>
+                
+                <h2><?php _e('Connection Test', 'seoforge-mcp'); ?></h2>
+                <p><?php _e('Test the connection to your MCP server to ensure everything is working correctly.', 'seoforge-mcp'); ?></p>
+                <button type="button" id="test-connection-btn" class="button button-secondary">
+                    <?php _e('Test Connection', 'seoforge-mcp'); ?>
+                </button>
+                <div id="connection-test-result" style="margin-top: 10px;"></div>
+                
+                <script>
+                jQuery(document).ready(function($) {
+                    $('#test-connection-btn').on('click', function() {
+                        var button = $(this);
+                        var resultDiv = $('#connection-test-result');
+                        
+                        button.prop('disabled', true).text('<?php _e('Testing...', 'seoforge-mcp'); ?>');
+                        resultDiv.html('');
+                        
+                        $.ajax({
+                            url: ajaxurl,
+                            type: 'POST',
+                            data: {
+                                action: 'seoforge_mcp_test_connection',
+                                nonce: '<?php echo wp_create_nonce('seoforge_mcp_nonce'); ?>'
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    resultDiv.html('<div class="notice notice-success"><p>' + response.data.message + '</p></div>');
+                                } else {
+                                    resultDiv.html('<div class="notice notice-error"><p>' + response.data.message + '</p></div>');
+                                }
+                            },
+                            error: function() {
+                                resultDiv.html('<div class="notice notice-error"><p><?php _e('Connection test failed', 'seoforge-mcp'); ?></p></div>');
+                            },
+                            complete: function() {
+                                button.prop('disabled', false).text('<?php _e('Test Connection', 'seoforge-mcp'); ?>');
+                            }
+                        });
+                    });
+                });
+                </script>
             </form>
         </div>
         <?php
