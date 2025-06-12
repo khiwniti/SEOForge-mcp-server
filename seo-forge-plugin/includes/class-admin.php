@@ -19,6 +19,7 @@ class SEO_Forge_Admin {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 	}
 
 	/**
@@ -74,6 +75,66 @@ class SEO_Forge_Admin {
 			'edit_posts',
 			'seo-forge-keywords',
 			[ $this, 'keyword_research_page' ]
+		);
+
+		// Image Generator
+		add_submenu_page(
+			'seo-forge',
+			__( 'Image Generator', 'seo-forge' ),
+			__( 'Image Generator', 'seo-forge' ),
+			'edit_posts',
+			'seo-forge-images',
+			[ $this, 'image_generator_page' ]
+		);
+
+		// Site Analysis
+		add_submenu_page(
+			'seo-forge',
+			__( 'Site Analysis', 'seo-forge' ),
+			__( 'Site Analysis', 'seo-forge' ),
+			'edit_posts',
+			'seo-forge-site-analysis',
+			[ $this, 'site_analysis_page' ]
+		);
+
+		// Rank Tracker
+		add_submenu_page(
+			'seo-forge',
+			__( 'Rank Tracker', 'seo-forge' ),
+			__( 'Rank Tracker', 'seo-forge' ),
+			'edit_posts',
+			'seo-forge-rank-tracker',
+			[ $this, 'rank_tracker_page' ]
+		);
+
+		// Schema Generator
+		add_submenu_page(
+			'seo-forge',
+			__( 'Schema Generator', 'seo-forge' ),
+			__( 'Schema Generator', 'seo-forge' ),
+			'edit_posts',
+			'seo-forge-schema',
+			[ $this, 'schema_generator_page' ]
+		);
+
+		// Local SEO
+		add_submenu_page(
+			'seo-forge',
+			__( 'Local SEO', 'seo-forge' ),
+			__( 'Local SEO', 'seo-forge' ),
+			'manage_options',
+			'seo-forge-local-seo',
+			[ $this, 'local_seo_page' ]
+		);
+
+		// Analytics
+		add_submenu_page(
+			'seo-forge',
+			__( 'Analytics', 'seo-forge' ),
+			__( 'Analytics', 'seo-forge' ),
+			'manage_options',
+			'seo-forge-analytics',
+			[ $this, 'analytics_page' ]
 		);
 
 		// Settings
@@ -145,10 +206,98 @@ class SEO_Forge_Admin {
 	}
 
 	/**
+	 * Image generator page.
+	 */
+	public function image_generator_page() {
+		include SEO_FORGE_PATH . 'templates/admin/image-generator.php';
+	}
+
+	/**
+	 * Site analysis page.
+	 */
+	public function site_analysis_page() {
+		include SEO_FORGE_PATH . 'templates/admin/site-analysis.php';
+	}
+
+	/**
+	 * Rank tracker page.
+	 */
+	public function rank_tracker_page() {
+		include SEO_FORGE_PATH . 'templates/admin/rank-tracker.php';
+	}
+
+	/**
+	 * Schema generator page.
+	 */
+	public function schema_generator_page() {
+		include SEO_FORGE_PATH . 'templates/admin/schema-generator.php';
+	}
+
+	/**
+	 * Local SEO page.
+	 */
+	public function local_seo_page() {
+		include SEO_FORGE_PATH . 'templates/admin/local-seo.php';
+	}
+
+	/**
+	 * Analytics page.
+	 */
+	public function analytics_page() {
+		include SEO_FORGE_PATH . 'templates/admin/analytics.php';
+	}
+
+	/**
 	 * Settings page.
 	 */
 	public function settings_page() {
 		include SEO_FORGE_PATH . 'templates/admin/settings.php';
+	}
+
+	/**
+	 * Enqueue admin scripts and styles.
+	 */
+	public function admin_enqueue_scripts( $hook ) {
+		// Only load on SEO Forge admin pages
+		if ( strpos( $hook, 'seo-forge' ) === false ) {
+			return;
+		}
+
+		// Enqueue admin CSS
+		wp_enqueue_style(
+			'seo-forge-admin',
+			SEO_FORGE_URL . 'assets/css/admin.css',
+			[],
+			SEO_FORGE_VERSION
+		);
+
+		// Enqueue admin JS
+		wp_enqueue_script(
+			'seo-forge-admin',
+			SEO_FORGE_URL . 'assets/js/admin.js',
+			[ 'jquery' ],
+			SEO_FORGE_VERSION,
+			true
+		);
+
+		// Localize script for AJAX
+		wp_localize_script(
+			'seo-forge-admin',
+			'seoForgeAjax',
+			[
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'seo_forge_nonce' ),
+				'strings' => [
+					'loading'           => __( 'Loading...', 'seo-forge' ),
+					'error'             => __( 'An error occurred. Please try again.', 'seo-forge' ),
+					'success'           => __( 'Operation completed successfully!', 'seo-forge' ),
+					'confirm_delete'    => __( 'Are you sure you want to delete this item?', 'seo-forge' ),
+					'generating'        => __( 'Generating...', 'seo-forge' ),
+					'analyzing'         => __( 'Analyzing...', 'seo-forge' ),
+					'researching'       => __( 'Researching...', 'seo-forge' ),
+				]
+			]
+		);
 	}
 
 	/**

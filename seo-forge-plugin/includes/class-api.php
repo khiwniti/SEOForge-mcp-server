@@ -30,13 +30,16 @@ class SEO_Forge_API {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->api_url = get_option( 'seo_forge_api_url', 'https://seoforge-mcp-platform.vercel.app' );
+		$this->api_url = get_option( 'seo_forge_api_url', 'https://work-1-mhngrhjpizklxmsi.prod-runtime.all-hands.dev' );
 		$this->api_key = get_option( 'seo_forge_api_key', '' );
 
 		add_action( 'wp_ajax_seo_forge_test_connection', [ $this, 'test_connection' ] );
 		add_action( 'wp_ajax_seo_forge_generate_content', [ $this, 'generate_content' ] );
 		add_action( 'wp_ajax_seo_forge_analyze_seo', [ $this, 'analyze_seo' ] );
 		add_action( 'wp_ajax_seo_forge_research_keywords', [ $this, 'research_keywords' ] );
+		add_action( 'wp_ajax_seo_forge_generate_flux_image', [ $this, 'generate_flux_image' ] );
+		add_action( 'wp_ajax_seo_forge_generate_flux_batch', [ $this, 'generate_flux_batch' ] );
+		add_action( 'wp_ajax_seo_forge_get_server_status', [ $this, 'get_server_status' ] );
 	}
 
 	/**
@@ -45,7 +48,7 @@ class SEO_Forge_API {
 	public function test_connection() {
 		check_ajax_referer( 'seo_forge_nonce', 'nonce' );
 
-		$response = $this->make_request( '/api/health' );
+		$response = $this->make_request( '/api/status' );
 
 		if ( is_wp_error( $response ) ) {
 			wp_send_json_error( [
@@ -85,11 +88,13 @@ class SEO_Forge_API {
 			] );
 		}
 
-		$response = $this->make_request( '/api/content/generate', [
-			'keywords' => $keywords,
+		$response = $this->make_request( '/api/generate-content', [
+			'keywords' => explode(',', $keywords),
 			'industry' => $industry,
 			'content_type' => $content_type,
-			'language' => $language
+			'language' => $language,
+			'include_images' => true,
+			'image_count' => 2
 		] );
 
 		if ( is_wp_error( $response ) ) {
@@ -126,10 +131,11 @@ class SEO_Forge_API {
 			] );
 		}
 
-		$response = $this->make_request( '/api/seo/analyze', [
+		$response = $this->make_request( '/api/analyze-seo', [
 			'content' => $content,
 			'url' => $url,
-			'focus_keyword' => $focus_keyword
+			'keywords' => explode(',', $focus_keyword),
+			'language' => 'en'
 		] );
 
 		if ( is_wp_error( $response ) ) {
@@ -167,10 +173,10 @@ class SEO_Forge_API {
 			] );
 		}
 
-		$response = $this->make_request( '/api/keywords/research', [
-			'seed_keywords' => $seed_keywords,
+		$response = $this->make_request( '/api/research-keywords', [
+			'seed_keywords' => explode(',', $seed_keywords),
 			'language' => $language,
-			'country' => $country,
+			'location' => $country,
 			'limit' => $limit
 		] );
 
@@ -192,6 +198,111 @@ class SEO_Forge_API {
 				'message' => __( 'Invalid response from keyword research API.', 'seo-forge' )
 			] );
 		}
+	}
+
+	/**
+	 * Generate Flux image via API.
+	 */
+	public function generate_flux_image() {
+		check_ajax_referer( 'seo_forge_nonce', 'nonce' );
+
+		$prompt = sanitize_text_field( $_POST['prompt'] ?? '' );
+		$model = sanitize_text_field( $_POST['model'] ?? 'flux-schnell' );
+		$style = sanitize_text_field( $_POST['style'] ?? 'professional' );
+		$width = intval( $_POST['width'] ?? 1024 );
+		$height = intval( $_POST['height'] ?? 1024 );
+
+		if ( empty( $prompt ) ) {
+			wp_send_json_error( [
+				'message' => __( 'Prompt is required for image generation.', 'seo-forge' )
+			] );
+		}
+
+		$response = $this->make_request( '/api/generate-flux-image', [
+			'prompt' => $prompt,
+			'model' => $model,
+			'style' => $style,
+			'width' => $width,
+			'height' => $height,
+			'enhance_prompt' => true
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error( [
+				'message' => __( 'Image generation failed: ', 'seo-forge' ) . $response->get_error_message()
+			] );
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		if ( isset( $data['image_url'] ) ) {
+			wp_send_json_success( $data );
+		} else {
+			wp_send_json_error( [
+				'message' => __( 'Invalid response from image generation API.', 'seo-forge' )
+			] );
+		}
+	}
+
+	/**
+	 * Generate Flux batch images via API.
+	 */
+	public function generate_flux_batch() {
+		check_ajax_referer( 'seo_forge_nonce', 'nonce' );
+
+		$prompts = array_map( 'sanitize_text_field', $_POST['prompts'] ?? [] );
+		$model = sanitize_text_field( $_POST['model'] ?? 'flux-schnell' );
+		$style = sanitize_text_field( $_POST['style'] ?? 'professional' );
+
+		if ( empty( $prompts ) ) {
+			wp_send_json_error( [
+				'message' => __( 'Prompts are required for batch image generation.', 'seo-forge' )
+			] );
+		}
+
+		$response = $this->make_request( '/api/generate-flux-batch', [
+			'prompts' => $prompts,
+			'model' => $model,
+			'style' => $style
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error( [
+				'message' => __( 'Batch image generation failed: ', 'seo-forge' ) . $response->get_error_message()
+			] );
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		if ( isset( $data['images'] ) ) {
+			wp_send_json_success( $data );
+		} else {
+			wp_send_json_error( [
+				'message' => __( 'Invalid response from batch image generation API.', 'seo-forge' )
+			] );
+		}
+	}
+
+	/**
+	 * Get server status via API.
+	 */
+	public function get_server_status() {
+		check_ajax_referer( 'seo_forge_nonce', 'nonce' );
+
+		$response = $this->make_request( '/api/status' );
+
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error( [
+				'message' => __( 'Failed to get server status: ', 'seo-forge' ) . $response->get_error_message()
+			] );
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		wp_send_json_success( $data );
 	}
 
 	/**
