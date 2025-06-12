@@ -1,0 +1,301 @@
+{
+  "timestamp": "2025-06-12T04:41:29.023444",
+  "plugin_name": "SEO Forge",
+  "version": "1.0.0",
+  "tests_run": 41,
+  "tests_passed": 40,
+  "tests_failed": 0,
+  "errors": [],
+  "warnings": [
+    "Deployment: Docker Image: Docker Image configuration not found"
+  ],
+  "detailed_results": [
+    {
+      "test": "File Check: seo-forge-plugin/seo-forge.php",
+      "status": "PASS",
+      "message": "File exists and has content (5627 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023533"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/assets/css/admin.css",
+      "status": "PASS",
+      "message": "File exists and has content (12117 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023552"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/assets/js/admin.js",
+      "status": "PASS",
+      "message": "File exists and has content (32429 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023568"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/includes/class-admin.php",
+      "status": "PASS",
+      "message": "File exists and has content (3811 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023582"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/includes/class-api.php",
+      "status": "PASS",
+      "message": "File exists and has content (6616 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023596"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/includes/class-content-generator.php",
+      "status": "PASS",
+      "message": "File exists and has content (1996 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023612"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/includes/class-seo-analyzer.php",
+      "status": "PASS",
+      "message": "File exists and has content (5887 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023626"
+    },
+    {
+      "test": "File Check: seo-forge-plugin/readme.txt",
+      "status": "PASS",
+      "message": "File exists and has content (2758 bytes)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023639"
+    },
+    {
+      "test": "PHP Syntax: seo-forge-plugin/seo-forge.php",
+      "status": "PASS",
+      "message": "Valid PHP opening tag",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023713"
+    },
+    {
+      "test": "PHP Tags: seo-forge-plugin/seo-forge.php",
+      "status": "PASS",
+      "message": "PHP tags properly balanced",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023728"
+    },
+    {
+      "test": "PHP Syntax: seo-forge-plugin/includes/class-admin.php",
+      "status": "PASS",
+      "message": "Valid PHP opening tag",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023780"
+    },
+    {
+      "test": "PHP Tags: seo-forge-plugin/includes/class-admin.php",
+      "status": "PASS",
+      "message": "PHP tags properly balanced",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023795"
+    },
+    {
+      "test": "PHP Syntax: seo-forge-plugin/includes/class-api.php",
+      "status": "PASS",
+      "message": "Valid PHP opening tag",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023839"
+    },
+    {
+      "test": "PHP Tags: seo-forge-plugin/includes/class-api.php",
+      "status": "PASS",
+      "message": "PHP tags properly balanced",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023851"
+    },
+    {
+      "test": "PHP Syntax: seo-forge-plugin/includes/class-content-generator.php",
+      "status": "PASS",
+      "message": "Valid PHP opening tag",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023882"
+    },
+    {
+      "test": "PHP Tags: seo-forge-plugin/includes/class-content-generator.php",
+      "status": "PASS",
+      "message": "PHP tags properly balanced",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023890"
+    },
+    {
+      "test": "PHP Syntax: seo-forge-plugin/includes/class-seo-analyzer.php",
+      "status": "PASS",
+      "message": "Valid PHP opening tag",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023921"
+    },
+    {
+      "test": "PHP Tags: seo-forge-plugin/includes/class-seo-analyzer.php",
+      "status": "PASS",
+      "message": "PHP tags properly balanced",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.023932"
+    },
+    {
+      "test": "CSS Syntax: seo-forge-plugin/assets/css/admin.css",
+      "status": "PASS",
+      "message": "CSS braces properly balanced",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024034"
+    },
+    {
+      "test": "CSS Features: seo-forge-plugin/assets/css/admin.css",
+      "status": "PASS",
+      "message": "Uses modern CSS variables",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024046"
+    },
+    {
+      "test": "CSS Content: seo-forge-plugin/assets/css/admin.css",
+      "status": "PASS",
+      "message": "Substantial CSS content (12117 chars)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024057"
+    },
+    {
+      "test": "JS Functions: seo-forge-plugin/assets/js/admin.js",
+      "status": "PASS",
+      "message": "Contains JavaScript functions",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024236"
+    },
+    {
+      "test": "JS jQuery: seo-forge-plugin/assets/js/admin.js",
+      "status": "PASS",
+      "message": "Uses jQuery (WordPress standard)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024262"
+    },
+    {
+      "test": "JS AJAX: seo-forge-plugin/assets/js/admin.js",
+      "status": "PASS",
+      "message": "Implements AJAX functionality",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024539"
+    },
+    {
+      "test": "JS Modern: seo-forge-plugin/assets/js/admin.js",
+      "status": "PASS",
+      "message": "Uses modern JavaScript syntax",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024552"
+    },
+    {
+      "test": "Plugin Header",
+      "status": "PASS",
+      "message": "WordPress plugin header found",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024607"
+    },
+    {
+      "test": "Security Check",
+      "status": "PASS",
+      "message": "ABSPATH security check implemented",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024614"
+    },
+    {
+      "test": "WordPress Hooks",
+      "status": "PASS",
+      "message": "Uses WordPress hooks properly",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024624"
+    },
+    {
+      "test": "MCP File: backend/main.py",
+      "status": "PASS",
+      "message": "MCP integration file exists",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024655"
+    },
+    {
+      "test": "MCP File: backend/api/mcp-server.py",
+      "status": "PASS",
+      "message": "MCP integration file exists",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024670"
+    },
+    {
+      "test": "MCP File: requirements.txt",
+      "status": "PASS",
+      "message": "MCP integration file exists",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024684"
+    },
+    {
+      "test": "MCP Backend",
+      "status": "PASS",
+      "message": "FastAPI backend configured",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024724"
+    },
+    {
+      "test": "MCP Package",
+      "status": "PASS",
+      "message": "MCP package in requirements",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024733"
+    },
+    {
+      "test": "Deployment: Vercel",
+      "status": "PASS",
+      "message": "Vercel configuration exists",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024761"
+    },
+    {
+      "test": "Deployment: Render",
+      "status": "PASS",
+      "message": "Render configuration exists",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024775"
+    },
+    {
+      "test": "Deployment: Docker",
+      "status": "PASS",
+      "message": "Docker configuration exists",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024785"
+    },
+    {
+      "test": "Deployment: Docker Image",
+      "status": "WARN",
+      "message": "Docker Image configuration not found",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024813"
+    },
+    {
+      "test": "Documentation: Main documentation",
+      "status": "PASS",
+      "message": "Comprehensive documentation (14578 chars)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024883"
+    },
+    {
+      "test": "Documentation: Deployment guide",
+      "status": "PASS",
+      "message": "Comprehensive documentation (6141 chars)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.024942"
+    },
+    {
+      "test": "Documentation: WordPress guide",
+      "status": "PASS",
+      "message": "Comprehensive documentation (9176 chars)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.025049"
+    },
+    {
+      "test": "Documentation: Plugin readme",
+      "status": "PASS",
+      "message": "Comprehensive documentation (2758 chars)",
+      "details": null,
+      "timestamp": "2025-06-12T04:41:29.025105"
+    }
+  ]
+}
