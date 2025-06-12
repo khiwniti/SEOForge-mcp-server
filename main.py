@@ -139,7 +139,7 @@ class AIImageGenerator:
             return None
     
     async def _generate_pollinations_image(self, prompt: str, style: str, size: str) -> bytes:
-        """Generate image using Pollinations AI (free service)"""
+        """Generate image using Pollinations AI with enhanced Flux integration"""
         try:
             # Use AI to enhance prompt for better results
             enhanced_prompt = await self._enhance_prompt_with_ai(prompt, style)
@@ -152,17 +152,20 @@ class AIImageGenerator:
             import urllib.parse
             encoded_prompt = urllib.parse.quote(enhanced_prompt)
             
-            # Pollinations AI API
+            # Enhanced Pollinations AI API with Flux optimizations
             url = f"https://image.pollinations.ai/prompt/{encoded_prompt}"
             params = {
                 'width': width,
                 'height': height,
                 'seed': -1,  # Random seed
-                'model': 'flux'  # Use Flux model for better quality
+                'model': 'flux',  # Use Flux model for better quality
+                'enhance': 'true',  # Enable prompt enhancement
+                'nologo': 'true',   # Remove watermark
+                'private': 'false'  # Allow caching for better performance
             }
             
             async with aiohttp.ClientSession() as session:
-                async with session.get(url, params=params, timeout=30) as response:
+                async with session.get(url, params=params, timeout=45) as response:
                     if response.status == 200:
                         return await response.read()
             
@@ -1188,15 +1191,192 @@ def _generate_suggestions(intent, website_context):
         {"text": "❓ Help", "action": "help"}
     ])
 
+# Enhanced Flux Image Generation Endpoints
+@app.post("/universal-mcp/generate-flux-image")
+async def generate_flux_image_endpoint(request: dict):
+    """
+    Generate high-quality images using Flux models
+    Enhanced version with multiple Flux model support
+    """
+    try:
+        # Import the Flux generator
+        from backend.app.services.flux_image_generator import flux_generator
+        
+        prompt = request.get("prompt", "")
+        if not prompt:
+            raise HTTPException(status_code=400, detail="Prompt is required")
+        
+        # Extract parameters with defaults
+        negative_prompt = request.get("negative_prompt", "")
+        width = request.get("width", 1024)
+        height = request.get("height", 1024)
+        guidance_scale = request.get("guidance_scale", 7.5)
+        num_inference_steps = request.get("num_inference_steps", 20)
+        seed = request.get("seed", None)
+        model = request.get("model", "flux-schnell")
+        style = request.get("style", "professional")
+        enhance_prompt = request.get("enhance_prompt", True)
+        
+        logger.info(f"Generating Flux image: {prompt[:100]}...")
+        
+        result = await flux_generator.generate_image(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            width=width,
+            height=height,
+            guidance_scale=guidance_scale,
+            num_inference_steps=num_inference_steps,
+            seed=seed,
+            model=model,
+            style=style,
+            enhance_prompt=enhance_prompt
+        )
+        
+        return {
+            "success": True,
+            "message": "Flux image generated successfully",
+            "data": result,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Flux image generation failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Flux image generation failed: {str(e)}")
+
+@app.post("/universal-mcp/generate-flux-batch")
+async def generate_flux_batch_endpoint(request: dict):
+    """
+    Generate multiple images using Flux models in batch
+    """
+    try:
+        from backend.app.services.flux_image_generator import flux_generator
+        
+        prompts = request.get("prompts", [])
+        if not prompts:
+            raise HTTPException(status_code=400, detail="Prompts list is required")
+        
+        if len(prompts) > 10:
+            raise HTTPException(status_code=400, detail="Maximum 10 prompts allowed per batch")
+        
+        # Extract parameters
+        negative_prompt = request.get("negative_prompt", "")
+        width = request.get("width", 1024)
+        height = request.get("height", 1024)
+        guidance_scale = request.get("guidance_scale", 7.5)
+        num_inference_steps = request.get("num_inference_steps", 20)
+        model = request.get("model", "flux-schnell")
+        style = request.get("style", "professional")
+        enhance_prompt = request.get("enhance_prompt", True)
+        
+        logger.info(f"Generating {len(prompts)} Flux images in batch")
+        
+        results = await flux_generator.generate_multiple_images(
+            prompts=prompts,
+            negative_prompt=negative_prompt,
+            width=width,
+            height=height,
+            guidance_scale=guidance_scale,
+            num_inference_steps=num_inference_steps,
+            model=model,
+            style=style,
+            enhance_prompt=enhance_prompt
+        )
+        
+        return {
+            "success": True,
+            "message": f"Generated {len(results)} images successfully",
+            "generated_count": len(results),
+            "total_requested": len(prompts),
+            "images": results,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Flux batch generation failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Flux batch generation failed: {str(e)}")
+
+@app.get("/universal-mcp/flux-models")
+async def get_flux_models():
+    """Get available Flux models and their information"""
+    try:
+        from backend.app.services.flux_image_generator import flux_generator
+        
+        models = flux_generator.get_available_models()
+        model_info = {}
+        
+        for model in models:
+            model_info[model] = flux_generator.get_model_info(model)
+        
+        return {
+            "success": True,
+            "available_models": models,
+            "model_info": model_info,
+            "default_model": "flux-schnell",
+            "recommended_settings": {
+                "flux-schnell": {
+                    "steps": 4,
+                    "guidance_scale": 7.5,
+                    "description": "Fast generation, good for previews"
+                },
+                "flux-dev": {
+                    "steps": 20,
+                    "guidance_scale": 7.5,
+                    "description": "High quality, slower generation"
+                },
+                "flux-pro": {
+                    "steps": 25,
+                    "guidance_scale": 7.5,
+                    "description": "Professional quality, commercial use"
+                }
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to get Flux model info: {e}")
+        return {
+            "success": False,
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.post("/universal-mcp/enhance-flux-prompt")
+async def enhance_flux_prompt_endpoint(request: dict):
+    """Enhance a prompt specifically for Flux model generation"""
+    try:
+        from backend.app.services.flux_image_generator import flux_generator
+        
+        prompt = request.get("prompt", "")
+        style = request.get("style", "professional")
+        
+        if not prompt:
+            raise HTTPException(status_code=400, detail="Prompt is required")
+        
+        enhanced_prompt = await flux_generator._enhance_prompt_for_flux(prompt, style)
+        
+        return {
+            "success": True,
+            "original_prompt": prompt,
+            "enhanced_prompt": enhanced_prompt,
+            "style": style,
+            "enhancement_applied": enhanced_prompt != prompt,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Flux prompt enhancement failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Prompt enhancement failed: {str(e)}")
+
 @app.get("/universal-mcp/status")
 async def get_status():
     """Get server status and capabilities"""
     return {
         "status": "active",
-        "version": "3.0.0-enhanced",
+        "version": "3.0.0-enhanced-flux",
         "components": {
             "gemini_ai": "active",
             "image_generation": "active",
+            "flux_image_generation": "active",
             "website_intelligence": "active",
             "content_generation": "active",
             "chatbot": "active"
@@ -1204,6 +1384,7 @@ async def get_status():
         "capabilities": [
             "universal_content_generation",
             "ai_image_generation",
+            "flux_image_generation",
             "blog_with_images_generation",
             "website_intelligence_analysis",
             "seo_analysis",
@@ -1217,13 +1398,15 @@ async def get_status():
         ],
         "supported_languages": ["en", "th", "es", "fr", "de"],
         "image_generation": {
-            "providers": ["dalle", "stable_diffusion", "midjourney"],
-            "styles": ["professional", "artistic", "minimalist", "commercial"],
-            "sizes": ["512x512", "1024x1024", "1024x1792", "1792x1024"]
+            "providers": ["dalle", "stable_diffusion", "midjourney", "flux"],
+            "flux_models": ["flux-schnell", "flux-dev", "flux-pro"],
+            "styles": ["professional", "artistic", "minimalist", "commercial", "photorealistic", "cinematic"],
+            "sizes": ["512x512", "1024x1024", "1024x1792", "1792x1024", "2048x2048"]
         },
         "ai_models": {
             "gemini": "available",
-            "image_ai": "available"
+            "image_ai": "available",
+            "flux": "available"
         },
         "timestamp": datetime.now().isoformat()
     }
