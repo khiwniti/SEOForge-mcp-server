@@ -25,6 +25,37 @@
 }
 
 /* ==========================================================================
+   Admin Menu Icon Styles
+   ========================================================================== */
+
+/* Ensure SEO Forge menu icon displays properly */
+#adminmenu .menu-icon-seo-forge .dashicons-chart-area:before {
+    content: "\f239";
+    font-family: dashicons;
+    font-size: 20px;
+}
+
+/* Custom SEO Forge icon styling */
+#adminmenu .menu-icon-seo-forge .wp-menu-image {
+    opacity: 0.6;
+}
+
+#adminmenu .menu-icon-seo-forge:hover .wp-menu-image,
+#adminmenu .menu-icon-seo-forge.wp-has-current-submenu .wp-menu-image {
+    opacity: 1;
+}
+
+/* Ensure icon is visible in all states */
+#adminmenu .menu-icon-seo-forge .wp-menu-image:before {
+    color: #a7aaad;
+}
+
+#adminmenu .menu-icon-seo-forge:hover .wp-menu-image:before,
+#adminmenu .menu-icon-seo-forge.wp-has-current-submenu .wp-menu-image:before {
+    color: #00a0d2;
+}
+
+/* ==========================================================================
    Progress Bar Styles
    ========================================================================== */
 

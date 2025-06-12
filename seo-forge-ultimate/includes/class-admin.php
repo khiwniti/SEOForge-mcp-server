@@ -33,7 +33,7 @@ class SEO_Forge_Admin {
 			'manage_options',
 			'seo-forge',
 			[ $this, 'dashboard_page' ],
-			'data:image/svg+xml;base64,' . base64_encode( $this->get_menu_icon() ),
+			'dashicons-chart-area', // Analytics/SEO chart icon
 			30
 		);
 
@@ -309,11 +309,17 @@ class SEO_Forge_Admin {
 	}
 
 	/**
-	 * Get menu icon SVG.
+	 * Get menu icon.
 	 */
 	private function get_menu_icon() {
-		return '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M10 2L12.5 7.5L18 8L14 12L15 18L10 15.5L5 18L6 12L2 8L7.5 7.5L10 2Z" fill="currentColor"/>
+		// Use a simple, clean SVG icon
+		$svg = '<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+			<circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+			<path d="M6 10l3 3 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
 		</svg>';
+		
+		// Clean the SVG and encode it
+		$svg = str_replace( array( "\n", "\t", "\r" ), '', $svg );
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg );
 	}
 }

@@ -118,7 +118,7 @@
      */
     SEOForge.init = function() {
         SEOForge.Debug.log('info', '🚀 SEO Forge Admin Initializing...', {
-            version: '1.6.0',
+            version: '1.6.1',
             userAgent: navigator.userAgent,
             timestamp: new Date().toISOString()
         });
@@ -127,6 +127,7 @@
         this.initCharacterCounters();
         this.initTooltips();
         this.initProgressBars();
+        this.initMenuIcon();
         this.checkAPIConnection();
         
         SEOForge.Debug.log('success', '✅ SEO Forge Admin Initialized Successfully');
@@ -223,6 +224,32 @@
         $('.debug-api-count').text(summary.total);
         $('.debug-success-count').text(summary.success);
         $('.debug-error-count').text(summary.error);
+    };
+
+    /**
+     * Initialize menu icon
+     */
+    SEOForge.initMenuIcon = function() {
+        // Ensure the SEO Forge menu icon is visible
+        const menuItem = $('#adminmenu a[href="admin.php?page=seo-forge"]').parent();
+        
+        if (menuItem.length) {
+            // Add specific class for styling
+            menuItem.addClass('menu-icon-seo-forge');
+            
+            // Ensure dashicon is properly loaded
+            const iconElement = menuItem.find('.wp-menu-image');
+            if (iconElement.length && !iconElement.hasClass('dashicons-chart-area')) {
+                iconElement.addClass('dashicons-chart-area');
+            }
+            
+            SEOForge.Debug.log('info', '🎨 Menu icon initialized', {
+                menuItem: menuItem.length,
+                iconElement: iconElement.length
+            });
+        } else {
+            SEOForge.Debug.log('warning', '⚠️ Menu item not found for icon initialization');
+        }
     };
 
     /**
