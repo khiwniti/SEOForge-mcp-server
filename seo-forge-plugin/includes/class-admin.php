@@ -137,6 +137,16 @@ class SEO_Forge_Admin {
 			[ $this, 'analytics_page' ]
 		);
 
+		// AI Chatbot
+		add_submenu_page(
+			'seo-forge',
+			__( 'AI Chatbot', 'seo-forge' ),
+			__( 'AI Chatbot', 'seo-forge' ),
+			'manage_options',
+			'seo-forge-chatbot',
+			[ $this, 'chatbot_page' ]
+		);
+
 		// Settings
 		add_submenu_page(
 			'seo-forge',
@@ -245,6 +255,13 @@ class SEO_Forge_Admin {
 	 */
 	public function analytics_page() {
 		include SEO_FORGE_PATH . 'templates/admin/analytics.php';
+	}
+
+	/**
+	 * Chatbot page.
+	 */
+	public function chatbot_page() {
+		include SEO_FORGE_PATH . 'templates/admin/chatbot.php';
 	}
 
 	/**

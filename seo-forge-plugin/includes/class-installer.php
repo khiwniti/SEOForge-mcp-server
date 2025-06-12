@@ -76,9 +76,44 @@ class SEO_Forge_Installer {
 			UNIQUE KEY keyword_lang_country (keyword, language, country)
 		) $charset_collate;";
 
+		// Chatbot Logs table
+		$table_name_chatbot_logs = $wpdb->prefix . 'seo_forge_chatbot_logs';
+		$sql_chatbot_logs = "CREATE TABLE $table_name_chatbot_logs (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			user_id bigint(20) DEFAULT 0,
+			query text NOT NULL,
+			response longtext NOT NULL,
+			type varchar(50) DEFAULT 'chat',
+			ip_address varchar(45) DEFAULT '',
+			user_agent text DEFAULT '',
+			created_at datetime DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (id),
+			KEY user_id (user_id),
+			KEY type (type),
+			KEY created_at (created_at)
+		) $charset_collate;";
+
+		// Chatbot Feedback table
+		$table_name_chatbot_feedback = $wpdb->prefix . 'seo_forge_chatbot_feedback';
+		$sql_chatbot_feedback = "CREATE TABLE $table_name_chatbot_feedback (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			message_id varchar(100) NOT NULL,
+			feedback varchar(20) NOT NULL,
+			comment text DEFAULT '',
+			user_id bigint(20) DEFAULT 0,
+			ip_address varchar(45) DEFAULT '',
+			created_at datetime DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (id),
+			KEY message_id (message_id),
+			KEY feedback (feedback),
+			KEY user_id (user_id)
+		) $charset_collate;";
+
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
 		dbDelta( $sql_keywords );
+		dbDelta( $sql_chatbot_logs );
+		dbDelta( $sql_chatbot_feedback );
 	}
 
 	/**

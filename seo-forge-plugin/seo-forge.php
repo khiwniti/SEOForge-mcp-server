@@ -103,6 +103,7 @@ final class SEO_Forge {
 		require_once SEO_FORGE_PATH . 'includes/class-keyword-research.php';
 		require_once SEO_FORGE_PATH . 'includes/class-meta-box.php';
 		require_once SEO_FORGE_PATH . 'includes/class-settings.php';
+		require_once SEO_FORGE_PATH . 'includes/class-chatbot.php';
 	}
 
 	/**
@@ -139,6 +140,7 @@ final class SEO_Forge {
 		new SEO_Forge_Keyword_Research();
 		new SEO_Forge_Meta_Box();
 		new SEO_Forge_Settings();
+		new SEO_Forge_Chatbot();
 
 		// Loaded action
 		do_action( 'seo_forge/loaded' );
