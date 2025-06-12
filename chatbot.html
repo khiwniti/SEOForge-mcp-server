@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Service Chatbot - Uptown Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Messenger-like Layout */
+        .messenger-container {
+            display: flex;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 360px;
+            background: white;
+            border-right: 1px solid #e4e6ea;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e4e6ea;
+            background: #fff;
+        }
+
+        .sidebar-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #050505;
+            margin-bottom: 8px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-top: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border: none;
+            background: #f0f2f5;
+            border-radius: 20px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #65676b;
+        }
+
+        /* Chat List */
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .chat-item:hover {
+            background: #f0f2f5;
+        }
+
+        .chat-item.active {
+            background: #e7f3ff;
+            border-right: 3px solid #1877f2;
+        }
+
+        .chat-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 12px;
+            position: relative;
+        }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: #42b883;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            color: #050505;
+            margin-bottom: 4px;
+        }
+
+        .chat-preview {
+            color: #65676b;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            color: #65676b;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        /* Main Chat Area */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e4e6ea;
+            display: flex;
+            align-items: center;
+            background: white;
+        }
+
+        .chat-header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 12px;
+            position: relative;
+        }
+
+        .chat-header-info h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #050505;
+            margin-bottom: 2px;
+        }
+
+        .chat-header-status {
+            font-size: 13px;
+            color: #42b883;
+            font-weight: 500;
+        }
+
+        .chat-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #f0f2f5;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1877f2;
+            transition: background-color 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #e4e6ea;
+        }
+
+        /* Messages Area */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 16px;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-bubble {
+            background: #e4e6ea;
+            color: #050505;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user .message-bubble {
+            background: #1877f2;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #65676b;
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .typing-indicator.show {
+            opacity: 1;
+        }
+
+        .typing-bubble {
+            background: #e4e6ea;
+            border-radius: 18px;
+            padding: 12px 16px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #65676b;
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingDot {
+            0%, 60%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            30% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Input Area */
+        .input-container {
+            padding: 16px 20px;
+            border-top: 1px solid #e4e6ea;
+            background: white;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            background: #f0f2f5;
+            border-radius: 20px;
+            padding: 8px 12px;
+            gap: 8px;
+        }
+
+        .message-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 15px;
+            line-height: 20px;
+            max-height: 100px;
+            resize: none;
+            padding: 6px 0;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .input-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1877f2;
+            transition: background-color 0.2s;
+        }
+
+        .input-btn:hover {
+            background: rgba(24, 119, 242, 0.1);
+        }
+
+        .send-btn {
+            background: #1877f2 !important;
+            color: white !important;
+        }
+
+        .send-btn:hover {
+            background: #166fe5 !important;
+        }
+
+        .send-btn:disabled {
+            background: #e4e6ea !important;
+            color: #bcc0c4 !important;
+            cursor: not-allowed;
+        }
+
+        /* Quick Replies */
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            padding: 0 20px 16px;
+            overflow-x: auto;
+        }
+
+        .quick-reply {
+            background: white;
+            border: 1px solid #e4e6ea;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+            color: #1877f2;
+            transition: all 0.2s;
+        }
+
+        .quick-reply:hover {
+            background: #f0f2f5;
+            border-color: #1877f2;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 8px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .product-info {
+            padding: 16px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #050505;
+        }
+
+        .product-price {
+            color: #1877f2;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            color: #65676b;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .messenger-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .chat-main {
+                height: calc(100vh - 200px);
+            }
+        }
+
+        /* Scrollbar Styling */
+        .messages-container::-webkit-scrollbar,
+        .chat-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-container::-webkit-scrollbar-track,
+        .chat-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb,
+        .chat-list::-webkit-scrollbar-thumb {
+            background: #bcc0c4;
+            border-radius: 3px;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb:hover,
+        .chat-list::-webkit-scrollbar-thumb:hover {
+            background: #8a8d91;
+        }
+    </style>
+</head>
+<body>
+    <div class="messenger-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Chats</h2>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search Messenger">
+                </div>
+            </div>
+            
+            <div class="chat-list">
+                <div class="chat-item active" data-chat="support">
+                    <div class="chat-avatar">
+                        UT
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="chat-info">
+                        <div class="chat-name">Uptown Trading Support</div>
+                        <div class="chat-preview">How can I help you today?</div>
+                    </div>
+                    <div class="chat-time">now</div>
+                </div>
+                
+                <div class="chat-item" data-chat="sales">
+                    <div class="chat-avatar">
+                        SA
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="chat-info">
+                        <div class="chat-name">Sales Assistant</div>
+                        <div class="chat-preview">Looking for products?</div>
+                    </div>
+                    <div class="chat-time">5m</div>
+                </div>
+                
+                <div class="chat-item" data-chat="orders">
+                    <div class="chat-avatar">
+                        OR
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="chat-info">
+                        <div class="chat-name">Order Support</div>
+                        <div class="chat-preview">Track your orders here</div>
+                    </div>
+                    <div class="chat-time">1h</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main">
+            <div class="chat-header">
+                <div class="chat-header-avatar">
+                    UT
+                    <div class="online-indicator"></div>
+                </div>
+                <div class="chat-header-info">
+                    <h3>Uptown Trading Support</h3>
+                    <div class="chat-header-status">Active now</div>
+                </div>
+                <div class="chat-actions">
+                    <button class="action-btn" title="Call">📞</button>
+                    <button class="action-btn" title="Video call">📹</button>
+                    <button class="action-btn" title="Info">ℹ️</button>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="message bot">
+                    <div class="message-bubble">
+                        👋 Hello! Welcome to Uptown Trading! I'm your AI assistant. How can I help you today?
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-replies" id="quickReplies">
+                <div class="quick-reply" data-message="What products do you sell?">🛍️ Products</div>
+                <div class="quick-reply" data-message="How can I place an order?">📦 Orders</div>
+                <div class="quick-reply" data-message="What are your shipping options?">🚚 Shipping</div>
+                <div class="quick-reply" data-message="I need help with my account">👤 Account</div>
+                <div class="quick-reply" data-message="Contact information">📞 Contact</div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-bubble">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        class="message-input" 
+                        id="messageInput" 
+                        placeholder="Type a message..."
+                        rows="1"
+                    ></textarea>
+                    <div class="input-actions">
+                        <button class="input-btn" title="Attach file">📎</button>
+                        <button class="input-btn" title="Emoji">😊</button>
+                        <button class="input-btn send-btn" id="sendBtn" title="Send" disabled>➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MessengerChatbot {
+            constructor() {
+                this.messagesContainer = document.getElementById('messagesContainer');
+                this.messageInput = document.getElementById('messageInput');
+                this.sendBtn = document.getElementById('sendBtn');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.quickReplies = document.getElementById('quickReplies');
+                
+                this.initializeEventListeners();
+                this.loadWebsiteData();
+            }
+
+            initializeEventListeners() {
+                // Send button click
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                
+                // Enter key to send
+                this.messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Input validation
+                this.messageInput.addEventListener('input', () => {
+                    const hasText = this.messageInput.value.trim().length > 0;
+                    this.sendBtn.disabled = !hasText;
+                    
+                    // Auto-resize textarea
+                    this.messageInput.style.height = 'auto';
+                    this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 100) + 'px';
+                });
+
+                // Quick replies
+                this.quickReplies.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('quick-reply')) {
+                        const message = e.target.dataset.message;
+                        this.messageInput.value = message;
+                        this.sendMessage();
+                    }
+                });
+
+                // Chat switching
+                document.querySelectorAll('.chat-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+                        this.switchChat(item.dataset.chat);
+                    });
+                });
+            }
+
+            async loadWebsiteData() {
+                try {
+                    // Load website data for context
+                    const response = await fetch('https://staging.uptowntrading.co.th');
+                    const html = await response.text();
+                    
+                    // Parse website content for chatbot knowledge
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    this.websiteData = {
+                        title: doc.title || 'Uptown Trading',
+                        description: doc.querySelector('meta[name="description"]')?.content || '',
+                        products: this.extractProducts(doc),
+                        contact: this.extractContact(doc),
+                        services: this.extractServices(doc)
+                    };
+                } catch (error) {
+                    console.log('Using fallback website data');
+                    this.websiteData = this.getFallbackData();
+                }
+            }
+
+            extractProducts(doc) {
+                // Extract product information from website
+                const products = [];
+                const productElements = doc.querySelectorAll('[class*="product"], [class*="item"]');
+                
+                productElements.forEach(element => {
+                    const title = element.querySelector('h1, h2, h3, h4, .title')?.textContent?.trim();
+                    const price = element.querySelector('[class*="price"]')?.textContent?.trim();
+                    const description = element.querySelector('p, .description')?.textContent?.trim();
+                    
+                    if (title) {
+                        products.push({ title, price, description });
+                    }
+                });
+
+                return products.length > 0 ? products : this.getDefaultProducts();
+            }
+
+            extractContact(doc) {
+                const email = doc.querySelector('[href^="mailto:"]')?.href?.replace('mailto:', '') || 'info@uptowntrading.co.th';
+                const phone = doc.querySelector('[href^="tel:"]')?.href?.replace('tel:', '') || '+66-XXX-XXX-XXXX';
+                
+                return { email, phone };
+            }
+
+            extractServices(doc) {
+                const services = [];
+                const serviceElements = doc.querySelectorAll('[class*="service"], [class*="feature"]');
+                
+                serviceElements.forEach(element => {
+                    const service = element.textContent?.trim();
+                    if (service && service.length < 100) {
+                        services.push(service);
+                    }
+                });
+
+                return services.length > 0 ? services : [
+                    'Wholesale Trading',
+                    'Product Distribution',
+                    'Customer Support',
+                    'Order Management'
+                ];
+            }
+
+            getFallbackData() {
+                return {
+                    title: 'Uptown Trading',
+                    description: 'Your trusted wholesale trading partner',
+                    products: this.getDefaultProducts(),
+                    contact: {
+                        email: 'info@uptowntrading.co.th',
+                        phone: '+66-XXX-XXX-XXXX'
+                    },
+                    services: [
+                        'Wholesale Trading',
+                        'Product Distribution',
+                        'Customer Support',
+                        'Order Management'
+                    ]
+                };
+            }
+
+            getDefaultProducts() {
+                return [
+                    {
+                        title: 'Rolling Papers',
+                        price: '฿50-200',
+                        description: 'High-quality rolling papers in various sizes'
+                    },
+                    {
+                        title: 'Grinders',
+                        price: '฿150-500',
+                        description: 'Durable metal and plastic grinders'
+                    },
+                    {
+                        title: 'Accessories',
+                        price: '฿25-300',
+                        description: 'Various smoking accessories and tools'
+                    }
+                ];
+            }
+
+            async sendMessage() {
+                const message = this.messageInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                this.addMessage(message, 'user');
+                this.messageInput.value = '';
+                this.sendBtn.disabled = true;
+                this.messageInput.style.height = 'auto';
+
+                // Show typing indicator
+                this.showTyping();
+
+                // Generate bot response
+                setTimeout(async () => {
+                    const response = await this.generateResponse(message);
+                    this.hideTyping();
+                    this.addMessage(response.text, 'bot');
+                    
+                    if (response.products) {
+                        this.addProductCards(response.products);
+                    }
+                    
+                    if (response.quickReplies) {
+                        this.updateQuickReplies(response.quickReplies);
+                    }
+                }, 1000 + Math.random() * 2000);
+            }
+
+            addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">
+                        ${text}
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
+
+                this.messagesContainer.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addProductCards(products) {
+                products.forEach(product => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'message bot';
+                    
+                    cardDiv.innerHTML = `
+                        <div class="product-card">
+                            <div class="product-image">🛍️</div>
+                            <div class="product-info">
+                                <div class="product-title">${product.title}</div>
+                                <div class="product-price">${product.price}</div>
+                                <div class="product-description">${product.description}</div>
+                            </div>
+                        </div>
+                    `;
+
+                    this.messagesContainer.appendChild(cardDiv);
+                });
+                
+                this.scrollToBottom();
+            }
+
+            showTyping() {
+                this.typingIndicator.classList.add('show');
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.classList.remove('show');
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 100);
+            }
+
+            updateQuickReplies(replies) {
+                this.quickReplies.innerHTML = '';
+                replies.forEach(reply => {
+                    const replyDiv = document.createElement('div');
+                    replyDiv.className = 'quick-reply';
+                    replyDiv.dataset.message = reply.message;
+                    replyDiv.textContent = reply.text;
+                    this.quickReplies.appendChild(replyDiv);
+                });
+            }
+
+            async generateResponse(message) {
+                try {
+                    // Get chat history for context
+                    const chatHistory = this.getChatHistory();
+                    
+                    // Call our enhanced chatbot API
+                    const response = await fetch('/universal-mcp/chatbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            website_url: 'https://staging.uptowntrading.co.th',
+                            chat_history: chatHistory
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success) {
+                            return {
+                                text: data.response.text,
+                                products: data.response.products || [],
+                                quickReplies: data.response.suggestions.map(s => ({
+                                    text: s.text,
+                                    message: this.getMessageForAction(s.action)
+                                }))
+                            };
+                        }
+                    }
+                    
+                    // Fallback to local processing if API fails
+                    return this.generateLocalResponse(message);
+                    
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return this.generateLocalResponse(message);
+                }
+            }
+
+            getChatHistory() {
+                const messages = this.messagesContainer.querySelectorAll('.message');
+                const history = [];
+                
+                messages.forEach(messageEl => {
+                    const isUser = messageEl.classList.contains('user');
+                    const text = messageEl.querySelector('.message-bubble').textContent.trim();
+                    const timeText = messageEl.querySelector('.message-time').textContent;
+                    
+                    // Remove time from text
+                    const cleanText = text.replace(timeText, '').trim();
+                    
+                    if (cleanText) {
+                        history.push({
+                            sender: isUser ? 'user' : 'bot',
+                            text: cleanText,
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                });
+                
+                return history.slice(-10); // Last 10 messages
+            }
+
+            getMessageForAction(action) {
+                const actionMessages = {
+                    'products': 'What products do you sell?',
+                    'order': 'How can I place an order?',
+                    'contact': 'How can I contact you?',
+                    'pricing': 'What are your prices?',
+                    'shipping': 'What are your shipping options?',
+                    'payment': 'What payment methods do you accept?',
+                    'delivery': 'What are your delivery options?',
+                    'bulk': 'Tell me about bulk discounts',
+                    'quote': 'I need a price quote',
+                    'shipping_cost': 'How much does shipping cost?',
+                    'delivery_areas': 'Where do you deliver?',
+                    'track': 'How can I track my order?',
+                    'call': 'I want to call you',
+                    'email': 'I want to send an email',
+                    'location': 'Where are you located?',
+                    'human': 'I want to speak to a human',
+                    'support_call': 'I need to call support',
+                    'support_email': 'I want to email support',
+                    'questions': 'I have more questions',
+                    'end': 'Thank you, goodbye',
+                    'retry': 'Please try again',
+                    'help': 'I need help'
+                };
+                
+                return actionMessages[action] || 'Tell me more';
+            }
+
+            generateLocalResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Product inquiries
+                if (lowerMessage.includes('product') || lowerMessage.includes('sell') || lowerMessage.includes('buy')) {
+                    return {
+                        text: `We offer a wide range of products! Here are some of our popular items:`,
+                        products: this.websiteData.products.slice(0, 3),
+                        quickReplies: [
+                            { text: '💰 Pricing', message: 'What are your prices?' },
+                            { text: '📦 Order Process', message: 'How do I place an order?' },
+                            { text: '🚚 Shipping', message: 'What are your shipping options?' }
+                        ]
+                    };
+                }
+
+                // Order inquiries
+                if (lowerMessage.includes('order') || lowerMessage.includes('buy') || lowerMessage.includes('purchase')) {
+                    return {
+                        text: `To place an order, you can:\n\n1. 📞 Call us at ${this.websiteData.contact.phone}\n2. 📧 Email us at ${this.websiteData.contact.email}\n3. 💬 Continue chatting here for assistance\n\nWhat would you like to order?`,
+                        quickReplies: [
+                            { text: '📋 Product Catalog', message: 'Show me your products' },
+                            { text: '💳 Payment Methods', message: 'What payment methods do you accept?' },
+                            { text: '📞 Call Now', message: 'I want to call you' }
+                        ]
+                    };
+                }
+
+                // Shipping inquiries
+                if (lowerMessage.includes('ship') || lowerMessage.includes('delivery') || lowerMessage.includes('transport')) {
+                    return {
+                        text: `🚚 Our shipping options:\n\n• Standard Delivery (2-3 days)\n• Express Delivery (1-2 days)\n• Same Day Delivery (Bangkok area)\n• Pickup Available\n\nShipping costs depend on location and order size. Would you like a shipping quote?`,
+                        quickReplies: [
+                            { text: '💰 Shipping Costs', message: 'How much does shipping cost?' },
+                            { text: '📍 Delivery Areas', message: 'Where do you deliver?' },
+                            { text: '📦 Track Order', message: 'How can I track my order?' }
+                        ]
+                    };
+                }
+
+                // Contact inquiries
+                if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email') || lowerMessage.includes('address')) {
+                    return {
+                        text: `📞 Contact Information:\n\n📱 Phone: ${this.websiteData.contact.phone}\n📧 Email: ${this.websiteData.contact.email}\n🌐 Website: https://staging.uptowntrading.co.th\n\n⏰ Business Hours:\nMon-Fri: 9:00 AM - 6:00 PM\nSat: 9:00 AM - 4:00 PM\nSun: Closed`,
+                        quickReplies: [
+                            { text: '📞 Call Now', message: 'I want to call you' },
+                            { text: '📧 Send Email', message: 'I want to send an email' },
+                            { text: '🗺️ Location', message: 'Where are you located?' }
+                        ]
+                    };
+                }
+
+                // Pricing inquiries
+                if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('how much')) {
+                    return {
+                        text: `💰 Our pricing varies by product and quantity:\n\n• Bulk orders get better rates\n• Regular customer discounts available\n• Competitive wholesale prices\n\nFor specific pricing, please let me know what products you're interested in!`,
+                        products: this.websiteData.products.slice(0, 2),
+                        quickReplies: [
+                            { text: '📊 Bulk Pricing', message: 'Tell me about bulk discounts' },
+                            { text: '🛍️ Product List', message: 'Show me all products' },
+                            { text: '💳 Payment Terms', message: 'What are your payment terms?' }
+                        ]
+                    };
+                }
+
+                // Account/Login inquiries
+                if (lowerMessage.includes('account') || lowerMessage.includes('login') || lowerMessage.includes('register') || lowerMessage.includes('sign up')) {
+                    return {
+                        text: `👤 Account Services:\n\n• Create new customer account\n• Access existing account\n• Update account information\n• View order history\n\nWould you like help with your account?`,
+                        quickReplies: [
+                            { text: '🆕 New Account', message: 'I want to create an account' },
+                            { text: '🔑 Login Help', message: 'I need help logging in' },
+                            { text: '📝 Update Info', message: 'I want to update my information' }
+                        ]
+                    };
+                }
+
+                // Payment inquiries
+                if (lowerMessage.includes('payment') || lowerMessage.includes('pay') || lowerMessage.includes('credit') || lowerMessage.includes('bank')) {
+                    return {
+                        text: `💳 Payment Methods We Accept:\n\n• Bank Transfer\n• Credit/Debit Cards\n• Cash on Delivery\n• Online Banking\n• Mobile Payment Apps\n\nAll transactions are secure and encrypted. What payment method would you prefer?`,
+                        quickReplies: [
+                            { text: '🏦 Bank Transfer', message: 'How do I pay by bank transfer?' },
+                            { text: '💳 Card Payment', message: 'Can I pay with credit card?' },
+                            { text: '💰 Cash on Delivery', message: 'Do you accept cash on delivery?' }
+                        ]
+                    };
+                }
+
+                // Greeting responses
+                if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey') || lowerMessage.includes('good')) {
+                    const greetings = [
+                        `Hello! 👋 Welcome to ${this.websiteData.title}! How can I assist you today?`,
+                        `Hi there! 😊 Thanks for visiting ${this.websiteData.title}. What can I help you with?`,
+                        `Good day! 🌟 I'm here to help you with any questions about our products and services.`
+                    ];
+                    
+                    return {
+                        text: greetings[Math.floor(Math.random() * greetings.length)],
+                        quickReplies: [
+                            { text: '🛍️ Browse Products', message: 'What products do you sell?' },
+                            { text: '📦 Place Order', message: 'How can I place an order?' },
+                            { text: '📞 Contact Info', message: 'How can I contact you?' }
+                        ]
+                    };
+                }
+
+                // Thank you responses
+                if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+                    return {
+                        text: `You're very welcome! 😊 Is there anything else I can help you with today?`,
+                        quickReplies: [
+                            { text: '❓ More Questions', message: 'I have more questions' },
+                            { text: '📞 Speak to Human', message: 'I want to speak to a person' },
+                            { text: '👋 End Chat', message: 'No, thank you' }
+                        ]
+                    };
+                }
+
+                // Default response with AI-like intelligence
+                return {
+                    text: `I understand you're asking about "${message}". Let me help you with that! 🤔\n\nBased on your question, you might be interested in:\n\n• Our product catalog\n• Ordering process\n• Shipping information\n• Contact details\n\nWhat specific information would you like to know?`,
+                    quickReplies: [
+                        { text: '🛍️ Products', message: 'Tell me about your products' },
+                        { text: '📦 Orders', message: 'How do I place an order?' },
+                        { text: '📞 Contact', message: 'How can I contact you?' },
+                        { text: '❓ Other', message: 'I have a different question' }
+                    ]
+                };
+            }
+
+            switchChat(chatType) {
+                // Clear messages
+                this.messagesContainer.innerHTML = '';
+                
+                // Add initial message based on chat type
+                let initialMessage = '';
+                let quickReplies = [];
+
+                switch (chatType) {
+                    case 'support':
+                        initialMessage = '👋 Hello! Welcome to Uptown Trading! I\'m your AI assistant. How can I help you today?';
+                        quickReplies = [
+                            { text: '🛍️ Products', message: 'What products do you sell?' },
+                            { text: '📦 Orders', message: 'How can I place an order?' },
+                            { text: '🚚 Shipping', message: 'What are your shipping options?' },
+                            { text: '👤 Account', message: 'I need help with my account' },
+                            { text: '📞 Contact', message: 'Contact information' }
+                        ];
+                        break;
+                    case 'sales':
+                        initialMessage = '🛍️ Welcome to our Sales Department! I can help you find the perfect products and get the best deals. What are you looking for?';
+                        quickReplies = [
+                            { text: '📋 Product Catalog', message: 'Show me your products' },
+                            { text: '💰 Pricing', message: 'What are your prices?' },
+                            { text: '📊 Bulk Orders', message: 'I want to place a bulk order' },
+                            { text: '🎯 Recommendations', message: 'What do you recommend?' }
+                        ];
+                        break;
+                    case 'orders':
+                        initialMessage = '📦 Order Support here! I can help you track orders, process returns, or answer any order-related questions. How can I assist you?';
+                        quickReplies = [
+                            { text: '🔍 Track Order', message: 'I want to track my order' },
+                            { text: '📝 Order Status', message: 'What is my order status?' },
+                            { text: '↩️ Return Item', message: 'I want to return an item' },
+                            { text: '📞 Order Support', message: 'I need help with my order' }
+                        ];
+                        break;
+                }
+
+                this.addMessage(initialMessage, 'bot');
+                this.updateQuickReplies(quickReplies);
+            }
+        }
+
+        // Initialize chatbot when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new MessengerChatbot();
+        });
+    </script>
+</body>
+</html>

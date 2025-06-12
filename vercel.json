@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "name": "seoforge-mcp-platform",
+  "builds": [
+    {
+      "src": "backend/main.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.11"
+      }
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "cd frontend && npm install && npm run build",
+        "distDir": "frontend/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/mcp-server(.*)",
+      "dest": "backend/main.py",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-WordPress-Key, X-WordPress-Site, X-WordPress-Nonce, X-WordPress-Timestamp"
+      }
+    },
+    {
+      "src": "/wordpress/(.*)",
+      "dest": "backend/main.py",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-WordPress-Key, X-WordPress-Site, X-WordPress-Nonce, X-WordPress-Timestamp"
+      }
+    },
+    {
+      "src": "/health",
+      "dest": "backend/main.py",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
+    },
+    {
+      "src": "/docs",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/redoc",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/openapi.json",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/routes/(.*)",
+      "dest": "backend/main.py",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "frontend/dist/static/$1"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "frontend/dist/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
+      "dest": "frontend/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/index.html"
+    }
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.11",
+    "NODE_VERSION": "18",
+    "VITE_API_URL": "https://seoforge-mcp-platform.vercel.app"
+  },
+  "functions": {
+    "backend/main.py": {
+      "maxDuration": 30
+    }
+  },
+  "buildEnvironment": {
+    "NODE_ENV": "production",
+    "VITE_API_URL": "https://seoforge-mcp-platform.vercel.app"
+  },
+  "regions": ["iad1"],
+  "framework": null
+}

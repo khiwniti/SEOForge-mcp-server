@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal MCP Server - Demo Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .status-bar {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        .demo-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Universal MCP Server</h1>
+            <p>AI-Powered Content Generation & Website Intelligence Platform</p>
+        </div>
+        
+        <div class="status-bar">
+            ✅ Server Status: ONLINE | 🤖 AI Model: Google Gemini 1.5 Flash | 🌐 Website Intelligence: ACTIVE
+        </div>
+        
+        <div class="main-content">
+            <!-- Server Status Section -->
+            <div class="demo-section">
+                <h2>📊 Server Status & Capabilities</h2>
+                <button class="btn" onclick="checkStatus()">Check Server Status</button>
+                <div id="statusResult" class="result-box" style="display: none;"></div>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Supported Industries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Test Success Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">&lt;3s</div>
+                        <div class="stat-label">Response Time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Generation Demo -->
+            <div class="demo-section">
+                <h2>✍️ AI Content Generation Demo</h2>
+                <div class="form-group">
+                    <label for="topic">Topic (English or Thai):</label>
+                    <input type="text" id="topic" placeholder="e.g., กระดาษมวนขายส่งกรุงเทพฯ or Wholesale Rolling Papers Bangkok" value="คู่มือการซื้อกระดาษมวนขายส่งในกรุงเทพฯ">
+                </div>
+                
+                <div class="form-group">
+                    <label for="keywords">Keywords (Thai Keywords):</label>
+                    <input type="text" id="keywords" placeholder="e.g., กระดาษมวนขายส่ง, กระดาษมวนกรุงเทพฯ, ขายส่งกระดาษมวน" value="กระดาษมวนขายส่ง, กระดาษมวนกรุงเทพฯ, ขายส่งกระดาษมวน, กระดาษมวนไทย, ร้านกระดาษมวน, กระดาษมวนราคาส่ง, อุปกรณ์สูบบุหรี่, กระดาษมวนคุณภาพ">
+                </div>
+                
+                <div class="form-group">
+                    <label for="language">Language:</label>
+                    <select id="language">
+                        <option value="th">Thai (ไทย)</option>
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="industry">Industry:</label>
+                    <select id="industry">
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="finance">Finance</option>
+                        <option value="technology">Technology</option>
+                        <option value="education">Education</option>
+                        <option value="real_estate">Real Estate</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="travel">Travel</option>
+                        <option value="food">Food</option>
+                        <option value="legal">Legal</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="generateContent()">🤖 Generate Content</button>
+                
+                <div class="loading" id="contentLoading">
+                    <div class="spinner"></div>
+                    <p>Generating content with AI...</p>
+                </div>
+                
+                <div id="contentResult" class="result-box" style="display: none;"></div>
+            </div>
+            
+            <!-- Website Analysis Demo -->
+            <div class="demo-section">
+                <h2>🔍 Website Intelligence Demo</h2>
+                <div class="form-group">
+                    <label for="websiteUrl">Website URL:</label>
+                    <input type="url" id="websiteUrl" placeholder="https://staging.uptowntrading.co.th" value="https://staging.uptowntrading.co.th">
+                </div>
+                
+                <button class="btn" onclick="analyzeWebsite()">🌐 Analyze Website</button>
+                
+                <div class="loading" id="analysisLoading">
+                    <div class="spinner"></div>
+                    <p>Analyzing website...</p>
+                </div>
+                
+                <div id="analysisResult" class="result-box" style="display: none;"></div>
+            </div>
+            
+            <!-- Features Overview -->
+            <div class="demo-section">
+                <h2>🎯 Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Multi-Model AI</h3>
+                        <p>Google Gemini, OpenAI, Anthropic integration with intelligent orchestration</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Website Intelligence</h3>
+                        <p>Real-time website analysis and content-informed generation</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🏭</div>
+                        <h3>Universal Industry Support</h3>
+                        <p>Adapts to any business vertical automatically</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Multi-Language</h3>
+                        <p>Native support for Thai, English, Spanish, French, German</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>SEO Optimization</h3>
+                        <p>Built-in SEO analysis and optimization recommendations</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Enterprise Ready</h3>
+                        <p>Docker, PostgreSQL, Redis, Kubernetes support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8083/universal-mcp';
+        
+        async function checkStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                const data = await response.json();
+                document.getElementById('statusResult').style.display = 'block';
+                document.getElementById('statusResult').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('statusResult').style.display = 'block';
+                document.getElementById('statusResult').textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        async function generateContent() {
+            const topic = document.getElementById('topic').value;
+            const keywords = document.getElementById('keywords').value.split(',').map(k => k.trim());
+            const language = document.getElementById('language').value;
+            const industry = document.getElementById('industry').value;
+            
+            if (!topic) {
+                alert('Please enter a topic');
+                return;
+            }
+            
+            document.getElementById('contentLoading').style.display = 'block';
+            document.getElementById('contentResult').style.display = 'none';
+            
+            try {
+                const response = await fetch(`${API_BASE}/generate-content`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content_type: 'blog_post',
+                        topic: topic,
+                        keywords: keywords,
+                        website_url: 'https://staging.uptowntrading.co.th',
+                        tone: 'professional',
+                        length: 'comprehensive',
+                        industry: industry,
+                        language: language
+                    })
+                });
+                
+                const data = await response.json();
+                document.getElementById('contentLoading').style.display = 'none';
+                document.getElementById('contentResult').style.display = 'block';
+                document.getElementById('contentResult').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('contentLoading').style.display = 'none';
+                document.getElementById('contentResult').style.display = 'block';
+                document.getElementById('contentResult').textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        async function analyzeWebsite() {
+            const url = document.getElementById('websiteUrl').value;
+            
+            if (!url) {
+                alert('Please enter a website URL');
+                return;
+            }
+            
+            document.getElementById('analysisLoading').style.display = 'block';
+            document.getElementById('analysisResult').style.display = 'none';
+            
+            try {
+                const response = await fetch(`${API_BASE}/analyze-website`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        url: url,
+                        deep_analysis: true
+                    })
+                });
+                
+                const data = await response.json();
+                document.getElementById('analysisLoading').style.display = 'none';
+                document.getElementById('analysisResult').style.display = 'block';
+                document.getElementById('analysisResult').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('analysisLoading').style.display = 'none';
+                document.getElementById('analysisResult').style.display = 'block';
+                document.getElementById('analysisResult').textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Auto-check status on page load
+        window.addEventListener('load', checkStatus);
+    </script>
+</body>
+</html>

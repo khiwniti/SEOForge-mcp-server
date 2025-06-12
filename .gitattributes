@@ -1,0 +1,127 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Force batch scripts to always use CRLF line endings so that if a repo is accessed
+# in Windows via a file share from Linux, the scripts will work.
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
+# Force bash scripts to always use LF line endings so that if a repo is accessed
+# in Unix via a file share from Windows, the scripts will work.
+*.sh text eol=lf
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.c text
+*.h text
+*.py text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.json text
+*.md text
+*.txt text
+*.yml text
+*.yaml text
+*.xml text
+*.html text
+*.css text
+*.scss text
+*.sass text
+*.less text
+*.php text
+*.sql text
+*.env text
+*.gitignore text
+*.gitattributes text
+
+# Declare files that will always have CRLF line endings on checkout.
+*.sln text eol=crlf
+
+# Declare files that will always have LF line endings on checkout.
+*.sh text eol=lf
+Dockerfile* text eol=lf
+docker-compose*.yml text eol=lf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.woff2 binary
+*.pyc binary
+*.pdf binary
+*.ez binary
+*.bz2 binary
+*.swp binary
+*.jar binary
+*.class binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+
+# Node.js specific
+node_modules/ binary
+package-lock.json text eol=lf
+yarn.lock text eol=lf
+
+# Python specific
+*.pyc binary
+__pycache__/ binary
+*.pyo binary
+*.pyd binary
+.Python binary
+pip-log.txt text
+pip-delete-this-directory.txt text
+.tox/ binary
+.coverage binary
+.coverage.* binary
+.cache binary
+.pytest_cache/ binary
+*.cover binary
+*.log text
+.git binary
+.mypy_cache binary
+.pytest_cache binary
+.hypothesis binary
+
+# Frontend build artifacts
+dist/ binary
+build/ binary
+.next/ binary
+.nuxt/ binary
+.vuepress/dist/ binary
+.serverless/ binary
+.fusebox/ binary
+.dynamodb/ binary
+
+# IDE and editor files
+.vscode/ text
+.idea/ text
+*.swp binary
+*.swo binary
+*~ binary
+
+# OS generated files
+.DS_Store binary
+.DS_Store? binary
+._* binary
+.Spotlight-V100 binary
+.Trashes binary
+ehthumbs.db binary
+Thumbs.db binary

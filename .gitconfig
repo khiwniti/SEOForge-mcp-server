@@ -1,0 +1,13 @@
+[core]
+    autocrlf = true
+    safecrlf = false
+    eol = crlf
+
+[push]
+    default = simple
+
+[pull]
+    rebase = false
+
+[init]
+    defaultBranch = main

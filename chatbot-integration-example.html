@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Integration Example - Uptown Trading</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .hero {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .integration-guide {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 AI Customer Service Chatbot</h1>
+        <p>Facebook Messenger-like chatbot with intelligent responses</p>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <h2>Welcome to Uptown Trading</h2>
+            <p>This is an example website showing how our AI chatbot integrates seamlessly with any website. The chatbot uses real website data to provide intelligent, contextual responses to customer inquiries.</p>
+            <a href="#integration" class="btn">See Integration Guide</a>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Natural Conversations</h3>
+                <p>AI-powered responses that understand context and provide helpful, human-like interactions with customers.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Website Intelligence</h3>
+                <p>Automatically analyzes your website content to provide accurate information about products, services, and company details.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Messenger-like UI</h3>
+                <p>Familiar Facebook Messenger interface that customers already know how to use, with typing indicators and quick replies.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛍️</div>
+                <h3>Product Recommendations</h3>
+                <p>Smart product suggestions based on customer inquiries, with beautiful product cards and pricing information.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Multi-language Support</h3>
+                <p>Supports multiple languages including English, Thai, Spanish, French, and German for global businesses.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Easy Integration</h3>
+                <p>Simple JavaScript widget that can be added to any website with just a few lines of code.</p>
+            </div>
+        </div>
+
+        <div class="integration-guide" id="integration">
+            <h2>🔧 Integration Guide</h2>
+            <p>Add our AI chatbot to your website in just 3 simple steps:</p>
+
+            <h3>Step 1: Include the Widget Script</h3>
+            <div class="code-block">
+                <code>&lt;script src="https://universal-mcp-server.onrender.com/static/chatbot-widget.js"&gt;&lt;/script&gt;</code>
+            </div>
+
+            <h3>Step 2: Initialize the Chatbot</h3>
+            <div class="code-block">
+                <code>&lt;script&gt;
+  UMCPChatbot.init({
+    serverUrl: 'https://universal-mcp-server.onrender.com',
+    websiteUrl: 'https://your-website.com',
+    companyName: 'Your Company Name',
+    primaryColor: '#667eea',
+    position: 'bottom-right',
+    autoOpen: false,
+    showNotifications: true
+  });
+&lt;/script&gt;</code>
+            </div>
+
+            <h3>Step 3: Customize (Optional)</h3>
+            <p>Available configuration options:</p>
+            <ul>
+                <li><strong>serverUrl</strong>: Your MCP server URL</li>
+                <li><strong>websiteUrl</strong>: Your website URL for context</li>
+                <li><strong>companyName</strong>: Display name in chat header</li>
+                <li><strong>primaryColor</strong>: Brand color for the widget</li>
+                <li><strong>position</strong>: 'bottom-right', 'bottom-left', 'top-right', 'top-left'</li>
+                <li><strong>autoOpen</strong>: Automatically open chat after delay</li>
+                <li><strong>showNotifications</strong>: Show notification badges</li>
+            </ul>
+
+            <h3>Complete Example</h3>
+            <div class="code-block">
+                <code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+    &lt;p&gt;Your website content here...&lt;/p&gt;
+
+    &lt;!-- Chatbot Widget --&gt;
+    &lt;script src="https://universal-mcp-server.onrender.com/static/chatbot-widget.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        UMCPChatbot.init({
+            serverUrl: 'https://universal-mcp-server.onrender.com',
+            websiteUrl: window.location.href,
+            companyName: 'My Company',
+            primaryColor: '#667eea'
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎯 Try the Demo</h2>
+            <p>The chatbot is already active on this page! Click the chat button in the bottom-right corner to start a conversation.</p>
+            
+            <h3>Sample Questions to Try:</h3>
+            <div style="text-align: left; max-width: 600px; margin: 20px auto;">
+                <ul>
+                    <li>"What products do you sell?"</li>
+                    <li>"How can I place an order?"</li>
+                    <li>"What are your shipping options?"</li>
+                    <li>"I need help with my account"</li>
+                    <li>"What are your contact details?"</li>
+                    <li>"Tell me about your company"</li>
+                    <li>"Do you offer bulk discounts?"</li>
+                    <li>"What payment methods do you accept?"</li>
+                </ul>
+            </div>
+
+            <p><strong>The chatbot will provide intelligent responses based on this website's content and context!</strong></p>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget Integration -->
+    <script src="/static/chatbot-widget.js"></script>
+    <script>
+        UMCPChatbot.init({
+            serverUrl: 'https://seoforge-mcp-server.onrender.com',
+            websiteUrl: 'https://staging.uptowntrading.co.th',
+            companyName: 'Uptown Trading',
+            primaryColor: '#667eea',
+            position: 'bottom-right',
+            autoOpen: false,
+            showNotifications: true
+        });
+    </script>
+</body>
+</html>

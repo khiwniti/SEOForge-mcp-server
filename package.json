@@ -1,0 +1,45 @@
+{
+  "name": "universal-mcp-server",
+  "version": "3.0.0",
+  "description": "Universal MCP Server with AI-powered content generation, chatbot, and SEO analysis",
+  "main": "cloudflare-worker.js",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "dev": "wrangler dev",
+    "test": "wrangler dev --local",
+    "login": "wrangler login",
+    "setup": "npm run login && npm run set-secrets",
+    "set-secrets": "echo 'Run: wrangler secret put GOOGLE_API_KEY'",
+    "logs": "wrangler tail",
+    "status": "wrangler whoami"
+  },
+  "keywords": [
+    "mcp",
+    "ai",
+    "chatbot",
+    "seo",
+    "content-generation",
+    "cloudflare-workers",
+    "wordpress",
+    "gemini",
+    "universal"
+  ],
+  "author": "Universal MCP Team",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khiwniti/SEOForge-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/khiwniti/SEOForge-mcp-server/issues"
+  },
+  "homepage": "https://github.com/khiwniti/SEOForge-mcp-server#readme"
+}

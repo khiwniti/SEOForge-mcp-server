@@ -1,0 +1,253 @@
+ /* SEOForge MCP Admin Styles */
+
+/* Dashboard Cards */
+#seoforge-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.seoforge-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.seoforge-card h2 {
+    margin-top: 0;
+    color: #23282d;
+    font-size: 1.3em;
+}
+
+/* Meta Boxes */
+#seoforge-content-generator,
+#seoforge-seo-analysis {
+    padding: 10px;
+}
+
+#seoforge-content-generator input[type="text"],
+#seoforge-content-generator select {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.seoforge-generated-content {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e2e4e7;
+    border-radius: 4px;
+}
+
+.content-preview {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    margin: 10px 0;
+    background: #fff;
+    border: 1px solid #e2e4e7;
+}
+
+/* SEO Analysis */
+.seoforge-seo-analysis {
+    margin-top: 15px;
+}
+
+.seo-score-overall {
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.score-good {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.score-average {
+    color: #ffb900;
+    font-weight: bold;
+}
+
+.score-poor {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+.seo-section {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #e2e4e7;
+    border-radius: 4px;
+}
+
+.seo-section h6 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #23282d;
+}
+
+.seo-section ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.seo-section li {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Suggestions */
+.suggestion-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-left: 4px solid #0073aa;
+}
+
+.suggestion-item small {
+    color: #666;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Modal */
+.seoforge-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 159900;
+}
+
+.seoforge-modal .modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Keyword Research Results */
+.keyword-research-results {
+    margin-top: 20px;
+}
+
+.keyword-research-results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.keyword-research-results th {
+    background: #f8f9fa;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #e2e4e7;
+}
+
+.keyword-research-results td {
+    padding: 10px;
+    border-bottom: 1px solid #e2e4e7;
+}
+
+/* Buttons */
+.seoforge-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 5px;
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.seoforge-btn:hover {
+    background: #006291;
+}
+
+.seoforge-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Settings Page */
+.seoforge-settings-page {
+    max-width: 800px;
+    margin: 20px 0;
+}
+
+.form-table th {
+    width: 200px;
+}
+
+/* Loading States */
+.seoforge-loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.seoforge-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #ccc;
+    border-top-color: #0073aa;
+    border-radius: 50%;
+    animation: seoforge-spin 1s linear infinite;
+}
+
+@keyframes seoforge-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 782px) {
+    .form-table th {
+        width: 100%;
+        display: block;
+    }
+    
+    .form-table td {
+        display: block;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+    
+    .seoforge-card {
+        margin-bottom: 20px;
+    }
+}
