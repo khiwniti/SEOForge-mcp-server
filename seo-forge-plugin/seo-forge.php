@@ -9,9 +9,9 @@
  *
  * @wordpress-plugin
  * Plugin Name:       SEO Forge
- * Version:           1.0.0
+ * Version:           1.2.0
  * Plugin URI:        https://seoforge.dev
- * Description:       Universal SEO WordPress Plugin with AI-powered content generation, SEO analysis, keyword research, and optimization tools. No license required.
+ * Description:       Universal SEO WordPress Plugin with AI-powered content generation, Flux image generation, SEO analysis, keyword research, and optimization tools. No license required.
  * Author:            SEO Forge Team
  * Author URI:        https://seoforge.dev
  * License:           GPL-3.0+
@@ -38,7 +38,7 @@ final class SEO_Forge {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.0';
+	public $version = '1.2.0';
 
 	/**
 	 * Holds various class instances

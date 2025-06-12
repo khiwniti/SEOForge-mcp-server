@@ -1,14 +1,14 @@
 === SEO Forge ===
 Contributors: seoforge
-Tags: seo, content generation, keyword research, ai, optimization
+Tags: seo, content generation, keyword research, ai, optimization, flux, image generation
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Universal SEO WordPress Plugin with AI-powered content generation, SEO analysis, keyword research, and optimization tools. No license required.
+Universal SEO WordPress Plugin with AI-powered content generation, Flux image generation, SEO analysis, keyword research, and optimization tools. No license required.
 
 == Description ==
 
@@ -21,7 +21,7 @@ SEO Forge is a comprehensive SEO plugin that provides AI-powered content generat
 * **Keyword Research** - Discover high-value keywords with search volume and difficulty data
 * **Meta Box Integration** - Easy-to-use meta boxes for post editing
 * **Multi-language Support** - Generate content in multiple languages
-* **Image Generation** - AI-powered image generation for your content
+* **Flux Image Generation** - State-of-the-art Flux AI models for high-quality image generation
 * **No License Required** - Free to use without restrictions
 
 **Supported Content Types:**
@@ -64,7 +64,7 @@ SEO Forge supports content generation in 11 languages including English, Thai, S
 
 = Can I generate images with content? =
 
-Yes! SEO Forge can generate relevant images along with your content using AI.
+Yes! SEO Forge can generate high-quality images using state-of-the-art Flux AI models. Supports multiple Flux variants including flux-schnell for fast generation and flux-dev for highest quality.
 
 == Screenshots ==
 
@@ -76,15 +76,29 @@ Yes! SEO Forge can generate relevant images along with your content using AI.
 
 == Changelog ==
 
+= 1.2.0 =
+* 🎨 MAJOR UPDATE: Flux Image Generation Integration
+* Added state-of-the-art Flux AI models (flux-schnell, flux-dev, flux-pro)
+* Enhanced image generation with multiple provider fallbacks
+* AI-powered prompt enhancement for better image quality
+* Batch image generation capabilities
+* Enhanced Thai language support for image generation
+* Professional styling options (9 different styles)
+* Improved performance and reliability
+* Comprehensive testing interface
+
 = 1.0.0 =
 * Initial release
 * AI-powered content generation
 * SEO analysis and recommendations
 * Keyword research functionality
 * Multi-language support
-* Image generation capabilities
+* Basic image generation capabilities
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Major update with Flux image generation! Enhanced AI image capabilities with multiple models and improved quality.
 
 = 1.0.0 =
 Initial release of SEO Forge - Universal SEO WordPress Plugin.
