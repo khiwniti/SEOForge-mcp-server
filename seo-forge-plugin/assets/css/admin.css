@@ -1,4 +1,32 @@
-/* SEO Forge Admin Styles */
+/**
+ * SEO Forge Admin Styles
+ * Professional UI inspired by modern SEO tools
+ */
+
+/* ==========================================================================
+   Variables and Base Styles
+   ========================================================================== */
+
+:root {
+    --seo-forge-primary: #2563eb;
+    --seo-forge-primary-dark: #1d4ed8;
+    --seo-forge-secondary: #64748b;
+    --seo-forge-success: #10b981;
+    --seo-forge-warning: #f59e0b;
+    --seo-forge-error: #ef4444;
+    --seo-forge-info: #3b82f6;
+    --seo-forge-light: #f8fafc;
+    --seo-forge-dark: #1e293b;
+    --seo-forge-border: #e2e8f0;
+    --seo-forge-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --seo-forge-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --seo-forge-radius: 8px;
+    --seo-forge-radius-lg: 12px;
+}
+
+/* ==========================================================================
+   Layout and Container Styles
+   ========================================================================== */
 
 .seo-forge-dashboard {
     max-width: 1200px;
@@ -8,102 +36,102 @@
 .seo-forge-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 20px 0;
+    gap: 24px;
+    margin: 24px 0;
 }
 
 .seo-forge-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s ease;
+    background: white;
+    border: 1px solid var(--seo-forge-border);
+    border-radius: var(--seo-forge-radius-lg);
+    padding: 24px;
+    box-shadow: var(--seo-forge-shadow);
+    transition: all 0.2s ease;
 }
 
 .seo-forge-card:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: var(--seo-forge-shadow-lg);
+    transform: translateY(-2px);
 }
 
 .seo-forge-card h3 {
-    margin-top: 0;
-    color: #2271b1;
-    font-size: 18px;
+    margin: 0 0 12px 0;
+    color: var(--seo-forge-dark);
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .seo-forge-card p {
-    color: #666;
+    color: var(--seo-forge-secondary);
     line-height: 1.6;
+    margin-bottom: 20px;
 }
 
+/* ==========================================================================
+   Button Styles
+   ========================================================================== */
+
 .seo-forge-button {
-    background: #2271b1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--seo-forge-primary);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 20px;
+    border-radius: var(--seo-forge-radius);
     cursor: pointer;
     text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    line-height: 1.4;
 }
 
 .seo-forge-button:hover {
-    background: #135e96;
+    background: var(--seo-forge-primary-dark);
     color: white;
+    transform: translateY(-1px);
+}
+
+.seo-forge-button:focus {
+    outline: 2px solid var(--seo-forge-primary);
+    outline-offset: 2px;
 }
 
 .seo-forge-button.secondary {
-    background: #f0f0f1;
-    color: #2c3338;
+    background: var(--seo-forge-secondary);
+    color: white;
 }
 
 .seo-forge-button.secondary:hover {
-    background: #dcdcde;
+    background: #475569;
+    color: white;
 }
 
-.seo-forge-status {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
+.seo-forge-button.outline {
+    background: transparent;
+    border: 1px solid var(--seo-forge-border);
+    color: var(--seo-forge-dark);
 }
 
-.seo-forge-status-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #dc3232;
+.seo-forge-button.outline:hover {
+    background: var(--seo-forge-light);
+    color: var(--seo-forge-dark);
 }
 
-.seo-forge-status-indicator.connected {
-    background: #00a32a;
+.seo-forge-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.seo-forge-loading {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    color: #666;
-}
-
-.seo-forge-loading.active {
-    display: flex;
-}
-
-.seo-forge-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #2271b1;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+/* ==========================================================================
+   Form Styles
+   ========================================================================== */
 
 .seo-forge-form-group {
     margin-bottom: 20px;
@@ -111,18 +139,30 @@
 
 .seo-forge-form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--seo-forge-dark);
+    font-size: 14px;
 }
 
 .seo-forge-form-group input,
-.seo-forge-form-group select,
-.seo-forge-form-group textarea {
+.seo-forge-form-group textarea,
+.seo-forge-form-group select {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--seo-forge-border);
+    border-radius: var(--seo-forge-radius);
     font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: white;
+}
+
+.seo-forge-form-group input:focus,
+.seo-forge-form-group textarea:focus,
+.seo-forge-form-group select:focus {
+    outline: none;
+    border-color: var(--seo-forge-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .seo-forge-form-group textarea {
@@ -131,23 +171,223 @@
 }
 
 .seo-forge-form-group .description {
+    margin-top: 4px;
     font-size: 12px;
-    color: #666;
-    margin-top: 5px;
+    color: var(--seo-forge-secondary);
 }
+
+/* ==========================================================================
+   Status and Badge Styles
+   ========================================================================== */
+
+.seo-forge-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: white;
+    border: 1px solid var(--seo-forge-border);
+    border-radius: var(--seo-forge-radius-lg);
+    margin-bottom: 24px;
+    box-shadow: var(--seo-forge-shadow);
+}
+
+.seo-forge-status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--seo-forge-error);
+    animation: pulse 2s infinite;
+}
+
+.seo-forge-status-indicator.connected {
+    background: var(--seo-forge-success);
+    animation: none;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.seo-forge-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.seo-forge-badge.primary {
+    background: var(--seo-forge-primary);
+    color: white;
+}
+
+.seo-forge-badge.success {
+    background: var(--seo-forge-success);
+    color: white;
+}
+
+.seo-forge-badge.warning {
+    background: var(--seo-forge-warning);
+    color: white;
+}
+
+.seo-forge-badge.error {
+    background: var(--seo-forge-error);
+    color: white;
+}
+
+/* ==========================================================================
+   Loading and Spinner Styles
+   ========================================================================== */
+
+.seo-forge-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.seo-forge-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--seo-forge-border);
+    border-top: 3px solid var(--seo-forge-primary);
+    border-radius: 50%;
+    animation: seo-forge-spin 1s linear infinite;
+}
+
+@keyframes seo-forge-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.seo-forge-button .seo-forge-spinner {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+}
+
+/* ==========================================================================
+   Alert Styles
+   ========================================================================== */
+
+.seo-forge-alert {
+    padding: 16px;
+    border-radius: var(--seo-forge-radius);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.seo-forge-alert.info {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #1e40af;
+}
+
+.seo-forge-alert.success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #065f46;
+}
+
+.seo-forge-alert.warning {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    color: #92400e;
+}
+
+.seo-forge-alert.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #991b1b;
+}
+
+/* ==========================================================================
+   Results and Content Display
+   ========================================================================== */
 
 .seo-forge-results {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 4px;
-    border-left: 4px solid #2271b1;
+    margin-top: 24px;
 }
 
-.seo-forge-results h4 {
-    margin-top: 0;
-    color: #2271b1;
+.seo-forge-content-results {
+    margin-top: 24px;
 }
+
+.seo-forge-content-results textarea {
+    width: 100%;
+    min-height: 300px;
+    padding: 16px;
+    border: 1px solid var(--seo-forge-border);
+    border-radius: var(--seo-forge-radius);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .seo-forge-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .seo-forge-card {
+        padding: 16px;
+    }
+    
+    .seo-forge-status {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .seo-forge-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.seo-forge-text-center { text-align: center; }
+.seo-forge-text-right { text-align: right; }
+.seo-forge-text-left { text-align: left; }
+
+.seo-forge-mb-0 { margin-bottom: 0; }
+.seo-forge-mb-1 { margin-bottom: 8px; }
+.seo-forge-mb-2 { margin-bottom: 16px; }
+.seo-forge-mb-3 { margin-bottom: 24px; }
+.seo-forge-mb-4 { margin-bottom: 32px; }
+
+.seo-forge-mt-0 { margin-top: 0; }
+.seo-forge-mt-1 { margin-top: 8px; }
+.seo-forge-mt-2 { margin-top: 16px; }
+.seo-forge-mt-3 { margin-top: 24px; }
+.seo-forge-mt-4 { margin-top: 32px; }
+
+.seo-forge-hidden { display: none; }
+.seo-forge-block { display: block; }
+.seo-forge-flex { display: flex; }
+
+.seo-forge-w-full { width: 100%; }
+
+/* ==========================================================================
+   Additional Styles for SEO Features
+   ========================================================================== */
 
 .seo-forge-score {
     display: flex;
@@ -169,15 +409,15 @@
 }
 
 .seo-forge-score-circle.good {
-    background: #00a32a;
+    background: var(--seo-forge-success);
 }
 
 .seo-forge-score-circle.average {
-    background: #dba617;
+    background: var(--seo-forge-warning);
 }
 
 .seo-forge-score-circle.poor {
-    background: #dc3232;
+    background: var(--seo-forge-error);
 }
 
 .seo-forge-checklist {
@@ -190,7 +430,7 @@
     align-items: center;
     gap: 10px;
     padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--seo-forge-border);
 }
 
 .seo-forge-checklist li:last-child {
@@ -202,15 +442,15 @@
 }
 
 .seo-forge-checklist .status.pass {
-    color: #00a32a;
+    color: var(--seo-forge-success);
 }
 
 .seo-forge-checklist .status.warning {
-    color: #dba617;
+    color: var(--seo-forge-warning);
 }
 
 .seo-forge-checklist .status.fail {
-    color: #dc3232;
+    color: var(--seo-forge-error);
 }
 
 .seo-forge-keyword-table {
@@ -223,11 +463,11 @@
 .seo-forge-keyword-table td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--seo-forge-border);
 }
 
 .seo-forge-keyword-table th {
-    background: #f9f9f9;
+    background: var(--seo-forge-light);
     font-weight: 600;
 }
 
@@ -239,43 +479,18 @@
 }
 
 .seo-forge-keyword-table .difficulty.easy {
-    background: #d1e7dd;
-    color: #0f5132;
+    background: rgba(16, 185, 129, 0.1);
+    color: #065f46;
 }
 
 .seo-forge-keyword-table .difficulty.medium {
-    background: #fff3cd;
-    color: #664d03;
+    background: rgba(245, 158, 11, 0.1);
+    color: #92400e;
 }
 
 .seo-forge-keyword-table .difficulty.hard {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.seo-forge-notice {
-    padding: 12px;
-    margin: 20px 0;
-    border-radius: 4px;
-    border-left: 4px solid #2271b1;
-}
-
-.seo-forge-notice.success {
-    background: #d1e7dd;
-    border-color: #00a32a;
-    color: #0f5132;
-}
-
-.seo-forge-notice.error {
-    background: #f8d7da;
-    border-color: #dc3232;
-    color: #721c24;
-}
-
-.seo-forge-notice.warning {
-    background: #fff3cd;
-    border-color: #dba617;
-    color: #664d03;
+    background: rgba(239, 68, 68, 0.1);
+    color: #991b1b;
 }
 
 /* Meta Box Styles */
@@ -303,26 +518,10 @@
 
 .seo-forge-meta-box .character-count {
     font-size: 12px;
-    color: #666;
+    color: var(--seo-forge-secondary);
     margin-top: 5px;
 }
 
 .seo-forge-meta-box .character-count.over-limit {
-    color: #dc3232;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .seo-forge-cards {
-        grid-template-columns: 1fr;
-    }
-    
-    .seo-forge-keyword-table {
-        font-size: 14px;
-    }
-    
-    .seo-forge-keyword-table th,
-    .seo-forge-keyword-table td {
-        padding: 8px;
-    }
+    color: var(--seo-forge-error);
 }
