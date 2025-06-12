@@ -1,0 +1,38 @@
+WordPress Playground Test URL for SEO Forge Plugin:
+
+https://playground.wordpress.net/?mode=seamless&blueprint=https://raw.githubusercontent.com/khiwniti/SEOForge-mcp-server/main/playground-blueprint.json
+
+Alternative direct test URL:
+https://playground.wordpress.net/?mode=seamless&plugin=seo-forge
+
+Manual Test Steps:
+1. Go to https://playground.wordpress.net/
+2. Click "Create new site"
+3. Once WordPress loads, go to Plugins → Add New Plugin
+4. Upload the seo-forge-plugin.zip file
+5. Activate the plugin
+6. Navigate to SEO Forge in the admin menu
+7. Test the UI and features
+
+Demo Features to Test:
+- Dashboard with feature cards
+- Professional UI styling
+- Responsive design
+- Interactive buttons (demo alerts)
+- Settings configuration
+- Meta boxes on post edit screens
+- SEO analysis tools
+- Content generation interface
+- Keyword research tools
+
+The plugin includes:
+✅ Professional admin interface
+✅ Rank Math-inspired UI design
+✅ Comprehensive dashboard
+✅ Settings management
+✅ Meta boxes for posts/pages
+✅ REST API endpoints
+✅ MCP server integration
+✅ Multi-language support
+✅ No license requirements
+✅ Open source MIT license

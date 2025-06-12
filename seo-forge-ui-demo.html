@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Forge Plugin UI Demo</title>
+    <style>
+        /* SEO Forge Admin Styles - Adapted from Rank Math */
+        :root {
+            --seo-forge-primary: #2563eb;
+            --seo-forge-secondary: #64748b;
+            --seo-forge-success: #10b981;
+            --seo-forge-warning: #f59e0b;
+            --seo-forge-error: #ef4444;
+            --seo-forge-bg: #f8fafc;
+            --seo-forge-border: #e2e8f0;
+            --seo-forge-text: #1e293b;
+            --seo-forge-text-light: #64748b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f1;
+            color: var(--seo-forge-text);
+        }
+
+        .seo-forge-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .seo-forge-header {
+            background: linear-gradient(135deg, var(--seo-forge-primary), #3b82f6);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .seo-forge-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .seo-forge-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .seo-forge-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .seo-forge-card {
+            background: #fff;
+            border: 1px solid var(--seo-forge-border);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .seo-forge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .seo-forge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--seo-forge-primary);
+        }
+
+        .seo-forge-card h3 {
+            margin: 0 0 15px;
+            color: var(--seo-forge-text);
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .seo-forge-card p {
+            color: var(--seo-forge-text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .seo-forge-button {
+            background: var(--seo-forge-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .seo-forge-button:hover {
+            background: #1d4ed8;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .seo-forge-button.secondary {
+            background: var(--seo-forge-secondary);
+        }
+
+        .seo-forge-button.secondary:hover {
+            background: #475569;
+        }
+
+        .seo-forge-button.success {
+            background: var(--seo-forge-success);
+        }
+
+        .seo-forge-button.warning {
+            background: var(--seo-forge-warning);
+        }
+
+        .seo-forge-button.error {
+            background: var(--seo-forge-error);
+        }
+
+        /* Meta Box Demo */
+        .meta-box-demo {
+            margin: 30px;
+            background: white;
+            border: 1px solid var(--seo-forge-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .meta-box-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--seo-forge-border);
+            font-weight: 600;
+        }
+
+        .meta-box-content {
+            padding: 20px;
+        }
+
+        .seo-forge-field {
+            margin-bottom: 20px;
+        }
+
+        .seo-forge-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--seo-forge-text);
+        }
+
+        .seo-forge-field input[type="text"],
+        .seo-forge-field textarea,
+        .seo-forge-field select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--seo-forge-border);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .seo-forge-field input:focus,
+        .seo-forge-field textarea:focus,
+        .seo-forge-field select:focus {
+            border-color: var(--seo-forge-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .seo-forge-field .description {
+            margin-top: 5px;
+            color: var(--seo-forge-text-light);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .seo-forge-tabs {
+            border-bottom: 1px solid var(--seo-forge-border);
+            margin-bottom: 20px;
+        }
+
+        .seo-forge-tabs ul {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .seo-forge-tabs li {
+            margin-right: 30px;
+        }
+
+        .seo-forge-tabs a {
+            display: block;
+            padding: 15px 0;
+            color: var(--seo-forge-text-light);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .seo-forge-tabs a:hover,
+        .seo-forge-tabs a.active {
+            color: var(--seo-forge-primary);
+            border-bottom-color: var(--seo-forge-primary);
+        }
+
+        .seo-forge-tab-content {
+            display: none;
+        }
+
+        .seo-forge-tab-content.active {
+            display: block;
+        }
+
+        .search-preview {
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            font-family: arial, sans-serif;
+            margin: 15px 0;
+        }
+
+        .preview-title {
+            color: #1a0dab;
+            font-size: 18px;
+            line-height: 1.2;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+
+        .preview-url {
+            color: #006621;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .preview-description {
+            color: #545454;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .seo-forge-score {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .seo-forge-score.excellent {
+            background: var(--seo-forge-success);
+        }
+
+        .seo-forge-score.good {
+            background: #84cc16;
+        }
+
+        .seo-forge-score.fair {
+            background: var(--seo-forge-warning);
+        }
+
+        .seo-forge-score.poor {
+            background: var(--seo-forge-error);
+        }
+
+        @media (max-width: 768px) {
+            .seo-forge-dashboard {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .seo-forge-header {
+                padding: 20px;
+            }
+            
+            .seo-forge-header h1 {
+                font-size: 2em;
+            }
+            
+            .seo-forge-tabs ul {
+                flex-wrap: wrap;
+            }
+            
+            .seo-forge-tabs li {
+                margin-right: 15px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .demo-note {
+            background: #e0f2fe;
+            border: 1px solid #0288d1;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px;
+            color: #01579b;
+        }
+
+        .demo-note h3 {
+            margin: 0 0 10px;
+            color: #01579b;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-note">
+        <h3>🎨 SEO Forge Plugin UI Demo</h3>
+        <p>This is a demonstration of the SEO Forge WordPress plugin user interface. The actual plugin includes full WordPress integration, MCP server connectivity, and AI-powered features.</p>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="seo-forge-container">
+        <div class="seo-forge-header">
+            <h1>SEO Forge</h1>
+            <p>Universal SEO WordPress Plugin with AI-powered content generation and optimization</p>
+        </div>
+
+        <div class="seo-forge-dashboard">
+            <!-- Content Generator Card -->
+            <div class="seo-forge-card">
+                <h3>🤖 Content Generator</h3>
+                <p>Generate SEO-optimized content using AI. Create blog posts, product descriptions, and more with just a few keywords.</p>
+                <button class="seo-forge-button" onclick="showDemo('Content Generator', 'This feature connects to your MCP server to generate high-quality, SEO-optimized content based on your keywords and requirements.')">
+                    Generate Content
+                </button>
+            </div>
+
+            <!-- SEO Analyzer Card -->
+            <div class="seo-forge-card">
+                <h3>📊 SEO Analyzer</h3>
+                <p>Analyze your content for SEO optimization. Get detailed reports and actionable recommendations to improve your rankings.</p>
+                <button class="seo-forge-button" onclick="showDemo('SEO Analyzer', 'Comprehensive SEO analysis including keyword density, readability, meta tags, and technical SEO factors with actionable recommendations.')">
+                    Analyze SEO
+                </button>
+            </div>
+
+            <!-- Keyword Research Card -->
+            <div class="seo-forge-card">
+                <h3>🔍 Keyword Research</h3>
+                <p>Discover high-value keywords for your content strategy. Find search volume, difficulty, and competition data.</p>
+                <button class="seo-forge-button" onclick="showDemo('Keyword Research', 'Research keywords with search volume, difficulty scores, CPC data, and related keyword suggestions to optimize your content strategy.')">
+                    Research Keywords
+                </button>
+            </div>
+
+            <!-- Image Generator Card -->
+            <div class="seo-forge-card">
+                <h3>🎨 Image Generator</h3>
+                <p>Create custom images using AI for your content. Generate professional images that match your content perfectly.</p>
+                <button class="seo-forge-button" onclick="showDemo('Image Generator', 'AI-powered image generation with customizable styles, sizes, and prompts. Perfect for creating featured images and content illustrations.')">
+                    Generate Image
+                </button>
+            </div>
+
+            <!-- Analytics Card -->
+            <div class="seo-forge-card">
+                <h3>📈 Analytics</h3>
+                <p>Track your SEO performance with detailed analytics. Monitor rankings, traffic, and conversion metrics.</p>
+                <button class="seo-forge-button" onclick="showDemo('Analytics', 'Comprehensive SEO analytics dashboard showing search performance, keyword rankings, click-through rates, and traffic trends.')">
+                    View Analytics
+                </button>
+            </div>
+
+            <!-- Settings Card -->
+            <div class="seo-forge-card">
+                <h3>⚙️ Settings</h3>
+                <p>Configure your SEO Forge plugin settings and MCP server connection for optimal performance.</p>
+                <button class="seo-forge-button secondary" onclick="showSettingsDemo()">
+                    Configure Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meta Box Demo -->
+    <div class="meta-box-demo">
+        <div class="meta-box-header">
+            SEO Forge - SEO Settings (Post/Page Meta Box)
+        </div>
+        <div class="meta-box-content">
+            <div class="seo-forge-tabs">
+                <ul>
+                    <li><a href="#seo-tab" class="active" onclick="switchTab(event, 'seo-tab')">SEO Settings</a></li>
+                    <li><a href="#content-tab" onclick="switchTab(event, 'content-tab')">Content Generator</a></li>
+                    <li><a href="#analysis-tab" onclick="switchTab(event, 'analysis-tab')">SEO Analysis</a></li>
+                </ul>
+            </div>
+
+            <div id="seo-tab" class="seo-forge-tab-content active">
+                <div class="seo-forge-field">
+                    <label for="seo-title">SEO Title</label>
+                    <input type="text" id="seo-title" value="SEO Forge - Universal WordPress SEO Plugin" maxlength="60">
+                    <div class="description">The title that appears in search engine results. Keep it under 60 characters. <span style="float: right; color: #10b981;">45/60</span></div>
+                </div>
+
+                <div class="seo-forge-field">
+                    <label for="meta-description">Meta Description</label>
+                    <textarea id="meta-description" rows="3" maxlength="160">Universal SEO WordPress plugin with AI-powered content generation, SEO analysis, and comprehensive optimization tools. No license required.</textarea>
+                    <div class="description">A brief description that appears in search results. Keep it under 160 characters. <span style="float: right; color: #10b981;">142/160</span></div>
+                </div>
+
+                <div class="seo-forge-field">
+                    <label for="focus-keyword">Focus Keyword</label>
+                    <input type="text" id="focus-keyword" value="WordPress SEO plugin">
+                    <div class="description">The main keyword you want this content to rank for.</div>
+                </div>
+
+                <div class="search-preview">
+                    <div class="preview-title">SEO Forge - Universal WordPress SEO Plugin</div>
+                    <div class="preview-url">https://yoursite.com/seo-forge-plugin/</div>
+                    <div class="preview-description">Universal SEO WordPress plugin with AI-powered content generation, SEO analysis, and comprehensive optimization tools. No license required.</div>
+                </div>
+            </div>
+
+            <div id="content-tab" class="seo-forge-tab-content">
+                <div class="seo-forge-field">
+                    <label for="keywords">Keywords</label>
+                    <input type="text" id="keywords" value="WordPress SEO, content generation, AI optimization">
+                    <div class="description">Keywords to focus on for content generation</div>
+                </div>
+
+                <div class="seo-forge-field">
+                    <label for="industry">Industry</label>
+                    <select id="industry">
+                        <option value="technology" selected>Technology</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="finance">Finance</option>
+                        <option value="education">Education</option>
+                        <option value="retail">Retail</option>
+                    </select>
+                </div>
+
+                <div class="seo-forge-field">
+                    <button class="seo-forge-button" onclick="showDemo('Content Generation', 'AI would generate SEO-optimized content based on your keywords and industry selection.')">
+                        Generate Content
+                    </button>
+                    <button class="seo-forge-button secondary" onclick="showDemo('Content Suggestions', 'AI would provide content improvement suggestions based on your existing content.')">
+                        Get Suggestions
+                    </button>
+                </div>
+            </div>
+
+            <div id="analysis-tab" class="seo-forge-tab-content">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div class="seo-forge-score excellent">85</div>
+                    <div>
+                        <h4 style="margin: 0;">SEO Score: 85/100</h4>
+                        <p style="margin: 5px 0 0; color: var(--seo-forge-text-light);">Your content is well-optimized with room for improvement</p>
+                    </div>
+                </div>
+
+                <div class="seo-forge-field">
+                    <button class="seo-forge-button" onclick="showDemo('SEO Analysis', 'Comprehensive analysis would show keyword density, readability score, meta tag optimization, and technical SEO factors.')">
+                        Analyze SEO
+                    </button>
+                    <button class="seo-forge-button secondary" onclick="showDemo('Quick Check', 'Quick SEO checklist would verify title length, meta description, focus keyword usage, and content structure.')">
+                        Quick Check
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-note">
+        <h3>🚀 Ready to Test?</h3>
+        <p><strong>WordPress Playground:</strong> <a href="https://playground.wordpress.net/" target="_blank">Test the full plugin in WordPress Playground</a></p>
+        <p><strong>GitHub Repository:</strong> <a href="https://github.com/khiwniti/SEOForge-mcp-server" target="_blank">View source code and documentation</a></p>
+        <p><strong>Features:</strong> AI content generation, SEO analysis, keyword research, image generation, analytics, and more!</p>
+    </div>
+
+    <script>
+        function showDemo(feature, description) {
+            alert(`${feature} Demo\n\n${description}\n\nThis is a UI demonstration. The actual plugin includes full functionality with MCP server integration.`);
+        }
+
+        function showSettingsDemo() {
+            alert(`Settings Demo\n\nConfigure:\n• MCP Server URL: https://your-server.vercel.app\n• API Key: Your authentication key\n• Default Language: English, Thai, Spanish, etc.\n• Auto-generation settings\n• Analytics integration\n• Social media settings\n• Webmaster tools verification`);
+        }
+
+        function switchTab(event, tabId) {
+            event.preventDefault();
+            
+            // Hide all tab contents
+            document.querySelectorAll('.seo-forge-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab links
+            document.querySelectorAll('.seo-forge-tabs a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked tab link
+            event.target.classList.add('active');
+        }
+
+        // Auto-update character counts
+        document.getElementById('seo-title').addEventListener('input', function() {
+            const length = this.value.length;
+            const counter = this.nextElementSibling.querySelector('span');
+            counter.textContent = `${length}/60`;
+            counter.style.color = length > 60 ? '#ef4444' : '#10b981';
+        });
+
+        document.getElementById('meta-description').addEventListener('input', function() {
+            const length = this.value.length;
+            const counter = this.nextElementSibling.querySelector('span');
+            counter.textContent = `${length}/160`;
+            counter.style.color = length > 160 ? '#ef4444' : '#10b981';
+        });
+    </script>
+</body>
+</html>
