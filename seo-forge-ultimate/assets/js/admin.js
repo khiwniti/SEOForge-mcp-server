@@ -118,7 +118,7 @@
      */
     SEOForge.init = function() {
         SEOForge.Debug.log('info', '🚀 SEO Forge Admin Initializing...', {
-            version: '1.5.0',
+            version: '1.6.0',
             userAgent: navigator.userAgent,
             timestamp: new Date().toISOString()
         });

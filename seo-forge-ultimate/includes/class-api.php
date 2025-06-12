@@ -381,7 +381,23 @@ class SEO_Forge_API {
 		if ( is_wp_error( $response ) ) {
 			error_log( 'SEO Forge API Error: ' . $response->get_error_message() );
 		} else {
-			error_log( 'SEO Forge API Response Code: ' . wp_remote_retrieve_response_code( $response ) );
+			$response_code = wp_remote_retrieve_response_code( $response );
+			$response_body = wp_remote_retrieve_body( $response );
+			
+			error_log( 'SEO Forge API Response Code: ' . $response_code );
+			
+			// Check for malformed response
+			if ( empty( $response_body ) || strpos( $response_body, 'Missing header/body separator' ) !== false ) {
+				error_log( 'SEO Forge API Error: Missing header/body separator' );
+				return new WP_Error( 'malformed_response', 'Server returned malformed response' );
+			}
+			
+			// Validate JSON response
+			$decoded = json_decode( $response_body, true );
+			if ( json_last_error() !== JSON_ERROR_NONE ) {
+				error_log( 'SEO Forge API Error: Invalid JSON response - ' . json_last_error_msg() );
+				error_log( 'SEO Forge API Raw Response: ' . substr( $response_body, 0, 500 ) );
+			}
 		}
 
 		return $response;

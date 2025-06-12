@@ -8,8 +8,8 @@
  * @since        1.0.0
  *
  * @wordpress-plugin
- * Plugin Name:       SEO Forge Ultimate - Chatbot Fixed Edition
- * Version:           1.5.0
+ * Plugin Name:       SEO Forge Ultimate - Conflict Free Edition
+ * Version:           1.6.0
  * Plugin URI:        https://seoforge.dev
  * Description:       Universal SEO WordPress Plugin with AI-powered content generation, Flux image generation, SEO analysis, keyword research, and optimization tools. CHATBOT FIXED EDITION with force initialization, comprehensive API logging, progress bars, 403 error resolution, and zero conflicts. No license required.
  * Author:            SEO Forge Team
@@ -26,6 +26,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Prevent conflicts with other versions
+if ( class_exists( 'SEO_Forge_Ultimate' ) ) {
+	return;
+}
+
 /**
  * SEO_Forge_Ultimate class.
  *
@@ -38,7 +43,7 @@ final class SEO_Forge_Ultimate {
 	 *
 	 * @var string
 	 */
-	public $version = '1.5.0';
+	public $version = '1.6.0';
 
 	/**
 	 * Holds various class instances
@@ -88,12 +93,20 @@ final class SEO_Forge_Ultimate {
 		define( 'SEO_FORGE_ULTIMATE_URL', plugins_url( '', SEO_FORGE_ULTIMATE_FILE ) . '/' );
 		define( 'SEO_FORGE_ULTIMATE_ASSETS_URL', SEO_FORGE_ULTIMATE_URL . 'assets/' );
 		
-		// Backward compatibility constants
+		// Backward compatibility constants (only if not already defined)
 		if ( ! defined( 'SEO_FORGE_VERSION' ) ) {
 			define( 'SEO_FORGE_VERSION', $this->version );
+		}
+		if ( ! defined( 'SEO_FORGE_FILE' ) ) {
 			define( 'SEO_FORGE_FILE', __FILE__ );
+		}
+		if ( ! defined( 'SEO_FORGE_PATH' ) ) {
 			define( 'SEO_FORGE_PATH', dirname( SEO_FORGE_FILE ) . '/' );
+		}
+		if ( ! defined( 'SEO_FORGE_URL' ) ) {
 			define( 'SEO_FORGE_URL', plugins_url( '', SEO_FORGE_FILE ) . '/' );
+		}
+		if ( ! defined( 'SEO_FORGE_ASSETS_URL' ) ) {
 			define( 'SEO_FORGE_ASSETS_URL', SEO_FORGE_URL . 'assets/' );
 		}
 	}
