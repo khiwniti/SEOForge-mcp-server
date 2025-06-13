@@ -1,0 +1,126 @@
+# Copyright (C) 2024 SEO-Forge Team
+# This file is distributed under the same license as the SEO-Forge plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: SEO-Forge 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seo-forge\n"
+"POT-Creation-Date: 2024-01-01 00:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: admin/partials/seo-forge-admin-display.php:15
+msgid "SEO-Forge Dashboard"
+msgstr ""
+
+#: admin/partials/seo-forge-admin-display.php:20
+msgid "Welcome to SEO-Forge"
+msgstr ""
+
+#: admin/partials/seo-forge-content-generator.php:15
+msgid "Content Generator"
+msgstr ""
+
+#: admin/partials/seo-forge-content-generator.php:25
+msgid "Generate Content"
+msgstr ""
+
+#: admin/partials/seo-forge-chatbot-settings.php:15
+msgid "Chatbot Settings"
+msgstr ""
+
+#: admin/partials/seo-forge-chatbot-settings.php:25
+msgid "Enable Chatbot"
+msgstr ""
+
+#: admin/partials/seo-forge-settings.php:15
+msgid "SEO-Forge Settings"
+msgstr ""
+
+#: admin/partials/seo-forge-settings.php:25
+msgid "API Key"
+msgstr ""
+
+#: admin/partials/seo-forge-settings.php:30
+msgid "Language"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:21
+msgid "SEO-Forge Statistics"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:27
+msgid "SEO Quick Actions"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:41
+msgid "API Status:"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:43
+msgid "Connected"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:43
+msgid "Offline"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:47
+msgid "Content Generated:"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:51
+msgid "Chatbot Conversations:"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:65
+msgid "Generate Content"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:68
+msgid "Settings"
+msgstr ""
+
+#: admin/class-seo-forge-admin-dashboard.php:71
+msgid "Chatbot Setup"
+msgstr ""
+
+#: includes/class-seo-forge-admin.php:50
+#: includes/class-seo-forge-admin.php:51
+msgid "SEO-Forge"
+msgstr ""
+
+#: includes/class-seo-forge-admin.php:61
+#: includes/class-seo-forge-admin.php:62
+msgid "Dashboard"
+msgstr ""
+
+#: includes/class-seo-forge-admin.php:70
+#: includes/class-seo-forge-admin.php:71
+msgid "Content Generator"
+msgstr ""
+
+#: includes/class-seo-forge-admin.php:79
+#: includes/class-seo-forge-admin.php:80
+msgid "Chatbot"
+msgstr ""
+
+#: includes/class-seo-forge-admin.php:88
+#: includes/class-seo-forge-admin.php:89
+msgid "Settings"
+msgstr ""
+
+#: seo-forge.php:3
+msgid "SEO-Forge"
+msgstr ""
+
+#: seo-forge.php:5
+msgid "A comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot"
+msgstr ""
+
+#: seo-forge.php:7
+msgid "SEO-Forge Team"
+msgstr ""

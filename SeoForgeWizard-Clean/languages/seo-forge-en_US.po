@@ -1,0 +1,580 @@
+# Copyright (C) 2024 SEO-Forge Team
+# This file is distributed under the same license as the SEO-Forge plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: SEO-Forge 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seo-forge\n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: SEO-Forge Team\n"
+"Language-Team: English (United States)\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: SEO-Forge Translation Tool\n"
+
+#: seo-forge.php:7
+msgid "A comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot"
+msgstr "A comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot"
+
+#: includes/class-seo-forge-admin.php:45
+msgid "SEO-Forge"
+msgstr "SEO-Forge"
+
+#: includes/class-seo-forge-admin.php:58
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: includes/class-seo-forge-admin.php:66
+msgid "Content Generator"
+msgstr "Content Generator"
+
+#: includes/class-seo-forge-admin.php:74
+msgid "Chatbot"
+msgstr "Chatbot"
+
+#: includes/class-seo-forge-admin.php:82
+msgid "Settings"
+msgstr "Settings"
+
+#: includes/class-seo-forge-chatbot.php:77
+msgid "SEO Assistant"
+msgstr "SEO Assistant"
+
+#: includes/class-seo-forge-chatbot.php:86
+msgid "Hello! I'm your SEO assistant. How can I help you optimize your content today?"
+msgstr "Hello! I'm your SEO assistant. How can I help you optimize your content today?"
+
+#: includes/class-seo-forge-chatbot.php:91
+msgid "Type your message..."
+msgstr "Type your message..."
+
+#: includes/class-seo-forge-chatbot.php:43
+msgid "Sorry, I encountered an error. Please try again."
+msgstr "Sorry, I encountered an error. Please try again."
+
+#: includes/class-seo-forge-content-generator.php:85
+msgid "Failed to generate content"
+msgstr "Failed to generate content"
+
+#: includes/class-seo-forge-content-generator.php:107
+msgid "Failed to generate title"
+msgstr "Failed to generate title"
+
+#: includes/class-seo-forge-content-generator.php:129
+msgid "Failed to generate meta description"
+msgstr "Failed to generate meta description"
+
+#: includes/class-seo-forge-content-generator.php:151
+msgid "Failed to generate image"
+msgstr "Failed to generate image"
+
+#: includes/class-seo-forge-content-generator.php:173
+msgid "Failed to analyze SEO"
+msgstr "Failed to analyze SEO"
+
+#: includes/class-seo-forge-content-generator.php:195
+msgid "Failed to get keyword suggestions"
+msgstr "Failed to get keyword suggestions"
+
+#: admin/partials/seo-forge-admin-display.php:17
+msgid "SEO-Forge Dashboard"
+msgstr "SEO-Forge Dashboard"
+
+#: admin/partials/seo-forge-admin-display.php:22
+msgid "Welcome to SEO-Forge!"
+msgstr "Welcome to SEO-Forge!"
+
+#: admin/partials/seo-forge-admin-display.php:25
+msgid "Your comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot."
+msgstr "Your comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot."
+
+#: admin/partials/seo-forge-admin-display.php:29
+msgid "Get Started"
+msgstr "Get Started"
+
+#: admin/partials/seo-forge-admin-display.php:31
+msgid "Configure Settings"
+msgstr "Configure Settings"
+
+#: admin/partials/seo-forge-admin-display.php:35
+msgid "Generate Content"
+msgstr "Generate Content"
+
+#: admin/partials/seo-forge-admin-display.php:37
+msgid "Create SEO Content"
+msgstr "Create SEO Content"
+
+#: admin/partials/seo-forge-admin-display.php:41
+msgid "Setup Chatbot"
+msgstr "Setup Chatbot"
+
+#: admin/partials/seo-forge-admin-display.php:43
+msgid "Configure Chatbot"
+msgstr "Configure Chatbot"
+
+#: admin/partials/seo-forge-admin-display.php:52
+msgid "API Status"
+msgstr "API Status"
+
+#: admin/partials/seo-forge-admin-display.php:57
+msgid "Connected"
+msgstr "Connected"
+
+#: admin/partials/seo-forge-admin-display.php:57
+msgid "Disconnected"
+msgstr "Disconnected"
+
+#: admin/partials/seo-forge-admin-display.php:61
+msgid "Unable to connect to SEO-Forge API. Please check your settings."
+msgstr "Unable to connect to SEO-Forge API. Please check your settings."
+
+#: admin/partials/seo-forge-admin-display.php:68
+msgid "Statistics"
+msgstr "Statistics"
+
+#: admin/partials/seo-forge-admin-display.php:73
+msgid "Content Generated"
+msgstr "Content Generated"
+
+#: admin/partials/seo-forge-admin-display.php:77
+msgid "Chat Conversations"
+msgstr "Chat Conversations"
+
+#: admin/partials/seo-forge-admin-display.php:81
+msgid "Images Generated"
+msgstr "Images Generated"
+
+#: admin/partials/seo-forge-admin-display.php:88
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
+#: admin/partials/seo-forge-admin-display.php:119
+msgid "Recent Activity"
+msgstr "Recent Activity"
+
+#: admin/partials/seo-forge-admin-display.php:125
+msgid "No recent activity. Start by generating some content!"
+msgstr "No recent activity. Start by generating some content!"
+
+#: admin/partials/seo-forge-admin-display.php:131
+msgid "ago"
+msgstr "ago"
+
+#: admin/partials/seo-forge-settings.php:21
+msgid "Settings saved successfully!"
+msgstr "Settings saved successfully!"
+
+#: admin/partials/seo-forge-settings.php:34
+msgid "SEO-Forge Settings"
+msgstr "SEO-Forge Settings"
+
+#: admin/partials/seo-forge-settings.php:41
+msgid "API Configuration"
+msgstr "API Configuration"
+
+#: admin/partials/seo-forge-settings.php:46
+msgid "API Key"
+msgstr "API Key"
+
+#: admin/partials/seo-forge-settings.php:52
+msgid "Show"
+msgstr "Show"
+
+#: admin/partials/seo-forge-settings.php:55
+msgid "Enter your SEO-Forge API key. Leave empty to use default settings."
+msgstr "Enter your SEO-Forge API key. Leave empty to use default settings."
+
+#: admin/partials/seo-forge-settings.php:61
+msgid "Default Language"
+msgstr "Default Language"
+
+#: admin/partials/seo-forge-settings.php:65
+msgid "English"
+msgstr "English"
+
+#: admin/partials/seo-forge-settings.php:66
+msgid "Thai (ไทย)"
+msgstr "Thai (ไทย)"
+
+#: admin/partials/seo-forge-settings.php:69
+msgid "Select the default language for content generation and chatbot responses."
+msgstr "Select the default language for content generation and chatbot responses."
+
+#: admin/partials/seo-forge-settings.php:75
+msgid "Test API Connection"
+msgstr "Test API Connection"
+
+#: admin/partials/seo-forge-settings.php:82
+msgid "Chatbot Settings"
+msgstr "Chatbot Settings"
+
+#: admin/partials/seo-forge-settings.php:87
+msgid "Enable Chatbot"
+msgstr "Enable Chatbot"
+
+#: admin/partials/seo-forge-settings.php:91
+msgid "Display chatbot widget on frontend"
+msgstr "Display chatbot widget on frontend"
+
+#: admin/partials/seo-forge-settings.php:96
+msgid "Chatbot Position"
+msgstr "Chatbot Position"
+
+#: admin/partials/seo-forge-settings.php:100
+msgid "Bottom Right"
+msgstr "Bottom Right"
+
+#: admin/partials/seo-forge-settings.php:101
+msgid "Bottom Left"
+msgstr "Bottom Left"
+
+#: admin/partials/seo-forge-settings.php:102
+msgid "Top Right"
+msgstr "Top Right"
+
+#: admin/partials/seo-forge-settings.php:103
+msgid "Top Left"
+msgstr "Top Left"
+
+#: admin/partials/seo-forge-settings.php:109
+msgid "Chatbot Color"
+msgstr "Chatbot Color"
+
+#: admin/partials/seo-forge-settings.php:113
+msgid "Choose the primary color for the chatbot widget."
+msgstr "Choose the primary color for the chatbot widget."
+
+#: admin/partials/seo-forge-settings.php:119
+msgid "Save Settings"
+msgstr "Save Settings"
+
+#: admin/partials/seo-forge-settings.php:126
+msgid "Hide"
+msgstr "Hide"
+
+#: admin/partials/seo-forge-settings.php:135
+msgid "Testing..."
+msgstr "Testing..."
+
+#: admin/partials/seo-forge-settings.php:175
+msgid "Connection test failed"
+msgstr "Connection test failed"
+
+#: admin/partials/seo-forge-content-generator.php:11
+msgid "Content Generator"
+msgstr "Content Generator"
+
+#: admin/partials/seo-forge-content-generator.php:18
+msgid "Blog Content"
+msgstr "Blog Content"
+
+#: admin/partials/seo-forge-content-generator.php:21
+msgid "SEO Optimization"
+msgstr "SEO Optimization"
+
+#: admin/partials/seo-forge-content-generator.php:24
+msgid "Image Generation"
+msgstr "Image Generation"
+
+#: admin/partials/seo-forge-content-generator.php:33
+msgid "Generate Blog Content"
+msgstr "Generate Blog Content"
+
+#: admin/partials/seo-forge-content-generator.php:34
+msgid "Create SEO-optimized blog posts with AI assistance"
+msgstr "Create SEO-optimized blog posts with AI assistance"
+
+#: admin/partials/seo-forge-content-generator.php:40
+msgid "Topic/Title"
+msgstr "Topic/Title"
+
+#: admin/partials/seo-forge-content-generator.php:41
+msgid "Enter your blog topic or title"
+msgstr "Enter your blog topic or title"
+
+#: admin/partials/seo-forge-content-generator.php:47
+msgid "Target Keywords"
+msgstr "Target Keywords"
+
+#: admin/partials/seo-forge-content-generator.php:48
+msgid "Enter keywords separated by commas"
+msgstr "Enter keywords separated by commas"
+
+#: admin/partials/seo-forge-content-generator.php:49
+msgid "Optional: Add target keywords for better SEO optimization"
+msgstr "Optional: Add target keywords for better SEO optimization"
+
+#: admin/partials/seo-forge-content-generator.php:53
+msgid "Word Count"
+msgstr "Word Count"
+
+#: admin/partials/seo-forge-content-generator.php:55
+msgid "words"
+msgstr "words"
+
+#: admin/partials/seo-forge-content-generator.php:64
+msgid "Generate Content"
+msgstr "Generate Content"
+
+#: admin/partials/seo-forge-content-generator.php:67
+msgid "Get Keyword Suggestions"
+msgstr "Get Keyword Suggestions"
+
+#: admin/partials/seo-forge-content-generator.php:73
+msgid "Generated Content"
+msgstr "Generated Content"
+
+#: admin/partials/seo-forge-content-generator.php:76
+msgid "Copy"
+msgstr "Copy"
+
+#: admin/partials/seo-forge-content-generator.php:79
+msgid "Create Post"
+msgstr "Create Post"
+
+#: admin/partials/seo-forge-content-generator.php:90
+msgid "SEO Optimization Tools"
+msgstr "SEO Optimization Tools"
+
+#: admin/partials/seo-forge-content-generator.php:91
+msgid "Optimize your content for better search engine rankings"
+msgstr "Optimize your content for better search engine rankings"
+
+#: admin/partials/seo-forge-content-generator.php:96
+msgid "Title Optimization"
+msgstr "Title Optimization"
+
+#: admin/partials/seo-forge-content-generator.php:100
+msgid "Content"
+msgstr "Content"
+
+#: admin/partials/seo-forge-content-generator.php:101
+msgid "Paste your content here to generate an optimized title"
+msgstr "Paste your content here to generate an optimized title"
+
+#: admin/partials/seo-forge-content-generator.php:105
+msgid "Target Keyword"
+msgstr "Target Keyword"
+
+#: admin/partials/seo-forge-content-generator.php:106
+msgid "Enter target keyword"
+msgstr "Enter target keyword"
+
+#: admin/partials/seo-forge-content-generator.php:109
+msgid "Generate Title"
+msgstr "Generate Title"
+
+#: admin/partials/seo-forge-content-generator.php:115
+msgid "Meta Description"
+msgstr "Meta Description"
+
+#: admin/partials/seo-forge-content-generator.php:119
+msgid "Paste your content here to generate a meta description"
+msgstr "Paste your content here to generate a meta description"
+
+#: admin/partials/seo-forge-content-generator.php:129
+msgid "Generate Meta Description"
+msgstr "Generate Meta Description"
+
+#: admin/partials/seo-forge-content-generator.php:135
+msgid "SEO Analysis"
+msgstr "SEO Analysis"
+
+#: admin/partials/seo-forge-content-generator.php:139
+msgid "Content to Analyze"
+msgstr "Content to Analyze"
+
+#: admin/partials/seo-forge-content-generator.php:140
+msgid "Paste your content here for SEO analysis"
+msgstr "Paste your content here for SEO analysis"
+
+#: admin/partials/seo-forge-content-generator.php:149
+msgid "Analyze SEO"
+msgstr "Analyze SEO"
+
+#: admin/partials/seo-forge-content-generator.php:159
+msgid "AI Image Generation"
+msgstr "AI Image Generation"
+
+#: admin/partials/seo-forge-content-generator.php:160
+msgid "Create custom images for your content using AI"
+msgstr "Create custom images for your content using AI"
+
+#: admin/partials/seo-forge-content-generator.php:167
+msgid "Image Description"
+msgstr "Image Description"
+
+#: admin/partials/seo-forge-content-generator.php:168
+msgid "Describe the image you want to generate..."
+msgstr "Describe the image you want to generate..."
+
+#: admin/partials/seo-forge-content-generator.php:169
+msgid "Be specific about colors, style, objects, and mood"
+msgstr "Be specific about colors, style, objects, and mood"
+
+#: admin/partials/seo-forge-content-generator.php:175
+msgid "Image Style"
+msgstr "Image Style"
+
+#: admin/partials/seo-forge-content-generator.php:177
+msgid "Realistic"
+msgstr "Realistic"
+
+#: admin/partials/seo-forge-content-generator.php:178
+msgid "Artistic"
+msgstr "Artistic"
+
+#: admin/partials/seo-forge-content-generator.php:179
+msgid "Cartoon"
+msgstr "Cartoon"
+
+#: admin/partials/seo-forge-content-generator.php:180
+msgid "Sketch"
+msgstr "Sketch"
+
+#: admin/partials/seo-forge-content-generator.php:181
+msgid "Modern"
+msgstr "Modern"
+
+#: admin/partials/seo-forge-content-generator.php:186
+msgid "Generate Image"
+msgstr "Generate Image"
+
+#: admin/partials/seo-forge-content-generator.php:192
+msgid "Generated Image"
+msgstr "Generated Image"
+
+#: admin/partials/seo-forge-content-generator.php:195
+msgid "Download"
+msgstr "Download"
+
+#: admin/partials/seo-forge-content-generator.php:198
+msgid "Add to Media Library"
+msgstr "Add to Media Library"
+
+#: admin/partials/seo-forge-content-generator.php:210
+msgid "Generating content..."
+msgstr "Generating content..."
+
+#: admin/partials/seo-forge-chatbot-settings.php:20
+msgid "Chatbot settings saved successfully!"
+msgstr "Chatbot settings saved successfully!"
+
+#: admin/partials/seo-forge-chatbot-settings.php:31
+msgid "Chatbot Configuration"
+msgstr "Chatbot Configuration"
+
+#: admin/partials/seo-forge-chatbot-settings.php:42
+msgid "General Settings"
+msgstr "General Settings"
+
+#: admin/partials/seo-forge-chatbot-settings.php:63
+msgid "Position"
+msgstr "Position"
+
+#: admin/partials/seo-forge-chatbot-settings.php:76
+msgid "Primary Color"
+msgstr "Primary Color"
+
+#: admin/partials/seo-forge-chatbot-settings.php:87
+msgid "Messages & Content"
+msgstr "Messages & Content"
+
+#: admin/partials/seo-forge-chatbot-settings.php:92
+msgid "Welcome Message"
+msgstr "Welcome Message"
+
+#: admin/partials/seo-forge-chatbot-settings.php:96
+msgid "The first message displayed when users open the chatbot."
+msgstr "The first message displayed when users open the chatbot."
+
+#: admin/partials/seo-forge-chatbot-settings.php:102
+msgid "Input Placeholder"
+msgstr "Input Placeholder"
+
+#: admin/partials/seo-forge-chatbot-settings.php:106
+msgid "Placeholder text for the message input field."
+msgstr "Placeholder text for the message input field."
+
+#: admin/partials/seo-forge-chatbot-settings.php:113
+msgid "Knowledge Base"
+msgstr "Knowledge Base"
+
+#: admin/partials/seo-forge-chatbot-settings.php:118
+msgid "Custom Knowledge Base"
+msgstr "Custom Knowledge Base"
+
+#: admin/partials/seo-forge-chatbot-settings.php:120
+msgid "Enter information about your business, services, FAQ, etc. This will help the chatbot provide more relevant responses."
+msgstr "Enter information about your business, services, FAQ, etc. This will help the chatbot provide more relevant responses."
+
+#: admin/partials/seo-forge-chatbot-settings.php:122
+msgid "Add custom information that the chatbot should know about your business. This includes services, products, company info, FAQ, etc."
+msgstr "Add custom information that the chatbot should know about your business. This includes services, products, company info, FAQ, etc."
+
+#: admin/partials/seo-forge-chatbot-settings.php:127
+msgid "Save Chatbot Settings"
+msgstr "Save Chatbot Settings"
+
+#: admin/partials/seo-forge-chatbot-settings.php:132
+msgid "Live Preview"
+msgstr "Live Preview"
+
+#: admin/partials/seo-forge-chatbot-settings.php:155
+msgid "This is how the chatbot will appear on your website."
+msgstr "This is how the chatbot will appear on your website."
+
+#: admin/partials/seo-forge-chatbot-settings.php:158
+msgid "Test Chatbot"
+msgstr "Test Chatbot"
+
+#: admin/partials/seo-forge-chatbot-settings.php:162
+msgid "Type a test message..."
+msgstr "Type a test message..."
+
+#: admin/partials/seo-forge-chatbot-settings.php:180
+msgid "You:"
+msgstr "You:"
+
+#: admin/partials/seo-forge-chatbot-settings.php:186
+msgid "Assistant:"
+msgstr "Assistant:"
+
+#: admin/partials/seo-forge-chatbot-settings.php:186
+msgid "Thinking..."
+msgstr "Thinking..."
+
+#: admin/partials/seo-forge-chatbot-settings.php:217
+msgid "Sorry, I encountered an error. Please try again."
+msgstr "Sorry, I encountered an error. Please try again."
+
+#: admin/partials/seo-forge-chatbot-settings.php:230
+msgid "Connection error. Please check your API settings."
+msgstr "Connection error. Please check your API settings."
+
+#: public/class-seo-forge-public.php:50
+msgid "Hello! I'm your SEO assistant. How can I help you optimize your content today?"
+msgstr "Hello! I'm your SEO assistant. How can I help you optimize your content today?"
+
+#: public/class-seo-forge-public.php:51
+msgid "Type your message..."
+msgstr "Type your message..."
+
+#: public/class-seo-forge-public.php:53
+msgid "SEO Assistant"
+msgstr "SEO Assistant"
+
+#: public/class-seo-forge-public.php:54
+msgid "Thinking..."
+msgstr "Thinking..."
+
+#: public/class-seo-forge-public.php:55
+msgid "Sorry, I encountered an error. Please try again."
+msgstr "Sorry, I encountered an error. Please try again."
+
+#: public/class-seo-forge-public.php:56
+msgid "Network error. Please check your connection."
+msgstr "Network error. Please check your connection."

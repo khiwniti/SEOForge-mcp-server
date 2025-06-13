@@ -1,0 +1,12 @@
+# SEO-Forge Plugin Banner
+# This file serves as a placeholder for the plugin banner image
+# The actual banner should be a 772x250 pixel image in PNG or JPG format
+# 
+# Banner specifications for WordPress.org:
+# - Size: 772x250 pixels
+# - Format: PNG or JPG
+# - File name: banner-772x250.png or banner-772x250.jpg
+#
+# High DPI version:
+# - Size: 1544x500 pixels  
+# - File name: banner-1544x500.png or banner-1544x500.jpg

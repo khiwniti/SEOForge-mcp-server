@@ -1,0 +1,38 @@
+# SEOForge Deployment Tool Requirements
+# Install with: pip install -r deployment-requirements.txt
+
+# AWS SDK
+boto3>=1.34.0
+botocore>=1.34.0
+
+# CLI and utilities
+click>=8.1.0
+rich>=13.0.0
+pydantic>=2.5.0
+python-dotenv>=1.0.0
+
+# SSH and remote execution
+paramiko>=3.4.0
+fabric>=3.2.0
+
+# Configuration management
+PyYAML>=6.0.1
+toml>=0.10.2
+
+# Monitoring and health checks
+requests>=2.31.0
+psutil>=5.9.0
+
+# Encryption and security
+cryptography>=41.0.0
+bcrypt>=4.1.0
+
+# Database utilities
+psycopg2-binary>=2.9.0
+redis>=5.0.0
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0

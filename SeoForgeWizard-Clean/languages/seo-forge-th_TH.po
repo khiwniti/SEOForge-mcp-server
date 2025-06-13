@@ -1,0 +1,580 @@
+# Copyright (C) 2024 SEO-Forge Team
+# This file is distributed under the same license as the SEO-Forge plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: SEO-Forge 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seo-forge\n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: SEO-Forge Team\n"
+"Language-Team: Thai\n"
+"Language: th_TH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: SEO-Forge Translation Tool\n"
+
+#: seo-forge.php:7
+msgid "A comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot"
+msgstr "ปลั๊กอิน WordPress SEO ที่ครอบคลุมพร้อมการสร้างเนื้อหาด้วย AI และแชทบอทบริการลูกค้าอัจฉริยะ"
+
+#: includes/class-seo-forge-admin.php:45
+msgid "SEO-Forge"
+msgstr "SEO-Forge"
+
+#: includes/class-seo-forge-admin.php:58
+msgid "Dashboard"
+msgstr "แดชบอร์ด"
+
+#: includes/class-seo-forge-admin.php:66
+msgid "Content Generator"
+msgstr "เครื่องมือสร้างเนื้อหา"
+
+#: includes/class-seo-forge-admin.php:74
+msgid "Chatbot"
+msgstr "แชทบอท"
+
+#: includes/class-seo-forge-admin.php:82
+msgid "Settings"
+msgstr "การตั้งค่า"
+
+#: includes/class-seo-forge-chatbot.php:77
+msgid "SEO Assistant"
+msgstr "ผู้ช่วย SEO"
+
+#: includes/class-seo-forge-chatbot.php:86
+msgid "Hello! I'm your SEO assistant. How can I help you optimize your content today?"
+msgstr "สวัสดี! ฉันเป็นผู้ช่วย SEO ของคุณ วันนี้ฉันจะช่วยคุณปรับปรุงเนื้อหาให้ดีขึ้นได้อย่างไร?"
+
+#: includes/class-seo-forge-chatbot.php:91
+msgid "Type your message..."
+msgstr "พิมพ์ข้อความของคุณ..."
+
+#: includes/class-seo-forge-chatbot.php:43
+msgid "Sorry, I encountered an error. Please try again."
+msgstr "ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+
+#: includes/class-seo-forge-content-generator.php:85
+msgid "Failed to generate content"
+msgstr "ไม่สามารถสร้างเนื้อหาได้"
+
+#: includes/class-seo-forge-content-generator.php:107
+msgid "Failed to generate title"
+msgstr "ไม่สามารถสร้างหัวข้อได้"
+
+#: includes/class-seo-forge-content-generator.php:129
+msgid "Failed to generate meta description"
+msgstr "ไม่สามารถสร้างคำอธิบายเมตาได้"
+
+#: includes/class-seo-forge-content-generator.php:151
+msgid "Failed to generate image"
+msgstr "ไม่สามารถสร้างรูปภาพได้"
+
+#: includes/class-seo-forge-content-generator.php:173
+msgid "Failed to analyze SEO"
+msgstr "ไม่สามารถวิเคราะห์ SEO ได้"
+
+#: includes/class-seo-forge-content-generator.php:195
+msgid "Failed to get keyword suggestions"
+msgstr "ไม่สามารถรับคำแนะนำคีย์เวิร์ดได้"
+
+#: admin/partials/seo-forge-admin-display.php:17
+msgid "SEO-Forge Dashboard"
+msgstr "แดชบอร์ด SEO-Forge"
+
+#: admin/partials/seo-forge-admin-display.php:22
+msgid "Welcome to SEO-Forge!"
+msgstr "ยินดีต้อนรับสู่ SEO-Forge!"
+
+#: admin/partials/seo-forge-admin-display.php:25
+msgid "Your comprehensive WordPress SEO plugin with AI-powered content generation and intelligent customer service chatbot."
+msgstr "ปลั๊กอิน WordPress SEO ที่ครอบคลุมของคุณ พร้อมการสร้างเนื้อหาด้วย AI และแชทบอทบริการลูกค้าอัจฉริยะ"
+
+#: admin/partials/seo-forge-admin-display.php:29
+msgid "Get Started"
+msgstr "เริ่มต้นใช้งาน"
+
+#: admin/partials/seo-forge-admin-display.php:31
+msgid "Configure Settings"
+msgstr "ตั้งค่าระบบ"
+
+#: admin/partials/seo-forge-admin-display.php:35
+msgid "Generate Content"
+msgstr "สร้างเนื้อหา"
+
+#: admin/partials/seo-forge-admin-display.php:37
+msgid "Create SEO Content"
+msgstr "สร้างเนื้อหา SEO"
+
+#: admin/partials/seo-forge-admin-display.php:41
+msgid "Setup Chatbot"
+msgstr "ตั้งค่าแชทบอท"
+
+#: admin/partials/seo-forge-admin-display.php:43
+msgid "Configure Chatbot"
+msgstr "กำหนดค่าแชทบอท"
+
+#: admin/partials/seo-forge-admin-display.php:52
+msgid "API Status"
+msgstr "สถานะ API"
+
+#: admin/partials/seo-forge-admin-display.php:57
+msgid "Connected"
+msgstr "เชื่อมต่อแล้ว"
+
+#: admin/partials/seo-forge-admin-display.php:57
+msgid "Disconnected"
+msgstr "ไม่ได้เชื่อมต่อ"
+
+#: admin/partials/seo-forge-admin-display.php:61
+msgid "Unable to connect to SEO-Forge API. Please check your settings."
+msgstr "ไม่สามารถเชื่อมต่อกับ SEO-Forge API กรุณาตรวจสอบการตั้งค่าของคุณ"
+
+#: admin/partials/seo-forge-admin-display.php:68
+msgid "Statistics"
+msgstr "สถิติ"
+
+#: admin/partials/seo-forge-admin-display.php:73
+msgid "Content Generated"
+msgstr "เนื้อหาที่สร้างแล้ว"
+
+#: admin/partials/seo-forge-admin-display.php:77
+msgid "Chat Conversations"
+msgstr "การสนทนาในแชท"
+
+#: admin/partials/seo-forge-admin-display.php:81
+msgid "Images Generated"
+msgstr "รูปภาพที่สร้างแล้ว"
+
+#: admin/partials/seo-forge-admin-display.php:88
+msgid "Quick Actions"
+msgstr "การดำเนินการด่วน"
+
+#: admin/partials/seo-forge-admin-display.php:119
+msgid "Recent Activity"
+msgstr "กิจกรรมล่าสุด"
+
+#: admin/partials/seo-forge-admin-display.php:125
+msgid "No recent activity. Start by generating some content!"
+msgstr "ไม่มีกิจกรรมล่าสุด เริ่มต้นด้วยการสร้างเนื้อหาบางอย่าง!"
+
+#: admin/partials/seo-forge-admin-display.php:131
+msgid "ago"
+msgstr "ที่แล้ว"
+
+#: admin/partials/seo-forge-settings.php:21
+msgid "Settings saved successfully!"
+msgstr "บันทึกการตั้งค่าเรียบร้อยแล้ว!"
+
+#: admin/partials/seo-forge-settings.php:34
+msgid "SEO-Forge Settings"
+msgstr "การตั้งค่า SEO-Forge"
+
+#: admin/partials/seo-forge-settings.php:41
+msgid "API Configuration"
+msgstr "การกำหนดค่า API"
+
+#: admin/partials/seo-forge-settings.php:46
+msgid "API Key"
+msgstr "API Key"
+
+#: admin/partials/seo-forge-settings.php:52
+msgid "Show"
+msgstr "แสดง"
+
+#: admin/partials/seo-forge-settings.php:55
+msgid "Enter your SEO-Forge API key. Leave empty to use default settings."
+msgstr "กรอก API key ของ SEO-Forge ปล่อยว่างเพื่อใช้การตั้งค่าเริ่มต้น"
+
+#: admin/partials/seo-forge-settings.php:61
+msgid "Default Language"
+msgstr "ภาษาเริ่มต้น"
+
+#: admin/partials/seo-forge-settings.php:65
+msgid "English"
+msgstr "อังกฤษ"
+
+#: admin/partials/seo-forge-settings.php:66
+msgid "Thai (ไทย)"
+msgstr "ไทย"
+
+#: admin/partials/seo-forge-settings.php:69
+msgid "Select the default language for content generation and chatbot responses."
+msgstr "เลือกภาษาเริ่มต้นสำหรับการสร้างเนื้อหาและการตอบสนองของแชทบอท"
+
+#: admin/partials/seo-forge-settings.php:75
+msgid "Test API Connection"
+msgstr "ทดสอบการเชื่อมต่อ API"
+
+#: admin/partials/seo-forge-settings.php:82
+msgid "Chatbot Settings"
+msgstr "การตั้งค่าแชทบอท"
+
+#: admin/partials/seo-forge-settings.php:87
+msgid "Enable Chatbot"
+msgstr "เปิดใช้งานแชทบอท"
+
+#: admin/partials/seo-forge-settings.php:91
+msgid "Display chatbot widget on frontend"
+msgstr "แสดงวิดเจ็ตแชทบอทในส่วนหน้า"
+
+#: admin/partials/seo-forge-settings.php:96
+msgid "Chatbot Position"
+msgstr "ตำแหน่งแชทบอท"
+
+#: admin/partials/seo-forge-settings.php:100
+msgid "Bottom Right"
+msgstr "ขวาล่าง"
+
+#: admin/partials/seo-forge-settings.php:101
+msgid "Bottom Left"
+msgstr "ซ้ายล่าง"
+
+#: admin/partials/seo-forge-settings.php:102
+msgid "Top Right"
+msgstr "ขวาบน"
+
+#: admin/partials/seo-forge-settings.php:103
+msgid "Top Left"
+msgstr "ซ้ายบน"
+
+#: admin/partials/seo-forge-settings.php:109
+msgid "Chatbot Color"
+msgstr "สีแชทบอท"
+
+#: admin/partials/seo-forge-settings.php:113
+msgid "Choose the primary color for the chatbot widget."
+msgstr "เลือกสีหลักสำหรับวิดเจ็ตแชทบอท"
+
+#: admin/partials/seo-forge-settings.php:119
+msgid "Save Settings"
+msgstr "บันทึกการตั้งค่า"
+
+#: admin/partials/seo-forge-settings.php:126
+msgid "Hide"
+msgstr "ซ่อน"
+
+#: admin/partials/seo-forge-settings.php:135
+msgid "Testing..."
+msgstr "กำลังทดสอบ..."
+
+#: admin/partials/seo-forge-settings.php:175
+msgid "Connection test failed"
+msgstr "การทดสอบการเชื่อมต่อล้มเหลว"
+
+#: admin/partials/seo-forge-content-generator.php:11
+msgid "Content Generator"
+msgstr "เครื่องมือสร้างเนื้อหา"
+
+#: admin/partials/seo-forge-content-generator.php:18
+msgid "Blog Content"
+msgstr "เนื้อหาบล็อก"
+
+#: admin/partials/seo-forge-content-generator.php:21
+msgid "SEO Optimization"
+msgstr "การปรับปรุง SEO"
+
+#: admin/partials/seo-forge-content-generator.php:24
+msgid "Image Generation"
+msgstr "การสร้างรูปภาพ"
+
+#: admin/partials/seo-forge-content-generator.php:33
+msgid "Generate Blog Content"
+msgstr "สร้างเนื้อหาบล็อก"
+
+#: admin/partials/seo-forge-content-generator.php:34
+msgid "Create SEO-optimized blog posts with AI assistance"
+msgstr "สร้างโพสต์บล็อกที่ปรับปรุง SEO ด้วยความช่วยเหลือของ AI"
+
+#: admin/partials/seo-forge-content-generator.php:40
+msgid "Topic/Title"
+msgstr "หัวข้อ/ชื่อเรื่อง"
+
+#: admin/partials/seo-forge-content-generator.php:41
+msgid "Enter your blog topic or title"
+msgstr "กรอกหัวข้อหรือชื่อเรื่องของบล็อกคุณ"
+
+#: admin/partials/seo-forge-content-generator.php:47
+msgid "Target Keywords"
+msgstr "คีย์เวิร์ดเป้าหมาย"
+
+#: admin/partials/seo-forge-content-generator.php:48
+msgid "Enter keywords separated by commas"
+msgstr "กรอกคีย์เวิร์ดคั่นด้วยจุลภาค"
+
+#: admin/partials/seo-forge-content-generator.php:49
+msgid "Optional: Add target keywords for better SEO optimization"
+msgstr "ทางเลือก: เพิ่มคีย์เวิร์ดเป้าหมายเพื่อการปรับปรุง SEO ที่ดีกว่า"
+
+#: admin/partials/seo-forge-content-generator.php:53
+msgid "Word Count"
+msgstr "จำนวนคำ"
+
+#: admin/partials/seo-forge-content-generator.php:55
+msgid "words"
+msgstr "คำ"
+
+#: admin/partials/seo-forge-content-generator.php:64
+msgid "Generate Content"
+msgstr "สร้างเนื้อหา"
+
+#: admin/partials/seo-forge-content-generator.php:67
+msgid "Get Keyword Suggestions"
+msgstr "รับคำแนะนำคีย์เวิร์ด"
+
+#: admin/partials/seo-forge-content-generator.php:73
+msgid "Generated Content"
+msgstr "เนื้อหาที่สร้างแล้ว"
+
+#: admin/partials/seo-forge-content-generator.php:76
+msgid "Copy"
+msgstr "คัดลอก"
+
+#: admin/partials/seo-forge-content-generator.php:79
+msgid "Create Post"
+msgstr "สร้างโพสต์"
+
+#: admin/partials/seo-forge-content-generator.php:90
+msgid "SEO Optimization Tools"
+msgstr "เครื่องมือปรับปรุง SEO"
+
+#: admin/partials/seo-forge-content-generator.php:91
+msgid "Optimize your content for better search engine rankings"
+msgstr "ปรับปรุงเนื้อหาของคุณเพื่อการจัดอันดับที่ดีกว่าในเครื่องมือค้นหา"
+
+#: admin/partials/seo-forge-content-generator.php:96
+msgid "Title Optimization"
+msgstr "การปรับปรุงหัวข้อ"
+
+#: admin/partials/seo-forge-content-generator.php:100
+msgid "Content"
+msgstr "เนื้อหา"
+
+#: admin/partials/seo-forge-content-generator.php:101
+msgid "Paste your content here to generate an optimized title"
+msgstr "วางเนื้อหาของคุณที่นี่เพื่อสร้างหัวข้อที่ปรับปรุงแล้ว"
+
+#: admin/partials/seo-forge-content-generator.php:105
+msgid "Target Keyword"
+msgstr "คีย์เวิร์ดเป้าหมาย"
+
+#: admin/partials/seo-forge-content-generator.php:106
+msgid "Enter target keyword"
+msgstr "กรอกคีย์เวิร์ดเป้าหมาย"
+
+#: admin/partials/seo-forge-content-generator.php:109
+msgid "Generate Title"
+msgstr "สร้างหัวข้อ"
+
+#: admin/partials/seo-forge-content-generator.php:115
+msgid "Meta Description"
+msgstr "คำอธิบายเมตา"
+
+#: admin/partials/seo-forge-content-generator.php:119
+msgid "Paste your content here to generate a meta description"
+msgstr "วางเนื้อหาของคุณที่นี่เพื่อสร้างคำอธิบายเมตา"
+
+#: admin/partials/seo-forge-content-generator.php:129
+msgid "Generate Meta Description"
+msgstr "สร้างคำอธิบายเมตา"
+
+#: admin/partials/seo-forge-content-generator.php:135
+msgid "SEO Analysis"
+msgstr "การวิเคราะห์ SEO"
+
+#: admin/partials/seo-forge-content-generator.php:139
+msgid "Content to Analyze"
+msgstr "เนื้อหาที่จะวิเคราะห์"
+
+#: admin/partials/seo-forge-content-generator.php:140
+msgid "Paste your content here for SEO analysis"
+msgstr "วางเนื้อหาของคุณที่นี่เพื่อการวิเคราะห์ SEO"
+
+#: admin/partials/seo-forge-content-generator.php:149
+msgid "Analyze SEO"
+msgstr "วิเคราะห์ SEO"
+
+#: admin/partials/seo-forge-content-generator.php:159
+msgid "AI Image Generation"
+msgstr "การสร้างรูปภาพด้วย AI"
+
+#: admin/partials/seo-forge-content-generator.php:160
+msgid "Create custom images for your content using AI"
+msgstr "สร้างรูปภาพที่กำหนดเองสำหรับเนื้อหาของคุณโดยใช้ AI"
+
+#: admin/partials/seo-forge-content-generator.php:167
+msgid "Image Description"
+msgstr "คำอธิบายรูปภาพ"
+
+#: admin/partials/seo-forge-content-generator.php:168
+msgid "Describe the image you want to generate..."
+msgstr "อธิบายรูปภาพที่คุณต้องการสร้าง..."
+
+#: admin/partials/seo-forge-content-generator.php:169
+msgid "Be specific about colors, style, objects, and mood"
+msgstr "ระบุให้เฉพาะเจาะจงเกี่ยวกับสี รูปแบบ วัตถุ และอารมณ์"
+
+#: admin/partials/seo-forge-content-generator.php:175
+msgid "Image Style"
+msgstr "รูปแบบรูปภาพ"
+
+#: admin/partials/seo-forge-content-generator.php:177
+msgid "Realistic"
+msgstr "เหมือนจริง"
+
+#: admin/partials/seo-forge-content-generator.php:178
+msgid "Artistic"
+msgstr "ศิลปะ"
+
+#: admin/partials/seo-forge-content-generator.php:179
+msgid "Cartoon"
+msgstr "การ์ตูน"
+
+#: admin/partials/seo-forge-content-generator.php:180
+msgid "Sketch"
+msgstr "ร่างภาพ"
+
+#: admin/partials/seo-forge-content-generator.php:181
+msgid "Modern"
+msgstr "ทันสมัย"
+
+#: admin/partials/seo-forge-content-generator.php:186
+msgid "Generate Image"
+msgstr "สร้างรูปภาพ"
+
+#: admin/partials/seo-forge-content-generator.php:192
+msgid "Generated Image"
+msgstr "รูปภาพที่สร้างแล้ว"
+
+#: admin/partials/seo-forge-content-generator.php:195
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+#: admin/partials/seo-forge-content-generator.php:198
+msgid "Add to Media Library"
+msgstr "เพิ่มไปยังไลบรารีสื่อ"
+
+#: admin/partials/seo-forge-content-generator.php:210
+msgid "Generating content..."
+msgstr "กำลังสร้างเนื้อหา..."
+
+#: admin/partials/seo-forge-chatbot-settings.php:20
+msgid "Chatbot settings saved successfully!"
+msgstr "บันทึกการตั้งค่าแชทบอทเรียบร้อยแล้ว!"
+
+#: admin/partials/seo-forge-chatbot-settings.php:31
+msgid "Chatbot Configuration"
+msgstr "การกำหนดค่าแชทบอท"
+
+#: admin/partials/seo-forge-chatbot-settings.php:42
+msgid "General Settings"
+msgstr "การตั้งค่าทั่วไป"
+
+#: admin/partials/seo-forge-chatbot-settings.php:63
+msgid "Position"
+msgstr "ตำแหน่ง"
+
+#: admin/partials/seo-forge-chatbot-settings.php:76
+msgid "Primary Color"
+msgstr "สีหลัก"
+
+#: admin/partials/seo-forge-chatbot-settings.php:87
+msgid "Messages & Content"
+msgstr "ข้อความและเนื้อหา"
+
+#: admin/partials/seo-forge-chatbot-settings.php:92
+msgid "Welcome Message"
+msgstr "ข้อความต้อนรับ"
+
+#: admin/partials/seo-forge-chatbot-settings.php:96
+msgid "The first message displayed when users open the chatbot."
+msgstr "ข้อความแรกที่แสดงเมื่อผู้ใช้เปิดแชทบอท"
+
+#: admin/partials/seo-forge-chatbot-settings.php:102
+msgid "Input Placeholder"
+msgstr "ข้อความตัวอย่างในช่องพิมพ์"
+
+#: admin/partials/seo-forge-chatbot-settings.php:106
+msgid "Placeholder text for the message input field."
+msgstr "ข้อความตัวอย่างสำหรับช่องกรอกข้อความ"
+
+#: admin/partials/seo-forge-chatbot-settings.php:113
+msgid "Knowledge Base"
+msgstr "ฐานความรู้"
+
+#: admin/partials/seo-forge-chatbot-settings.php:118
+msgid "Custom Knowledge Base"
+msgstr "ฐานความรู้ที่กำหนดเอง"
+
+#: admin/partials/seo-forge-chatbot-settings.php:120
+msgid "Enter information about your business, services, FAQ, etc. This will help the chatbot provide more relevant responses."
+msgstr "กรอกข้อมูลเกี่ยวกับธุรกิจ บริการ FAQ ฯลฯ ของคุณ สิ่งนี้จะช่วยให้แชทบอทตอบสนองที่เกี่ยวข้องมากขึ้น"
+
+#: admin/partials/seo-forge-chatbot-settings.php:122
+msgid "Add custom information that the chatbot should know about your business. This includes services, products, company info, FAQ, etc."
+msgstr "เพิ่มข้อมูลที่กำหนดเองที่แชทบอทควรรู้เกี่ยวกับธุรกิจของคุณ ซึ่งรวมถึงบริการ ผลิตภัณฑ์ ข้อมูลบริษัท FAQ ฯลฯ"
+
+#: admin/partials/seo-forge-chatbot-settings.php:127
+msgid "Save Chatbot Settings"
+msgstr "บันทึกการตั้งค่าแชทบอท"
+
+#: admin/partials/seo-forge-chatbot-settings.php:132
+msgid "Live Preview"
+msgstr "ตัวอย่างสด"
+
+#: admin/partials/seo-forge-chatbot-settings.php:155
+msgid "This is how the chatbot will appear on your website."
+msgstr "นี่คือวิธีที่แชทบอทจะปรากฏบนเว็บไซต์ของคุณ"
+
+#: admin/partials/seo-forge-chatbot-settings.php:158
+msgid "Test Chatbot"
+msgstr "ทดสอบแชทบอท"
+
+#: admin/partials/seo-forge-chatbot-settings.php:162
+msgid "Type a test message..."
+msgstr "พิมพ์ข้อความทดสอบ..."
+
+#: admin/partials/seo-forge-chatbot-settings.php:180
+msgid "You:"
+msgstr "คุณ:"
+
+#: admin/partials/seo-forge-chatbot-settings.php:186
+msgid "Assistant:"
+msgstr "ผู้ช่วย:"
+
+#: admin/partials/seo-forge-chatbot-settings.php:186
+msgid "Thinking..."
+msgstr "กำลังคิด..."
+
+#: admin/partials/seo-forge-chatbot-settings.php:217
+msgid "Sorry, I encountered an error. Please try again."
+msgstr "ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+
+#: admin/partials/seo-forge-chatbot-settings.php:230
+msgid "Connection error. Please check your API settings."
+msgstr "ข้อผิดพลาดในการเชื่อมต่อ กรุณาตรวจสอบการตั้งค่า API ของคุณ"
+
+#: public/class-seo-forge-public.php:50
+msgid "Hello! I'm your SEO assistant. How can I help you optimize your content today?"
+msgstr "สวัสดี! ฉันเป็นผู้ช่วย SEO ของคุณ วันนี้ฉันจะช่วยคุณปรับปรุงเนื้อหาให้ดีขึ้นได้อย่างไร?"
+
+#: public/class-seo-forge-public.php:51
+msgid "Type your message..."
+msgstr "พิมพ์ข้อความของคุณ..."
+
+#: public/class-seo-forge-public.php:53
+msgid "SEO Assistant"
+msgstr "ผู้ช่วย SEO"
+
+#: public/class-seo-forge-public.php:54
+msgid "Thinking..."
+msgstr "กำลังคิด..."
+
+#: public/class-seo-forge-public.php:55
+msgid "Sorry, I encountered an error. Please try again."
+msgstr "ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+
+#: public/class-seo-forge-public.php:56
+msgid "Network error. Please check your connection."
+msgstr "ข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อของคุณ"

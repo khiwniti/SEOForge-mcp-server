@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "name": "seoforge-mcp-unified",
+  "builds": [
+    {
+      "src": "api/mcp-server.ts",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    },
+    {
+      "src": "api/client.ts",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/mcp/(.*)",
+      "dest": "/api/mcp-server.ts",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-MCP-Version, X-Client-ID"
+      }
+    },
+    {
+      "src": "/client/(.*)",
+      "dest": "/api/client.ts",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    },
+    {
+      "src": "/health",
+      "dest": "/api/health.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/client.ts"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/mcp-server.ts": {
+      "maxDuration": 30
+    },
+    "api/client.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1"]
+}
