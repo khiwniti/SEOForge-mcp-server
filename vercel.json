@@ -1,108 +1,47 @@
 {
   "version": 2,
-  "name": "seoforge-mcp-unified",
+  "name": "seoforge-mcp-server",
   "builds": [
     {
-      "src": "mcp-server-unified/api/mcp-server.ts",
+      "src": "backend-express/package.json",
       "use": "@vercel/node",
       "config": {
-        "maxLambdaSize": "50mb"
-      }
-    },
-    {
-      "src": "mcp-server-unified/api/client.ts",
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
-    },
-    {
-      "src": "mcp-server-unified/api/health.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "buildCommand": "cd frontend && npm install && npm run build",
-        "distDir": "frontend/dist"
+        "maxLambdaSize": "50mb",
+        "buildCommand": "cd backend-express && npm install && npm run build"
       }
     }
   ],
   "routes": [
     {
-      "src": "/mcp/(.*)",
-      "dest": "/mcp-server-unified/api/mcp-server.ts",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-API-Key, X-MCP-Version, X-Client-ID"
-      }
-    },
-    {
-      "src": "/client/(.*)",
-      "dest": "/mcp-server-unified/api/client.ts",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
-    },
-    {
-      "src": "/health",
-      "dest": "/mcp-server-unified/api/health.ts",
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/mcp-server-unified/api/$1.ts"
-    },
-    {
-      "src": "/wordpress/(.*)",
-      "dest": "/mcp-server-unified/api/mcp-server.ts",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-WordPress-Key, X-WordPress-Site"
-      }
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "frontend/dist/static/$1"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "frontend/dist/assets/$1"
-    },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
-      "dest": "frontend/dist/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/mcp-server-unified/api/client.ts"
+      "dest": "backend-express/dist/server.js"
     }
   ],
   "env": {
-    "NODE_VERSION": "18",
-    "VITE_API_URL": "https://seoforge-mcp-unified.vercel.app"
+    "NODE_ENV": "production",
+    "PORT": "3000",
+    "HOST": "0.0.0.0",
+    "LOG_LEVEL": "info",
+    "CORS_ORIGINS": "*",
+    "CORS_CREDENTIALS": "true",
+    "JWT_SECRET": "@jwt_secret",
+    "VALID_API_KEYS": "@valid_api_keys",
+    "OPENAI_API_KEY": "@openai_api_key",
+    "GOOGLE_API_KEY": "@google_api_key",
+    "ANTHROPIC_API_KEY": "@anthropic_api_key",
+    "REPLICATE_API_TOKEN": "@replicate_api_token",
+    "TOGETHER_API_KEY": "@together_api_key",
+    "ALLOW_REGISTRATION": "true",
+    "ENABLE_SWAGGER_DOCS": "true",
+    "ENABLE_METRICS": "true"
   },
   "functions": {
-    "mcp-server-unified/api/mcp-server.ts": {
+    "backend-express/dist/server.js": {
       "maxDuration": 30
-    },
-    "mcp-server-unified/api/client.ts": {
-      "maxDuration": 30
-    },
-    "mcp-server-unified/api/health.ts": {
-      "maxDuration": 10
     }
   },
   "buildEnvironment": {
-    "NODE_ENV": "production",
-    "VITE_API_URL": "https://seoforge-mcp-unified.vercel.app"
+    "NODE_ENV": "production"
   },
   "regions": ["iad1"],
   "framework": null
