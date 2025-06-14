@@ -1,29 +1,30 @@
-# SEOForge MCP Server - Production Ready WordPress Integration
+# SEOForge MCP Server
 
-This project implements a production-ready WordPress plugin with an integrated MCP (Model Context Protocol) server for AI-powered SEO content generation and analysis. The system is designed to work seamlessly between WordPress sites and the MCP server deployed on Vercel.
+A comprehensive MCP (Model Context Protocol) server for AI-powered SEO content generation, analysis, and WordPress integration. This project provides multiple deployment options and clean, organized dependencies.
 
 ## 🚀 Project Structure
 
 ```
-wordpress-plugin-with-mcp-server/
-├── backend/
-│   ├── api/
-│   │   ├── mcp-server.py          # MCP Protocol Server Implementation
-│   │   ├── wordpress.py           # WordPress Authentication & Rate Limiting
-│   │   └── wordpress_plugin.py    # WordPress Plugin API Endpoints
-│   ├── main.py                    # Main FastAPI application
-│   └── requirements.txt           # Python dependencies
-├── frontend/                      # React frontend application
-├── wordpress-plugin/              # WordPress Plugin Files
-│   ├── seoforge-mcp.php          # Main plugin file
-│   └── assets/
-│       ├── js/
-│       │   ├── admin.js          # Admin interface JavaScript
-│       │   └── frontend.js       # Frontend enhancements
-│       └── css/
-│           └── admin.css         # Admin interface styles
-├── vercel.json                    # Vercel deployment configuration
-└── README.md                      # This file
+SEOForge-mcp-server/
+├── backend/                       # FastAPI backend server
+│   ├── api/                      # API endpoints
+│   ├── main.py                   # Main application
+│   ├── requirements.txt          # Backend dependencies
+│   └── pyproject.toml           # Modern Python project config
+├── frontend/                     # React frontend application
+│   ├── src/                     # Source code
+│   ├── package.json             # Frontend dependencies
+│   └── vite.config.ts           # Vite configuration
+├── mcp-server-unified/           # Unified MCP server for Vercel
+├── seo-forge-mcp-server/         # Original MCP server implementation
+├── seo-forge-plugin/             # WordPress plugin
+├── SeoForgeWizard-Clean/         # Clean WordPress plugin version
+├── docs/                         # Documentation files
+├── tests/                        # Test files and HTML demos
+├── releases/                     # Release archives
+├── requirements.txt              # Core Python dependencies
+├── requirements-consolidated.txt # All dependencies consolidated
+└── package.json                  # Node.js project configuration
 ```
 
 ## MCP Server Features

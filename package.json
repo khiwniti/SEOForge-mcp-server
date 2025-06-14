@@ -1,7 +1,7 @@
 {
-  "name": "universal-mcp-server",
-  "version": "3.0.0",
-  "description": "Universal MCP Server with AI-powered content generation, chatbot, and SEO analysis",
+  "name": "seoforge-mcp-server",
+  "version": "1.2.0",
+  "description": "SEOForge MCP Server with AI-powered content generation, chatbot, and SEO analysis",
   "main": "cloudflare-worker.js",
   "scripts": {
     "deploy": "wrangler deploy",
@@ -26,7 +26,7 @@
     "gemini",
     "universal"
   ],
-  "author": "Universal MCP Team",
+  "author": "SEOForge Team",
   "license": "MIT",
   "devDependencies": {
     "wrangler": "^3.0.0"

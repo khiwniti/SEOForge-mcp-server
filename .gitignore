@@ -145,3 +145,13 @@ bower_components/
 # Temporary folders
 tmp/
 temp/
+
+# Generated content
+generated_images/
+.browser_screenshots/
+releases/
+
+# Lock files (keep only one per package manager)
+package-lock.json
+yarn.lock
+uv.lock
