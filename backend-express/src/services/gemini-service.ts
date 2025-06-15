@@ -119,6 +119,13 @@ export class GeminiService {
     language?: string;
     tone?: string;
     length?: 'short' | 'medium' | 'long';
+    seoRequirements?: {
+      target_keyword: string;
+      keyword_density: string;
+      meta_description_length: number;
+      title_length: number;
+      min_word_count: number;
+    };
   }): Promise<GeminiResponse> {
     const systemInstruction = `You are an expert SEO content writer with deep knowledge of search engine optimization, content marketing, and user engagement. Your task is to create high-quality, SEO-optimized content that ranks well in search engines while providing genuine value to readers.
 

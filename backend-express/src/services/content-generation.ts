@@ -24,10 +24,23 @@ interface ContentRequest {
   tone?: string;
   length?: 'short' | 'medium' | 'long';
   context?: any;
+  seo_requirements?: {
+    target_keyword: string;
+    keyword_density: string;
+    meta_description_length: number;
+    title_length: number;
+    min_word_count: number;
+  };
 }
 
 interface ContentResponse {
+  title?: string;
   content: string;
+  excerpt?: string;
+  meta_description?: string;
+  summary?: string;
+  html?: string;
+  description?: string;
   seo_score: number;
   suggestions: string[];
   metadata: {
@@ -74,20 +87,28 @@ export class ContentGenerationService {
         contentType: request.type,
         language: request.language,
         tone: request.tone,
-        length: request.length
+        length: request.length,
+        seoRequirements: request.seo_requirements
       });
 
-      const content = geminiResponse.text;
+      // Extract structured content from Gemini response
+      const structuredContent = this.parseStructuredContent(geminiResponse.text, request);
 
       // Analyze and optimize the generated content using Gemini
-      const analysis = await this.gemini.analyzeContent(content, request.keywords || []);
+      const analysis = await this.gemini.analyzeContent(structuredContent.content, request.keywords || []);
       
       return {
-        content,
+        title: structuredContent.title,
+        content: structuredContent.content,
+        html: structuredContent.content, // Alias for compatibility
+        excerpt: structuredContent.excerpt,
+        summary: structuredContent.excerpt, // Alias for compatibility
+        meta_description: structuredContent.meta_description,
+        description: structuredContent.meta_description, // Alias for compatibility
         seo_score: analysis.score,
         suggestions: analysis.suggestions,
         metadata: {
-          word_count: content.split(/\s+/).length,
+          word_count: structuredContent.content.replace(/<[^>]*>/g, '').split(/\s+/).length,
           keyword_density: analysis.keywordAnalysis,
           readability_score: analysis.readabilityScore
         }
@@ -97,6 +118,178 @@ export class ContentGenerationService {
       console.warn('Gemini failed, falling back to other models:', error);
       return await this.generateContentFallback(request);
     }
+  }
+
+  private parseStructuredContent(rawContent: string, request: ContentRequest): {
+    title: string;
+    content: string;
+    excerpt: string;
+    meta_description: string;
+  } {
+    // Try to extract structured content from Gemini response
+    const lines = rawContent.split('\n');
+    let title = '';
+    let content = '';
+    let excerpt = '';
+    let meta_description = '';
+
+    // Look for structured markers in the response
+    let currentSection = '';
+    for (const line of lines) {
+      const trimmed = line.trim();
+      
+      if (trimmed.toLowerCase().includes('title:') || trimmed.toLowerCase().includes('# ')) {
+        title = trimmed.replace(/^(title:|#)\s*/i, '').trim();
+      } else if (trimmed.toLowerCase().includes('excerpt:')) {
+        excerpt = trimmed.replace(/^excerpt:\s*/i, '').trim();
+      } else if (trimmed.toLowerCase().includes('meta description:')) {
+        meta_description = trimmed.replace(/^meta description:\s*/i, '').trim();
+      } else if (trimmed.toLowerCase().includes('content:')) {
+        currentSection = 'content';
+        continue;
+      } else if (currentSection === 'content' && trimmed) {
+        content += line + '\n';
+      } else if (!title && !content && trimmed) {
+        // If no structured format, treat as content
+        content += line + '\n';
+      }
+    }
+
+    // Fallback: generate missing parts
+    if (!title) {
+      title = this.generateTitle(request.topic, request.keywords?.[0] || '');
+    }
+    
+    if (!content) {
+      content = rawContent; // Use the entire response as content
+    }
+    
+    if (!excerpt) {
+      excerpt = this.generateExcerpt(content, request.language);
+    }
+    
+    if (!meta_description) {
+      meta_description = this.generateMetaDescription(request.topic, request.keywords?.[0] || '', request.language);
+    }
+
+    return {
+      title: title.substring(0, request.seo_requirements?.title_length || 60),
+      content: this.formatContentHTML(content, request),
+      excerpt: excerpt.substring(0, request.language === 'th' ? 100 : 160),
+      meta_description: meta_description.substring(0, request.seo_requirements?.meta_description_length || 160)
+    };
+  }
+
+  private generateTitle(topic: string, keyword: string): string {
+    if (keyword && !topic.toLowerCase().includes(keyword.toLowerCase())) {
+      return `${topic} - ${keyword} Guide`;
+    }
+    return topic;
+  }
+
+  private generateExcerpt(content: string, language?: string): string {
+    const plainText = content.replace(/<[^>]*>/g, '').trim();
+    const sentences = plainText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    
+    if (sentences.length === 0) return '';
+    
+    const maxLength = language === 'th' ? 100 : 160;
+    let excerpt = sentences[0].trim();
+    
+    if (excerpt.length > maxLength) {
+      excerpt = excerpt.substring(0, maxLength - 3) + '...';
+    }
+    
+    return excerpt;
+  }
+
+  private generateMetaDescription(topic: string, keyword: string, language?: string): string {
+    const maxLength = language === 'th' ? 100 : 160;
+    let description = '';
+    
+    if (language === 'th') {
+      description = `เรียนรู้เกี่ยวกับ ${topic}${keyword ? ` และ ${keyword}` : ''} ในคู่มือฉบับสมบูรณ์นี้`;
+    } else {
+      description = `Learn about ${topic}${keyword ? ` and ${keyword}` : ''} in this comprehensive guide.`;
+    }
+    
+    if (description.length > maxLength) {
+      description = description.substring(0, maxLength - 3) + '...';
+    }
+    
+    return description;
+  }
+
+  private formatContentHTML(content: string, request: ContentRequest): string {
+    // Ensure proper HTML structure for blog posts
+    if (request.type === 'blog') {
+      return this.formatBlogHTML(content, request);
+    }
+    
+    // For other content types, ensure basic HTML formatting
+    if (!content.includes('<')) {
+      // Convert plain text to HTML
+      return content
+        .split('\n\n')
+        .map(paragraph => paragraph.trim())
+        .filter(p => p.length > 0)
+        .map(p => `<p>${p}</p>`)
+        .join('\n');
+    }
+    
+    return content;
+  }
+
+  private formatBlogHTML(content: string, request: ContentRequest): string {
+    const keyword = request.keywords?.[0] || request.topic;
+    const language = request.language || 'en';
+    
+    // If content doesn't have proper structure, create it
+    if (!content.includes('<h2>')) {
+      return this.createStructuredBlogContent(content, keyword, language);
+    }
+    
+    return content;
+  }
+
+  private createStructuredBlogContent(content: string, keyword: string, language: string): string {
+    const sections = language === 'th' ? {
+      intro: 'บทนำ',
+      what: `${keyword} คืออะไร?`,
+      benefits: `ประโยชน์ของ ${keyword}`,
+      howTo: `วิธีเริ่มต้นกับ ${keyword}`,
+      bestPractices: `แนวทางปฏิบัติที่ดีที่สุดสำหรับ ${keyword}`,
+      mistakes: 'ข้อผิดพลาดที่ควรหลีกเลี่ยง',
+      conclusion: 'บทสรุป'
+    } : {
+      intro: 'Introduction',
+      what: `What is ${keyword}?`,
+      benefits: `Benefits of ${keyword}`,
+      howTo: `How to Get Started with ${keyword}`,
+      bestPractices: `Best Practices for ${keyword}`,
+      mistakes: 'Common Mistakes to Avoid',
+      conclusion: 'Conclusion'
+    };
+
+    // Split content into paragraphs and create structured HTML
+    const paragraphs = content.split('\n\n').filter(p => p.trim().length > 0);
+    const sectionsPerPart = Math.ceil(paragraphs.length / 7);
+    
+    let html = `<h2>${sections.intro}</h2>\n<p>${paragraphs[0] || `Learn about ${keyword} in this comprehensive guide.`}</p>\n\n`;
+    
+    let currentIndex = 1;
+    Object.values(sections).slice(1, -1).forEach(sectionTitle => {
+      html += `<h2>${sectionTitle}</h2>\n`;
+      for (let i = 0; i < sectionsPerPart && currentIndex < paragraphs.length; i++) {
+        html += `<p>${paragraphs[currentIndex]}</p>\n`;
+        currentIndex++;
+      }
+      html += '\n';
+    });
+    
+    html += `<h2>${sections.conclusion}</h2>\n<p>${paragraphs[paragraphs.length - 1] || `${keyword} is an important topic that requires careful consideration and implementation.`}</p>`;
+    
+    return html;
   }
 
   private async generateContentFallback(request: ContentRequest): Promise<ContentResponse> {
@@ -118,7 +311,7 @@ export class ContentGenerationService {
           content = await this.generateCategoryDescription(request, model);
           break;
         case 'meta':
-          content = await this.generateMetaDescription(request, model);
+          content = await this.generateMetaDescriptionContent(request, model);
           break;
         default:
           throw new Error(`Unsupported content type: ${request.type}`);
@@ -166,7 +359,7 @@ export class ContentGenerationService {
     return await this.callAIModel(model, prompt);
   }
 
-  private async generateMetaDescription(request: ContentRequest, model: string): Promise<string> {
+  private async generateMetaDescriptionContent(request: ContentRequest, model: string): Promise<string> {
     const prompt = this.buildMetaPrompt(request);
     return await this.callAIModel(model, prompt);
   }

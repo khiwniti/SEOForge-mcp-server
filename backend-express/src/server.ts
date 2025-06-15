@@ -25,6 +25,7 @@ import { healthRoutes } from './routes/health.js';
 import { mcpRoutes } from './routes/mcp.js';
 import { apiRoutes } from './routes/api.js';
 import { authRoutes } from './routes/auth.js';
+import { v1Routes } from './routes/v1.js';
 
 // Import MCP services
 import { MCPServiceManager } from './services/mcp-service-manager.js';
@@ -127,7 +128,8 @@ app.use(requestLogger);
 app.use('/health', healthRoutes);
 app.use('/auth', authRoutes);
 app.use('/mcp', mcpRoutes);
-app.use('/api', apiRoutes);
+app.use('/api/v1', v1Routes);  // SEO-Forge WordPress plugin compatibility
+app.use('/api', apiRoutes);    // Legacy API routes
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -140,7 +142,8 @@ app.get('/', (req, res) => {
       health: '/health',
       auth: '/auth',
       mcp: '/mcp',
-      api: '/api',
+      'api-v1': '/api/v1',  // SEO-Forge WordPress plugin compatibility
+      api: '/api',          // Legacy API routes
       docs: CONFIG.server.environment === 'development' ? '/docs' : undefined
     }
   });
