@@ -12,7 +12,9 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts",
     "clean": "rm -rf dist",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "vercel-build": "npm run build",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "express",

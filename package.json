@@ -1,7 +1,7 @@
 {
   "name": "seoforge-mcp-server",
   "version": "1.2.0",
-  "description": "SEOForge MCP Server with AI-powered content generation, chatbot, and SEO analysis",
+  "description": "SEOForge MCP Server with AI-powered content generation, chatbot, and SEO analysis (Cloudflare Workers)",
   "main": "cloudflare-worker.js",
   "scripts": {
     "deploy": "wrangler deploy",

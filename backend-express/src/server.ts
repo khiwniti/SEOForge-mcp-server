@@ -214,7 +214,9 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-// Start the server
-startServer();
+// Start the server only if not in Vercel environment
+if (process.env.VERCEL !== '1') {
+  startServer();
+}
 
 export { app, CONFIG, logger };
