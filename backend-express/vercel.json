@@ -14,7 +14,8 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "GOOGLE_API_KEY": "AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo"
   },
   "functions": {
     "api/index.ts": {

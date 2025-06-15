@@ -2,10 +2,8 @@
 
 /**
  * Local test script for SEOForge Express Backend
- * Tests the API endpoints locally before deployment
+ * Tests the API endpoints and Gemini 2.5 Pro integration
  */
-
-import fetch from 'node-fetch';
 
 const BASE_URL = 'http://localhost:8000';
 
@@ -35,16 +33,57 @@ async function testEndpoint(endpoint, method = 'GET', body = null) {
   }
 }
 
+async function testGeminiIntegration() {
+  console.log('\n🤖 Testing Gemini 2.5 Pro Integration...\n');
+  
+  // Test content generation with Gemini
+  const contentRequest = {
+    tool: 'generate_content',
+    arguments: {
+      type: 'blog',
+      topic: 'SEO Best Practices 2024',
+      keywords: ['SEO', 'optimization', 'ranking'],
+      language: 'en',
+      tone: 'professional',
+      length: 'short'
+    }
+  };
+  
+  await testEndpoint('/mcp/execute', 'POST', contentRequest);
+  
+  // Test SEO analysis
+  const seoRequest = {
+    tool: 'analyze_seo',
+    arguments: {
+      content: 'This is a sample blog post about SEO optimization and ranking factors.',
+      target_keywords: ['SEO', 'optimization', 'ranking']
+    }
+  };
+  
+  await testEndpoint('/mcp/execute', 'POST', seoRequest);
+}
+
 async function runTests() {
-  console.log('🧪 Testing SEOForge Express Backend...\n');
+  console.log('🧪 Testing SEOForge Express Backend with Gemini 2.5 Pro...\n');
   
   // Test basic endpoints
   await testEndpoint('/');
   await testEndpoint('/health');
   
-  console.log('\n🎉 Local tests completed!');
+  // Test Gemini integration
+  await testGeminiIntegration();
+  
+  console.log('\n🎉 All tests completed!');
+  console.log('🔥 Gemini 2.5 Pro is configured for enhanced accuracy');
   console.log('💡 To run the server locally: npm run dev');
   console.log('🚀 To deploy to Vercel: ./deploy-vercel.sh');
 }
 
-runTests();
+// Check if fetch is available (Node.js 18+)
+if (typeof fetch === 'undefined') {
+  console.log('❌ This script requires Node.js 18+ with built-in fetch');
+  console.log('💡 Alternative: npm install node-fetch and update imports');
+  process.exit(1);
+}
+
+runTests().catch(console.error);

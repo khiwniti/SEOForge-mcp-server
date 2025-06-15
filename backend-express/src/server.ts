@@ -72,6 +72,12 @@ const CONFIG = {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 1000, // limit each IP to 1000 requests per windowMs
     message: 'Too many requests from this IP, please try again later.'
+  },
+  ai: {
+    // Prioritize Google Gemini 2.5 Pro for enhanced accuracy
+    googleApiKey: process.env.GOOGLE_API_KEY || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo',
+    openaiApiKey: process.env.OPENAI_API_KEY,
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY
   }
 };
 

@@ -60,7 +60,8 @@ export class MCPServiceManager {
       logger.info('Initializing MCP services...');
 
       const config = {
-        googleApiKey: process.env.GOOGLE_API_KEY || '',
+        // Prioritize Google Gemini 2.5 Pro for enhanced accuracy
+        googleApiKey: process.env.GOOGLE_API_KEY || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo',
         openaiApiKey: process.env.OPENAI_API_KEY || '',
         anthropicApiKey: process.env.ANTHROPIC_API_KEY || '',
         replicateToken: process.env.REPLICATE_API_TOKEN || '',

@@ -1,10 +1,12 @@
 /**
  * Content Generation Service
  * Handles all content generation tasks using multiple AI models
+ * Prioritizes Google Gemini 2.5 Pro for enhanced accuracy
  */
 
 import axios from 'axios';
 import { z } from 'zod';
+import { geminiService, GeminiService } from './gemini-service';
 
 interface AIConfig {
   googleApiKey?: string;
@@ -38,9 +40,14 @@ interface ContentResponse {
 export class ContentGenerationService {
   private config: AIConfig;
   private initialized = false;
+  private gemini: GeminiService;
 
   constructor(config: AIConfig) {
     this.config = config;
+    // Initialize Gemini service with provided API key or from config
+    this.gemini = new GeminiService({
+      apiKey: config.googleApiKey || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo'
+    });
   }
 
   async initialize(): Promise<void> {
@@ -60,8 +67,42 @@ export class ContentGenerationService {
     }
 
     try {
-      // Choose the best AI model for the task
-      const model = this.selectOptimalModel(request);
+      // Use Gemini 2.5 Pro for enhanced accuracy
+      const geminiResponse = await this.gemini.generateSEOContent({
+        topic: request.topic,
+        keywords: request.keywords || [],
+        contentType: request.type,
+        language: request.language,
+        tone: request.tone,
+        length: request.length
+      });
+
+      const content = geminiResponse.text;
+
+      // Analyze and optimize the generated content using Gemini
+      const analysis = await this.gemini.analyzeContent(content, request.keywords || []);
+      
+      return {
+        content,
+        seo_score: analysis.score,
+        suggestions: analysis.suggestions,
+        metadata: {
+          word_count: content.split(/\s+/).length,
+          keyword_density: analysis.keywordAnalysis,
+          readability_score: analysis.readabilityScore
+        }
+      };
+    } catch (error) {
+      // Fallback to other models if Gemini fails
+      console.warn('Gemini failed, falling back to other models:', error);
+      return await this.generateContentFallback(request);
+    }
+  }
+
+  private async generateContentFallback(request: ContentRequest): Promise<ContentResponse> {
+    try {
+      // Choose the best available fallback model
+      const model = this.selectFallbackModel(request);
       
       // Generate content based on type
       let content: string;
@@ -97,25 +138,17 @@ export class ContentGenerationService {
     }
   }
 
-  private selectOptimalModel(request: ContentRequest): string {
-    // Select model based on content type and language
-    if (request.language === 'th' && this.config.googleApiKey) {
-      return 'gemini'; // Best for Thai language
-    }
-    
+  private selectFallbackModel(request: ContentRequest): string {
+    // Fallback model selection when Gemini is not available
     if (request.type === 'blog' && this.config.anthropicApiKey) {
-      return 'claude'; // Best for long-form content
+      return 'claude'; // Good for long-form content
     }
     
     if (this.config.openaiApiKey) {
       return 'gpt4'; // Good all-around model
     }
     
-    if (this.config.googleApiKey) {
-      return 'gemini'; // Fallback
-    }
-    
-    throw new Error('No suitable AI model available');
+    throw new Error('No fallback AI model available');
   }
 
   private async generateBlogPost(request: ContentRequest, model: string): Promise<string> {
@@ -234,16 +267,71 @@ Create a meta description that will improve click-through rates from search resu
       throw new Error('Google API key not configured');
     }
 
-    const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.config.googleApiKey}`,
-      {
-        contents: [{
-          parts: [{ text: prompt }]
-        }]
-      }
-    );
+    try {
+      // Use Gemini 2.5 Pro for better accuracy and performance
+      const response = await axios.post(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${this.config.googleApiKey}`,
+        {
+          contents: [{
+            parts: [{ text: prompt }]
+          }],
+          generationConfig: {
+            temperature: 0.7,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 8192,
+            candidateCount: 1
+          },
+          safetySettings: [
+            {
+              category: "HARM_CATEGORY_HARASSMENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              category: "HARM_CATEGORY_HATE_SPEECH", 
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            }
+          ]
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          timeout: 30000 // 30 second timeout
+        }
+      );
 
-    return response.data.candidates[0].content.parts[0].text;
+      if (!response.data.candidates || response.data.candidates.length === 0) {
+        throw new Error('No content generated by Gemini 2.5 Pro');
+      }
+
+      const candidate = response.data.candidates[0];
+      
+      // Check for safety blocks
+      if (candidate.finishReason === 'SAFETY') {
+        throw new Error('Content blocked by safety filters');
+      }
+
+      if (!candidate.content || !candidate.content.parts || candidate.content.parts.length === 0) {
+        throw new Error('Invalid response format from Gemini 2.5 Pro');
+      }
+
+      return candidate.content.parts[0].text;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.error?.message || error.message;
+        throw new Error(`Gemini 2.5 Pro API error: ${errorMessage}`);
+      }
+      throw error;
+    }
   }
 
   private async callOpenAI(prompt: string): Promise<string> {

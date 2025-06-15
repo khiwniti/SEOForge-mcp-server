@@ -36,15 +36,17 @@ cd backend-express
 
 ### 3. Environment Variables
 
-Set these in your Vercel dashboard:
+The backend is pre-configured with Google Gemini 2.5 Pro for enhanced accuracy. Set these additional variables in your Vercel dashboard if needed:
 
 ```env
 NODE_ENV=production
-GOOGLE_API_KEY=your_google_api_key
-OPENAI_API_KEY=your_openai_api_key
-ANTHROPIC_API_KEY=your_anthropic_api_key
+GOOGLE_API_KEY=AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo  # Pre-configured
+OPENAI_API_KEY=your_openai_api_key  # Optional fallback
+ANTHROPIC_API_KEY=your_anthropic_api_key  # Optional fallback
 CORS_ORIGINS=https://your-frontend-domain.com
 ```
+
+**Note**: Google Gemini 2.5 Pro is prioritized for all AI tasks due to superior accuracy and performance.
 
 ## Manual Deployment
 
