@@ -3,26 +3,27 @@
   "name": "seoforge-backend-express",
   "builds": [
     {
-      "src": "dist/server.js",
+      "src": "api/index.ts",
       "use": "@vercel/node",
       "config": {
-        "maxLambdaSize": "50mb"
+        "maxLambdaSize": "50mb",
+        "runtime": "nodejs18.x"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/server.js"
+      "dest": "/api/index.ts"
     }
   ],
   "env": {
-    "NODE_ENV": "production",
-    "GOOGLE_API_KEY": "AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo"
+    "NODE_ENV": "production"
   },
   "functions": {
-    "dist/server.js": {
-      "maxDuration": 30
+    "api/index.ts": {
+      "maxDuration": 30,
+      "memory": 1024
     }
   },
   "headers": [
@@ -40,8 +41,18 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization, X-API-Key, X-MCP-Version, X-Client-ID"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=1, stale-while-revalidate"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
     }
   ]
 }

@@ -11,10 +11,12 @@
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "prepare": "npm run build",
     "vercel-build": "npm run clean && npm run build",
-    "postinstall": "echo 'Build completed successfully'"
+    "postinstall": "echo 'Build completed successfully'",
+    "type-check": "tsc --noEmit",
+    "build:vercel": "npm run clean && npm run type-check && tsc --project tsconfig.json"
   },
   "keywords": [
     "express",
@@ -36,6 +38,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.4.0",
+    "@vercel/node": "^3.0.21",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -54,7 +57,9 @@
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
     "yamljs": "^0.3.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "node-cache": "^5.1.2",
+    "ioredis": "^5.3.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -75,6 +80,7 @@
     "eslint": "^8.54.0",
     "jest": "^29.7.0",
     "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
     "ts-jest": "^29.1.1",
     "tsx": "^4.6.2",
     "typescript": "^5.3.2"

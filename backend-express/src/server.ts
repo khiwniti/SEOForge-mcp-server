@@ -33,7 +33,9 @@ import { MCPServiceManager } from './services/mcp-service-manager.js';
 // Load environment variables
 dotenv.config();
 
-// Logger setup
+// Logger setup optimized for serverless
+const isServerless = process.env.VERCEL === '1' || process.env.AWS_LAMBDA_FUNCTION_NAME;
+
 const logger = createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: format.combine(
@@ -48,13 +50,16 @@ const logger = createLogger({
         format.simple()
       )
     }),
-    new transports.File({
-      filename: 'logs/error.log',
-      level: 'error'
-    }),
-    new transports.File({
-      filename: 'logs/combined.log'
-    })
+    // Only add file transports in non-serverless environments
+    ...(isServerless ? [] : [
+      new transports.File({
+        filename: 'logs/error.log',
+        level: 'error'
+      }),
+      new transports.File({
+        filename: 'logs/combined.log'
+      })
+    ])
   ]
 });
 
@@ -76,9 +81,18 @@ const CONFIG = {
   },
   ai: {
     // Prioritize Google Gemini 2.5 Pro for enhanced accuracy
-    googleApiKey: process.env.GOOGLE_API_KEY || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo',
+    googleApiKey: process.env.GOOGLE_API_KEY,
     openaiApiKey: process.env.OPENAI_API_KEY,
     anthropicApiKey: process.env.ANTHROPIC_API_KEY
+  },
+  cache: {
+    enabled: process.env.ENABLE_CACHING !== 'false',
+    ttl: parseInt(process.env.CACHE_TTL || '3600'),
+    redisUrl: process.env.REDIS_URL
+  },
+  performance: {
+    requestTimeout: parseInt(process.env.REQUEST_TIMEOUT || '30000'),
+    maxContentLength: process.env.MAX_CONTENT_LENGTH || '10mb'
   }
 };
 
@@ -117,9 +131,18 @@ app.use(cors({
 // Rate limiting
 app.use(rateLimit(CONFIG.rateLimit));
 
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Body parsing middleware with configurable limits
+app.use(express.json({
+  limit: CONFIG.performance.maxContentLength,
+  verify: (req, res, buf) => {
+    // Add request size tracking for monitoring
+    (req as any).contentLength = buf.length;
+  }
+}));
+app.use(express.urlencoded({
+  extended: true,
+  limit: CONFIG.performance.maxContentLength
+}));
 
 // Request logging middleware
 app.use(requestLogger);

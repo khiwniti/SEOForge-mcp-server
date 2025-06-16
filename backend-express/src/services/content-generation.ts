@@ -6,6 +6,7 @@
 
 import axios from 'axios';
 import { z } from 'zod';
+import NodeCache from 'node-cache';
 import { geminiService, GeminiService } from './gemini-service.js';
 
 interface AIConfig {
@@ -54,29 +55,128 @@ export class ContentGenerationService {
   private config: AIConfig;
   private initialized = false;
   private gemini: GeminiService;
+  private cache: NodeCache;
+  private contentTemplates: Map<string, any>;
+  private performanceMetrics: Map<string, any>;
 
   constructor(config: AIConfig) {
     this.config = config;
     // Initialize Gemini service with provided API key or from config
     this.gemini = new GeminiService({
-      apiKey: config.googleApiKey || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo'
+      apiKey: config.googleApiKey || process.env.GOOGLE_API_KEY || ''
     });
+
+    // Initialize cache with 1 hour TTL
+    this.cache = new NodeCache({
+      stdTTL: 3600, // 1 hour
+      checkperiod: 600, // Check for expired keys every 10 minutes
+      useClones: false
+    });
+
+    // Initialize content templates
+    this.contentTemplates = new Map();
+    this.performanceMetrics = new Map();
+
+    this.initializeContentTemplates();
   }
 
   async initialize(): Promise<void> {
     if (this.initialized) return;
-    
+
     // Log warning if no API keys are configured, but don't fail initialization
     if (!this.config.googleApiKey && !this.config.openaiApiKey && !this.config.anthropicApiKey) {
       console.warn('Warning: No AI API keys configured. Content generation will not be available.');
     }
-    
+
+    // Initialize performance tracking
+    this.initializePerformanceTracking();
+
     this.initialized = true;
+    console.log('Content Generation Service initialized with enhanced features');
+  }
+
+  private initializeContentTemplates(): void {
+    // Blog post templates
+    this.contentTemplates.set('blog_comprehensive', {
+      sections: [
+        'introduction',
+        'problem_definition',
+        'solution_overview',
+        'detailed_steps',
+        'best_practices',
+        'common_mistakes',
+        'case_studies',
+        'conclusion'
+      ],
+      minWordCount: 1500,
+      seoOptimized: true
+    });
+
+    this.contentTemplates.set('blog_howto', {
+      sections: [
+        'introduction',
+        'prerequisites',
+        'step_by_step_guide',
+        'troubleshooting',
+        'advanced_tips',
+        'conclusion'
+      ],
+      minWordCount: 1000,
+      seoOptimized: true
+    });
+
+    // Product description templates
+    this.contentTemplates.set('product_detailed', {
+      sections: [
+        'overview',
+        'key_features',
+        'benefits',
+        'specifications',
+        'use_cases',
+        'comparison',
+        'call_to_action'
+      ],
+      minWordCount: 300,
+      conversionOptimized: true
+    });
+
+    // Category page templates
+    this.contentTemplates.set('category_comprehensive', {
+      sections: [
+        'category_overview',
+        'subcategories',
+        'buying_guide',
+        'featured_products',
+        'related_categories'
+      ],
+      minWordCount: 500,
+      navigationOptimized: true
+    });
+  }
+
+  private initializePerformanceTracking(): void {
+    this.performanceMetrics.set('generation_times', []);
+    this.performanceMetrics.set('success_rates', []);
+    this.performanceMetrics.set('cache_hit_rates', []);
+    this.performanceMetrics.set('model_performance', new Map());
   }
 
   async generateContent(request: ContentRequest): Promise<ContentResponse> {
+    const startTime = Date.now();
+
     if (!this.initialized) {
       throw new Error('Service not initialized');
+    }
+
+    // Validate request
+    this.validateContentRequest(request);
+
+    // Check cache first
+    const cacheKey = this.generateCacheKey(request);
+    const cachedResult = this.cache.get<ContentResponse>(cacheKey);
+    if (cachedResult) {
+      this.trackCacheHit();
+      return cachedResult;
     }
 
     // Check if any API keys are available
@@ -85,7 +185,10 @@ export class ContentGenerationService {
     }
 
     try {
-      // Use Gemini 2.5 Pro for enhanced accuracy
+      // Select optimal template based on content type and requirements
+      const template = this.selectOptimalTemplate(request);
+
+      // Use Gemini 2.5 Pro for enhanced accuracy with template guidance
       const geminiResponse = await this.gemini.generateSEOContent({
         topic: request.topic,
         keywords: request.keywords || [],
@@ -93,36 +196,310 @@ export class ContentGenerationService {
         language: request.language,
         tone: request.tone,
         length: request.length,
-        seoRequirements: request.seo_requirements
+        seoRequirements: request.seo_requirements,
+        template: template
       });
 
       // Extract structured content from Gemini response
       const structuredContent = this.parseStructuredContent(geminiResponse.text, request);
 
+      // Enhance content with AI-powered improvements
+      const enhancedContent = await this.enhanceContent(structuredContent, request);
+
       // Analyze and optimize the generated content using Gemini
-      const analysis = await this.gemini.analyzeContent(structuredContent.content, request.keywords || []);
-      
-      return {
-        title: structuredContent.title,
-        content: structuredContent.content,
-        html: structuredContent.content, // Alias for compatibility
-        excerpt: structuredContent.excerpt,
-        summary: structuredContent.excerpt, // Alias for compatibility
-        meta_description: structuredContent.meta_description,
-        description: structuredContent.meta_description, // Alias for compatibility
+      const analysis = await this.gemini.analyzeContent(enhancedContent.content, request.keywords || []);
+
+      const result: ContentResponse = {
+        title: enhancedContent.title,
+        content: enhancedContent.content,
+        html: enhancedContent.content, // Alias for compatibility
+        excerpt: enhancedContent.excerpt,
+        summary: enhancedContent.excerpt, // Alias for compatibility
+        meta_description: enhancedContent.meta_description,
+        description: enhancedContent.meta_description, // Alias for compatibility
         seo_score: analysis.score,
         suggestions: analysis.suggestions,
         metadata: {
-          word_count: structuredContent.content.replace(/<[^>]*>/g, '').split(/\s+/).length,
+          word_count: enhancedContent.content.replace(/<[^>]*>/g, '').split(/\s+/).length,
           keyword_density: analysis.keywordAnalysis,
-          readability_score: analysis.readabilityScore
+          readability_score: analysis.readabilityScore,
+          generation_time: Date.now() - startTime,
+          template_used: template?.name || 'default',
+          ai_model: 'gemini-2.0-flash-exp'
         }
       };
+
+      // Cache the result
+      this.cache.set(cacheKey, result);
+
+      // Track performance metrics
+      this.trackGenerationMetrics(startTime, true, 'gemini');
+
+      return result;
+
     } catch (error) {
       // Fallback to other models if Gemini fails
       console.warn('Gemini failed, falling back to other models:', error);
-      return await this.generateContentFallback(request);
+      const fallbackResult = await this.generateContentFallback(request);
+
+      // Track performance metrics for fallback
+      this.trackGenerationMetrics(startTime, false, 'fallback');
+
+      return fallbackResult;
     }
+  }
+
+  private validateContentRequest(request: ContentRequest): void {
+    if (!request.topic || request.topic.trim().length === 0) {
+      throw new Error('Topic is required and cannot be empty');
+    }
+
+    if (request.topic.length > 500) {
+      throw new Error('Topic is too long (maximum 500 characters)');
+    }
+
+    if (request.keywords && request.keywords.length > 10) {
+      throw new Error('Too many keywords (maximum 10)');
+    }
+
+    const validTypes = ['blog', 'product', 'category', 'meta'];
+    if (!validTypes.includes(request.type)) {
+      throw new Error(`Invalid content type. Must be one of: ${validTypes.join(', ')}`);
+    }
+  }
+
+  private generateCacheKey(request: ContentRequest): string {
+    const keyData = {
+      topic: request.topic,
+      type: request.type,
+      keywords: request.keywords?.sort() || [],
+      language: request.language || 'en',
+      tone: request.tone || 'professional',
+      length: request.length || 'medium'
+    };
+
+    return `content_${Buffer.from(JSON.stringify(keyData)).toString('base64')}`;
+  }
+
+  private selectOptimalTemplate(request: ContentRequest): any {
+    const templateKey = `${request.type}_${this.determineTemplateVariant(request)}`;
+    return this.contentTemplates.get(templateKey) || this.contentTemplates.get(`${request.type}_comprehensive`);
+  }
+
+  private determineTemplateVariant(request: ContentRequest): string {
+    if (request.type === 'blog') {
+      if (request.topic.toLowerCase().includes('how to') || request.topic.toLowerCase().includes('วิธี')) {
+        return 'howto';
+      }
+      return 'comprehensive';
+    }
+
+    if (request.type === 'product') {
+      return 'detailed';
+    }
+
+    return 'comprehensive';
+  }
+
+  private async enhanceContent(content: any, request: ContentRequest): Promise<any> {
+    // Add intelligent enhancements based on content type and language
+    if (request.language === 'th') {
+      content = await this.enhanceThaiContent(content, request);
+    } else {
+      content = await this.enhanceEnglishContent(content, request);
+    }
+
+    // Add SEO enhancements
+    content = this.addSEOEnhancements(content, request);
+
+    return content;
+  }
+
+  private async enhanceThaiContent(content: any, request: ContentRequest): Promise<any> {
+    // Thai-specific enhancements
+    content.content = this.improveThaiReadability(content.content);
+    content.meta_description = this.optimizeThaiMetaDescription(content.meta_description, request);
+
+    return content;
+  }
+
+  private async enhanceEnglishContent(content: any, request: ContentRequest): Promise<any> {
+    // English-specific enhancements
+    content.content = this.improveEnglishReadability(content.content);
+    content.meta_description = this.optimizeEnglishMetaDescription(content.meta_description, request);
+
+    return content;
+  }
+
+  private addSEOEnhancements(content: any, request: ContentRequest): any {
+    // Add schema markup suggestions
+    content.schema_suggestions = this.generateSchemaMarkup(request);
+
+    // Add internal linking suggestions
+    content.internal_linking_suggestions = this.generateInternalLinkingSuggestions(request);
+
+    return content;
+  }
+
+  private trackGenerationMetrics(startTime: number, success: boolean, model: string): void {
+    const duration = Date.now() - startTime;
+
+    const times = this.performanceMetrics.get('generation_times') || [];
+    times.push(duration);
+    this.performanceMetrics.set('generation_times', times.slice(-100)); // Keep last 100
+
+    const successRates = this.performanceMetrics.get('success_rates') || [];
+    successRates.push(success);
+    this.performanceMetrics.set('success_rates', successRates.slice(-100));
+
+    const modelPerf = this.performanceMetrics.get('model_performance') || new Map();
+    const modelStats = modelPerf.get(model) || { successes: 0, failures: 0, avgTime: 0 };
+
+    if (success) {
+      modelStats.successes++;
+    } else {
+      modelStats.failures++;
+    }
+
+    modelStats.avgTime = (modelStats.avgTime + duration) / 2;
+    modelPerf.set(model, modelStats);
+    this.performanceMetrics.set('model_performance', modelPerf);
+  }
+
+  private trackCacheHit(): void {
+    const cacheHits = this.performanceMetrics.get('cache_hit_rates') || [];
+    cacheHits.push(true);
+    this.performanceMetrics.set('cache_hit_rates', cacheHits.slice(-100));
+  }
+
+  private improveThaiReadability(content: string): string {
+    // Improve Thai content readability
+    return content
+      .replace(/([.!?])\s*([ก-๙])/g, '$1 $2') // Add proper spacing after sentences
+      .replace(/([ก-๙])\s*([.!?])/g, '$1$2') // Remove extra spaces before punctuation
+      .replace(/\s{2,}/g, ' ') // Remove multiple spaces
+      .trim();
+  }
+
+  private improveEnglishReadability(content: string): string {
+    // Improve English content readability
+    return content
+      .replace(/([.!?])\s*([A-Z])/g, '$1 $2') // Ensure proper spacing after sentences
+      .replace(/\s{2,}/g, ' ') // Remove multiple spaces
+      .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camelCase words
+      .trim();
+  }
+
+  private optimizeThaiMetaDescription(metaDesc: string, request: ContentRequest): string {
+    const maxLength = 120;
+    const keyword = request.keywords?.[0] || request.topic;
+
+    if (!metaDesc.includes(keyword)) {
+      metaDesc = `${keyword} - ${metaDesc}`;
+    }
+
+    if (metaDesc.length > maxLength) {
+      metaDesc = metaDesc.substring(0, maxLength - 3) + '...';
+    }
+
+    return metaDesc;
+  }
+
+  private optimizeEnglishMetaDescription(metaDesc: string, request: ContentRequest): string {
+    const maxLength = 160;
+    const keyword = request.keywords?.[0] || request.topic;
+
+    if (!metaDesc.toLowerCase().includes(keyword.toLowerCase())) {
+      metaDesc = `${keyword} - ${metaDesc}`;
+    }
+
+    if (metaDesc.length > maxLength) {
+      metaDesc = metaDesc.substring(0, maxLength - 3) + '...';
+    }
+
+    return metaDesc;
+  }
+
+  private generateSchemaMarkup(request: ContentRequest): any {
+    const baseSchema = {
+      "@context": "https://schema.org",
+      "@type": this.getSchemaType(request.type),
+      "name": request.topic,
+      "description": `Comprehensive guide about ${request.topic}`,
+      "keywords": request.keywords?.join(', ') || request.topic
+    };
+
+    if (request.type === 'blog') {
+      return {
+        ...baseSchema,
+        "@type": "Article",
+        "headline": request.topic,
+        "author": {
+          "@type": "Organization",
+          "name": "SEOForge"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "SEOForge"
+        }
+      };
+    }
+
+    return baseSchema;
+  }
+
+  private getSchemaType(contentType: string): string {
+    const schemaTypes = {
+      'blog': 'Article',
+      'product': 'Product',
+      'category': 'CollectionPage',
+      'meta': 'WebPage'
+    };
+
+    return schemaTypes[contentType] || 'WebPage';
+  }
+
+  private generateInternalLinkingSuggestions(request: ContentRequest): string[] {
+    const suggestions = [];
+    const topic = request.topic.toLowerCase();
+
+    // Generate contextual internal linking suggestions
+    if (request.type === 'blog') {
+      suggestions.push(`Link to related ${topic} tutorials`);
+      suggestions.push(`Reference ${topic} best practices guide`);
+      suggestions.push(`Include links to ${topic} tools and resources`);
+    } else if (request.type === 'product') {
+      suggestions.push(`Link to product category page`);
+      suggestions.push(`Reference related products`);
+      suggestions.push(`Include comparison guides`);
+    }
+
+    return suggestions;
+  }
+
+  // Performance monitoring methods
+  public getPerformanceMetrics(): any {
+    const times = this.performanceMetrics.get('generation_times') || [];
+    const successRates = this.performanceMetrics.get('success_rates') || [];
+    const cacheHits = this.performanceMetrics.get('cache_hit_rates') || [];
+    const modelPerf = this.performanceMetrics.get('model_performance') || new Map();
+
+    return {
+      averageGenerationTime: times.length > 0 ? times.reduce((a, b) => a + b, 0) / times.length : 0,
+      successRate: successRates.length > 0 ? (successRates.filter(s => s).length / successRates.length) * 100 : 0,
+      cacheHitRate: cacheHits.length > 0 ? (cacheHits.filter(h => h).length / cacheHits.length) * 100 : 0,
+      modelPerformance: Object.fromEntries(modelPerf),
+      totalRequests: times.length,
+      cacheSize: this.cache.keys().length
+    };
+  }
+
+  public clearCache(): void {
+    this.cache.flushAll();
+  }
+
+  public getCacheStats(): any {
+    return this.cache.getStats();
   }
 
   private parseStructuredContent(rawContent: string, request: ContentRequest): {
