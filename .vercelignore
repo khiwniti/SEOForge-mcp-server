@@ -1,0 +1,60 @@
+# Ignore unnecessary directories for Vercel deployment
+backend/
+frontend/
+mcp-server/
+mcp-server-unified/
+SeoForgeWizard/
+SeoForgeWizard-Clean/
+seo-forge-mcp-server/
+seo-forge-plugin/
+seo-forge-ultimate/
+seo-forge-release-v1.2.0/
+wordpress-plugin-updates/
+rank-math-seo-pro/
+npm-package/
+tests/
+docs/
+task/
+scripts/
+nginx/
+static/
+database/
+
+# Ignore build artifacts
+*.log
+*.tmp
+.DS_Store
+.env
+.env.local
+.env.production
+.env.staging
+node_modules/
+dist/
+build/
+coverage/
+
+# Ignore development files
+*.test.js
+*.spec.js
+*.test.ts
+*.spec.ts
+jest.config.js
+.eslintrc.*
+.prettierrc.*
+tsconfig.json
+
+# Ignore deployment files for other platforms
+docker-compose*.yml
+Dockerfile
+render.yaml
+wrangler.toml
+cloudflare-worker.js
+*.sh
+*.ps1
+*.py
+main.py
+requirements*.txt
+Makefile
+
+# Keep only backend-express for Vercel
+!backend-express/

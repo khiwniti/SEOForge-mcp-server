@@ -6,8 +6,7 @@
       "src": "backend-express/package.json",
       "use": "@vercel/node",
       "config": {
-        "maxLambdaSize": "50mb",
-        "buildCommand": "cd backend-express && npm install && npm run build"
+        "maxLambdaSize": "50mb"
       }
     }
   ],
@@ -24,13 +23,13 @@
     "LOG_LEVEL": "info",
     "CORS_ORIGINS": "*",
     "CORS_CREDENTIALS": "true",
-    "JWT_SECRET": "@jwt_secret",
-    "VALID_API_KEYS": "@valid_api_keys",
-    "OPENAI_API_KEY": "@openai_api_key",
-    "GOOGLE_API_KEY": "@google_api_key",
-    "ANTHROPIC_API_KEY": "@anthropic_api_key",
-    "REPLICATE_API_TOKEN": "@replicate_api_token",
-    "TOGETHER_API_KEY": "@together_api_key",
+    "JWT_SECRET": "your-jwt-secret-here",
+    "VALID_API_KEYS": "test-api-key",
+    "OPENAI_API_KEY": "",
+    "GOOGLE_API_KEY": "",
+    "ANTHROPIC_API_KEY": "",
+    "REPLICATE_API_TOKEN": "",
+    "TOGETHER_API_KEY": "",
     "ALLOW_REGISTRATION": "true",
     "ENABLE_SWAGGER_DOCS": "true",
     "ENABLE_METRICS": "true"

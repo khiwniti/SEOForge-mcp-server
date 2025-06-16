@@ -46,9 +46,9 @@ export class ContentGenerationService {
   async initialize(): Promise<void> {
     if (this.initialized) return;
     
-    // Validate API keys
+    // Log warning if no API keys are configured, but don't fail initialization
     if (!this.config.googleApiKey && !this.config.openaiApiKey && !this.config.anthropicApiKey) {
-      throw new Error('At least one AI API key must be configured');
+      console.warn('Warning: No AI API keys configured. Content generation will not be available.');
     }
     
     this.initialized = true;
@@ -57,6 +57,11 @@ export class ContentGenerationService {
   async generateContent(request: ContentRequest): Promise<ContentResponse> {
     if (!this.initialized) {
       throw new Error('Service not initialized');
+    }
+
+    // Check if any API keys are available
+    if (!this.config.googleApiKey && !this.config.openaiApiKey && !this.config.anthropicApiKey) {
+      throw new Error('No AI API keys configured. Please configure at least one API key to use content generation.');
     }
 
     try {
