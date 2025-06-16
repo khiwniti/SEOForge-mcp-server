@@ -27,7 +27,7 @@
   "author": "SEOForge Team",
   "license": "MIT",
   "devDependencies": {
-    "wrangler": "^3.0.0"
+    "wrangler": "^4.20.0"
   },
   "engines": {
     "node": "18.x || 20.x || 22.x"
