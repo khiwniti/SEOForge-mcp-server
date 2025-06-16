@@ -52,6 +52,7 @@ export class GeminiService {
     try {
       const payload = {
         contents: [{
+          role: "user",
           parts: [{ text: request.prompt }]
         }],
         generationConfig: {
@@ -84,6 +85,7 @@ export class GeminiService {
       // Add system instruction if provided
       if (request.systemInstruction) {
         payload.contents.unshift({
+          role: "user",
           parts: [{ text: request.systemInstruction }]
         });
       }
