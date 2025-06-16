@@ -4,10 +4,9 @@
   "builds": [
     {
       "src": "backend-express/package.json",
-      "use": "@vercel/node@3",
+      "use": "@vercel/node",
       "config": {
-        "maxLambdaSize": "50mb",
-        "nodeVersion": "18.x"
+        "maxLambdaSize": "50mb"
       }
     }
   ],
@@ -39,10 +38,6 @@
     "backend-express/dist/server.js": {
       "maxDuration": 30
     }
-  },
-  "buildEnvironment": {
-    "NODE_ENV": "production",
-    "NODE_VERSION": "18.x"
   },
   "regions": ["iad1"],
   "framework": null
