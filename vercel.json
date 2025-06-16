@@ -3,7 +3,7 @@
   "name": "seoforge-mcp-server",
   "builds": [
     {
-      "src": "backend-express/package.json",
+      "src": "backend-express/dist/server.js",
       "use": "@vercel/node",
       "config": {
         "maxLambdaSize": "50mb"

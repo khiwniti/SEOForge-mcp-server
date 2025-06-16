@@ -155,3 +155,4 @@ releases/
 package-lock.json
 yarn.lock
 uv.lock
+.vercel

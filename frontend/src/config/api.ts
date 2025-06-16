@@ -8,17 +8,20 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const isProduction = process.env.NODE_ENV === 'production';
 const isVercel = process.env.VERCEL === '1';
 
+// Default Vercel deployment URL (update this with your actual deployment URL)
+const VERCEL_DEPLOYMENT_URL = 'https://seo-forge-mcp-server-g3aojjjbz-getintheqs-projects.vercel.app';
+
 // API Base URLs for different environments
 export const API_CONFIG = {
   // Base API URL
   BASE_URL: isDevelopment 
     ? 'http://localhost:8000'
-    : (process.env.REACT_APP_API_URL || window.location.origin),
+    : (process.env.REACT_APP_API_URL || VERCEL_DEPLOYMENT_URL || window.location.origin),
   
   // MCP Server URL
   MCP_SERVER_URL: isDevelopment
     ? 'http://localhost:3000'
-    : (process.env.REACT_APP_MCP_SERVER_URL || `${window.location.origin}/api`),
+    : (process.env.REACT_APP_MCP_SERVER_URL || VERCEL_DEPLOYMENT_URL || `${window.location.origin}/api`),
   
   // API Endpoints
   ENDPOINTS: {
@@ -172,6 +175,7 @@ export const ENV_INFO = {
   VERCEL: process.env.VERCEL,
   API_URL: process.env.REACT_APP_API_URL,
   MCP_SERVER_URL: process.env.REACT_APP_MCP_SERVER_URL,
+  VERCEL_DEPLOYMENT_URL,
   isDevelopment,
   isProduction,
   isVercel,

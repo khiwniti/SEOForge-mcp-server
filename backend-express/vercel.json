@@ -3,14 +3,17 @@
   "name": "seoforge-backend-express",
   "builds": [
     {
-      "src": "api/index.ts",
-      "use": "@vercel/node"
+      "src": "dist/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "api/index.ts"
+      "dest": "dist/server.js"
     }
   ],
   "env": {
@@ -18,7 +21,7 @@
     "GOOGLE_API_KEY": "AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo"
   },
   "functions": {
-    "api/index.ts": {
+    "dist/server.js": {
       "maxDuration": 30
     }
   },

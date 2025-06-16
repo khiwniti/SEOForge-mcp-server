@@ -14,7 +14,7 @@
     "clean": "rm -rf dist",
     "prepare": "npm run build",
     "vercel-build": "npm run build",
-    "postinstall": "npm run build"
+    "postinstall": "echo 'Skipping automatic build on install'"
   },
   "keywords": [
     "express",

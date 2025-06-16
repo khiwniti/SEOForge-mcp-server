@@ -1,24 +1,17 @@
 #!/bin/bash
 
-# SEOForge Express Backend - Vercel Deployment Script
-
-set -e
-
-echo "🚀 Deploying SEOForge Express Backend to Vercel..."
-
-# Check if we're in the correct directory
-if [ ! -f "package.json" ]; then
-    echo "❌ Error: package.json not found. Please run this script from the backend-express directory."
-    exit 1
-fi
+# SEOForge Express Backend Vercel Deployment Script
+echo "Starting SEOForge Express Backend Deployment..."
 
 # Install dependencies
-echo "📦 Installing dependencies..."
-npm install
+echo "Installing dependencies..."
+npm install --no-optional
 
 # Build the project
-echo "🔨 Building project..."
+echo "Building the project..."
 npm run build
+
+echo "Deployment preparation completed!"
 
 # Check if Vercel CLI is installed
 if ! command -v vercel &> /dev/null; then
