@@ -4,14 +4,14 @@
  */
 
 import { createLogger } from 'winston';
-import { ContentGenerationService } from './content-generation.js';
-import { SEOAnalysisService } from './seo-analysis.js';
-import { ImageGenerationService } from './image-generation.js';
-import { WordPressService } from './wordpress.js';
-import { ThaiLanguageService } from './thai-language.js';
-import { KeywordResearchService } from './keyword-research.js';
-import { AuthenticationService } from './authentication.js';
-import { CacheService } from './cache.js';
+import { ContentGenerationService } from './content-generation';
+import { SEOAnalysisService } from './seo-analysis';
+import { ImageGenerationService } from './image-generation';
+import { WordPressService } from './wordpress';
+import { ThaiLanguageService } from './thai-language';
+import { KeywordResearchService } from './keyword-research';
+import { AuthenticationService } from './authentication';
+import { CacheService } from './cache';
 
 const logger = createLogger({
   level: process.env.LOG_LEVEL || 'info'

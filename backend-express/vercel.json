@@ -18,7 +18,11 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "GOOGLE_API_KEY": "AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo",
+    "CORS_ORIGINS": "*",
+    "ENABLE_CACHING": "true",
+    "ENABLE_METRICS": "true"
   },
   "functions": {
     "api/index.ts": {

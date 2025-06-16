@@ -5,17 +5,15 @@
 
 import { Router, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
-import { asyncHandler, createError } from '../middleware/error-handler.js';
-import { authMiddleware, AuthenticatedRequest } from '../middleware/auth.js';
-import { contentGenerationRateLimit, imageGenerationRateLimit, generalApiRateLimit } from '../middleware/rate-limit.js';
-import { MCPServiceManager } from '../services/mcp-service-manager.js';
+import { asyncHandler, createError } from '../middleware/error-handler';
+import { contentGenerationRateLimit, imageGenerationRateLimit, generalApiRateLimit } from '../middleware/rate-limit';
+import { MCPServiceManager } from '../services/mcp-service-manager';
 
 export const v1Routes = Router();
 
-// Content Generation API - Enhanced with intelligent features
+// Content Generation API - Enhanced with intelligent features (Public Access)
 v1Routes.post('/content/generate',
   contentGenerationRateLimit,
-  authMiddleware,
   [
     body('keyword').isString().notEmpty().withMessage('Keyword is required')
       .isLength({ min: 2, max: 200 }).withMessage('Keyword must be between 2 and 200 characters'),
@@ -30,7 +28,7 @@ v1Routes.post('/content/generate',
     body('include_faq').optional().isBoolean().withMessage('Include FAQ must be a boolean'),
     body('include_images').optional().isBoolean().withMessage('Include images must be a boolean')
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const startTime = Date.now();
 
     const errors = validationResult(req);
@@ -115,7 +113,7 @@ v1Routes.post('/content/generate',
           }
         },
         context: {
-          user: req.user,
+          user: { id: 'public', email: 'public@seoforge.dev', role: 'public' },
           api_version: 'v1',
           plugin_compatibility: true,
           request_id: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -189,7 +187,7 @@ v1Routes.post('/content/generate',
         keyword,
         language,
         type,
-        user_id: req.user?.id,
+        user_id: 'public',
         processing_time: processingTime,
         timestamp: new Date().toISOString()
       });
@@ -233,10 +231,9 @@ function calculateKeywordDensity(content: string, keywords: string[]): Record<st
   return density;
 }
 
-// Image Generation API - Enhanced with intelligent features
+// Image Generation API - Enhanced with intelligent features (Public Access)
 v1Routes.post('/images/generate',
   imageGenerationRateLimit,
-  authMiddleware,
   [
     body('prompt').isString().notEmpty().withMessage('Prompt is required')
       .isLength({ min: 10, max: 1000 }).withMessage('Prompt must be between 10 and 1000 characters'),
@@ -250,7 +247,7 @@ v1Routes.post('/images/generate',
     body('guidance_scale').optional().isFloat({ min: 1, max: 20 }).withMessage('Guidance scale must be between 1 and 20'),
     body('model_preference').optional().isIn(['flux', 'dalle', 'midjourney', 'stable-diffusion']).withMessage('Invalid model preference')
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const startTime = Date.now();
 
     const errors = validationResult(req);
@@ -319,7 +316,7 @@ v1Routes.post('/images/generate',
           }
         },
         context: {
-          user: req.user,
+          user: { id: 'public', email: 'public@seoforge.dev', role: 'public' },
           api_version: 'v1',
           plugin_compatibility: true,
           request_id: `img_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -390,7 +387,7 @@ v1Routes.post('/images/generate',
         style,
         size,
         quality,
-        user_id: req.user?.id,
+        user_id: 'public',
         processing_time: processingTime,
         timestamp: new Date().toISOString()
       });
@@ -601,8 +598,8 @@ v1Routes.get('/capabilities', generalApiRateLimit, asyncHandler(async (req: Requ
   });
 }));
 
-// Performance metrics endpoint
-v1Routes.get('/metrics', generalApiRateLimit, authMiddleware, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+// Performance metrics endpoint (Public Access)
+v1Routes.get('/metrics', generalApiRateLimit, asyncHandler(async (req: Request, res: Response) => {
   const mcpManager = req.app.locals.mcpManager as MCPServiceManager;
 
   if (!mcpManager) {
@@ -659,16 +656,15 @@ v1Routes.get('/metrics', generalApiRateLimit, authMiddleware, asyncHandler(async
   }
 }));
 
-// Content analysis endpoint
+// Content analysis endpoint (Public Access)
 v1Routes.post('/content/analyze',
   generalApiRateLimit,
-  authMiddleware,
   [
     body('content').isString().notEmpty().withMessage('Content is required'),
     body('keywords').optional().isArray().withMessage('Keywords must be an array'),
     body('language').optional().isIn(['en', 'th']).withMessage('Language must be "en" or "th"')
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -694,7 +690,7 @@ v1Routes.post('/content/analyze',
           analysis_type: 'comprehensive'
         },
         context: {
-          user: req.user,
+          user: { id: 'public', email: 'public@seoforge.dev', role: 'public' },
           api_version: 'v1'
         }
       });

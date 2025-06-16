@@ -14,18 +14,17 @@ import { createLogger, format, transports } from 'winston';
 import rateLimit from 'express-rate-limit';
 
 // Import middleware
-import { errorHandler } from '../src/middleware/error-handler.js';
-import { authMiddleware } from '../src/middleware/auth.js';
+import { errorHandler } from '../dist/middleware/error-handler';
 
 // Import routes
-import { healthRoutes } from '../src/routes/health.js';
-import { mcpRoutes } from '../src/routes/mcp.js';
-import { apiRoutes } from '../src/routes/api.js';
-import { authRoutes } from '../src/routes/auth.js';
-import { v1Routes } from '../src/routes/v1.js';
+import { healthRoutes } from '../dist/routes/health';
+import { mcpRoutes } from '../dist/routes/mcp';
+import { apiRoutes } from '../dist/routes/api';
+import { authRoutes } from '../dist/routes/auth';
+import { v1Routes } from '../dist/routes/v1';
 
 // Import MCP services
-import { MCPServiceManager } from '../src/services/mcp-service-manager.js';
+import { MCPServiceManager } from '../dist/services/mcp-service-manager';
 
 // Load environment variables
 dotenv.config();
@@ -141,17 +140,36 @@ app.use('/api', apiRoutes);    // Legacy API routes
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
-    name: 'SEOForge Express Backend',
+    name: 'SEOForge Public MCP Server',
     version: '1.0.0',
+    description: 'Public AI-powered content generation and SEO analysis API',
     environment: CONFIG.server.environment,
+    access: 'public',
     timestamp: new Date().toISOString(),
     endpoints: {
       health: '/health',
-      auth: '/auth',
       mcp: '/mcp',
+      'content-generation': '/api/v1/content/generate',
+      'image-generation': '/api/v1/images/generate',
+      'content-analysis': '/api/v1/content/analyze',
+      capabilities: '/api/v1/capabilities',
+      metrics: '/api/v1/metrics',
       'api-v1': '/api/v1',  // SEO-Forge WordPress plugin compatibility
       api: '/api'           // Legacy API routes
     },
+    features: [
+      'AI Content Generation (English & Thai)',
+      'Advanced Image Generation',
+      'SEO Content Analysis',
+      'Performance Monitoring',
+      'WordPress Plugin Compatible'
+    ],
+    ai_models: [
+      'Google Gemini 2.0 Flash (Primary)',
+      'OpenAI GPT-4 (Fallback)',
+      'Anthropic Claude (Fallback)',
+      'FLUX Image Generation'
+    ],
     status: 'running',
     serverless: true
   });

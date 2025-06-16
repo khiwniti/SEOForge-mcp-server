@@ -487,7 +487,7 @@ Create a meta description that improves click-through rates.`;
 
 // Export default instance with the provided API key
 export const geminiService = new GeminiService({
-  apiKey: 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo'
+  apiKey: process.env.GOOGLE_API_KEY || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo'
 });
 
 export default GeminiService;

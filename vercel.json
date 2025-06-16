@@ -1,19 +1,21 @@
 {
   "version": 2,
   "name": "seoforge-mcp-server",
+  "buildCommand": "cd backend-express && npm install && npm run build",
   "builds": [
     {
-      "src": "backend-express/package.json",
+      "src": "backend-express/api/index.ts",
       "use": "@vercel/node",
       "config": {
-        "maxLambdaSize": "50mb"
+        "maxLambdaSize": "50mb",
+        "runtime": "nodejs18.x"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "backend-express/dist/server.js"
+      "dest": "/backend-express/api/index.ts"
     }
   ],
   "env": {
@@ -23,20 +25,20 @@
     "LOG_LEVEL": "info",
     "CORS_ORIGINS": "*",
     "CORS_CREDENTIALS": "true",
-    "JWT_SECRET": "your-jwt-secret-here",
-    "VALID_API_KEYS": "test-api-key",
-    "OPENAI_API_KEY": "",
     "GOOGLE_API_KEY": "AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo",
+    "OPENAI_API_KEY": "",
     "ANTHROPIC_API_KEY": "",
     "REPLICATE_API_TOKEN": "",
     "TOGETHER_API_KEY": "",
     "ALLOW_REGISTRATION": "true",
     "ENABLE_SWAGGER_DOCS": "true",
-    "ENABLE_METRICS": "true"
+    "ENABLE_METRICS": "true",
+    "ENABLE_CACHING": "true"
   },
   "functions": {
-    "backend-express/dist/server.js": {
-      "maxDuration": 30
+    "backend-express/api/index.ts": {
+      "maxDuration": 30,
+      "memory": 1024
     }
   },
   "regions": ["iad1"],

@@ -7,7 +7,7 @@
 import axios from 'axios';
 import { z } from 'zod';
 import NodeCache from 'node-cache';
-import { geminiService, GeminiService } from './gemini-service.js';
+import { geminiService, GeminiService } from './gemini-service';
 
 interface AIConfig {
   googleApiKey?: string;
@@ -63,7 +63,7 @@ export class ContentGenerationService {
     this.config = config;
     // Initialize Gemini service with provided API key or from config
     this.gemini = new GeminiService({
-      apiKey: config.googleApiKey || process.env.GOOGLE_API_KEY || ''
+      apiKey: config.googleApiKey || process.env.GOOGLE_API_KEY || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo'
     });
 
     // Initialize cache with 1 hour TTL
