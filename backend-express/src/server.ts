@@ -25,6 +25,7 @@ import { healthRoutes } from './routes/health.js';
 import { mcpRoutes } from './routes/mcp.js';
 import { apiRoutes } from './routes/api.js';
 import { authRoutes } from './routes/auth.js';
+import { v1Routes } from './routes/v1.js';
 
 // Import MCP services
 import { MCPServiceManager } from './services/mcp-service-manager.js';
@@ -72,6 +73,12 @@ const CONFIG = {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 1000, // limit each IP to 1000 requests per windowMs
     message: 'Too many requests from this IP, please try again later.'
+  },
+  ai: {
+    // Prioritize Google Gemini 2.5 Pro for enhanced accuracy
+    googleApiKey: process.env.GOOGLE_API_KEY || 'AIzaSyDTITCw_UcgzUufrsCFuxp9HXri6Y0XrDo',
+    openaiApiKey: process.env.OPENAI_API_KEY,
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY
   }
 };
 
@@ -121,7 +128,8 @@ app.use(requestLogger);
 app.use('/health', healthRoutes);
 app.use('/auth', authRoutes);
 app.use('/mcp', mcpRoutes);
-app.use('/api', apiRoutes);
+app.use('/api/v1', v1Routes);  // SEO-Forge WordPress plugin compatibility
+app.use('/api', apiRoutes);    // Legacy API routes
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -134,7 +142,8 @@ app.get('/', (req, res) => {
       health: '/health',
       auth: '/auth',
       mcp: '/mcp',
-      api: '/api',
+      'api-v1': '/api/v1',  // SEO-Forge WordPress plugin compatibility
+      api: '/api',          // Legacy API routes
       docs: CONFIG.server.environment === 'development' ? '/docs' : undefined
     }
   });
@@ -214,7 +223,9 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-// Start the server
-startServer();
+// Start the server only if not in Vercel environment
+if (process.env.VERCEL !== '1') {
+  startServer();
+}
 
 export { app, CONFIG, logger };
