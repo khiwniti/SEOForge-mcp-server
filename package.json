@@ -30,7 +30,7 @@
     "wrangler": "^3.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "18.x || 20.x || 22.x"
   },
   "repository": {
     "type": "git",
