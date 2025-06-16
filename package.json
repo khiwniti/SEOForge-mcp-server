@@ -4,14 +4,16 @@
   "description": "SEOForge MCP Server with AI-powered content generation, chatbot, and SEO analysis",
   "main": "backend-express/src/server.ts",
   "scripts": {
-    "build": "cd backend-express && npm install --no-optional && npm run build",
+    "build": "cd backend-express && npm install && npm run build",
     "start": "cd backend-express && npm start",
     "dev": "cd backend-express && npm run dev",
     "deploy": "vercel --prod",
     "deploy:staging": "vercel",
     "test": "cd backend-express && npm test",
     "install:backend": "cd backend-express && npm install",
-    "clean": "cd backend-express && npm run clean"
+    "clean": "cd backend-express && npm run clean",
+    "vercel-build": "cd backend-express && npm install && npm run build",
+    "postinstall": "cd backend-express && npm install"
   },
   "keywords": [
     "mcp",
@@ -26,6 +28,7 @@
   ],
   "author": "SEOForge Team",
   "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
     "wrangler": "^4.20.0"
   },
