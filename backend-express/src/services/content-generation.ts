@@ -6,7 +6,7 @@
 
 import axios from 'axios';
 import { z } from 'zod';
-import { geminiService, GeminiService } from './gemini-service';
+import { geminiService, GeminiService } from './gemini-service.js';
 
 interface AIConfig {
   googleApiKey?: string;

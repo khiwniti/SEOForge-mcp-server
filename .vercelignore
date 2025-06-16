@@ -29,7 +29,6 @@ database/
 .env.production
 .env.staging
 node_modules/
-dist/
 build/
 coverage/
 
@@ -41,7 +40,11 @@ coverage/
 jest.config.js
 .eslintrc.*
 .prettierrc.*
-tsconfig.json
+
+# Keep TypeScript config and source files for Vercel build
+!backend-express/tsconfig.json
+!backend-express/src/
+!backend-express/package.json
 
 # Ignore deployment files for other platforms
 docker-compose*.yml
